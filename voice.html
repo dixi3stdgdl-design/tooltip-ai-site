@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="https://tooltip-ai.com/voice/">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Dixi3 Labs">
+  <meta name="keywords" content="ToolTip AI Voice, Tooltip AI, Sintetizador de voz Windows, Audio Ducking, Text to Speech Windows 11, Dixi3 Labs">
+  <meta name="theme-color" content="#04060A">
+  <title>ToolTip AI Voice — Sintetizador de voz y audio ducking en Windows 11</title>
+  <meta name="description" content="Lee cualquier texto o explicación en voz alta con un atajo. Atenúa automáticamente la música de fondo con WASAPI para no competir contigo. Nativo .NET 8.">
+  <meta property="og:title" content="ToolTip AI Voice — Lectura de pantalla con IA y Audio Ducking">
+  <meta property="og:description" content="Sintetizador de voz inteligente con atenuación de audio en Windows. Escucha explicaciones al instante.">
+  <meta property="og:image" content="https://tooltip-ai.com/assets/hero-closeup.png">
+  <meta property="og:url" content="https://tooltip-ai.com/voice/">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ToolTip AI Voice",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "UtilitiesApplication",
+    "description": "Sintetizador de voz nativo con atenuación inteligente de audio (WASAPI Audio Ducking) para Windows.",
+    "url": "https://tooltip-ai.com/voice/",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.99",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WSGPY3DK4Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WSGPY3DK4Z');
+  </script>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yx9lgph0yh");
+  </script>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/icon.png" alt="Logo Tooltip AI" width="30" height="30">
+      <span>Tooltip<em>AI</em> <small style="font-size:0.75rem; color:var(--violet); font-weight:600; margin-left:4px;">Voice</small></span>
+    </a>
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a href="/#modulos">Módulos</a>
+      <a href="/#precios">Precios</a>
+      <a href="/privacy/">Privacidad</a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost btn-sm magnetic" onclick="location.href='/#precios'">Ver Suite (48.88)</button>
+      <button class="btn btn-primary btn-sm magnetic" data-buy="voice">Comprar 9.99</button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <main>
+    <section class="hero" style="min-height: auto; padding-top: 4rem; padding-bottom: 3.5rem;">
+      <div class="hero-copy">
+        <div class="pill reveal">
+          <span class="dot-live"></span>
+          Windows 10 / 11 · Oficial en Microsoft Store · MSIX
+        </div>
+
+        <h1 class="reveal d1">
+          Lo importante,<br>
+          <span class="shimmer">en voz alta y clara.</span>
+        </h1>
+
+        <p class="lead reveal d2">
+          <strong>ToolTip AI Voice</strong> ya está disponible oficialmente en la Microsoft Store. Sintetiza explicaciones, documentos, errores o párrafos seleccionados con voz natural. Integra tecnología de <em>Audio Ducking</em> por hardware para atenuar la música o vídeos en segundo plano mientras habla, volviendo a su volumen normal cuando termina.
+        </p>
+
+        <div class="hero-actions reveal d3">
+          <a class="btn btn-primary btn-xl magnetic" href="ms-windows-store://pdp/?productid=9P417GZB0FVB&cid=website" style="text-decoration:none;">
+            <span class="btn-shine"></span>
+            🏪 Obtener en Microsoft Store
+          </a>
+          <button class="btn btn-ghost btn-xl magnetic" data-buy="voice">
+            Comprar web · 9.99 USD
+          </button>
+          <button class="btn btn-ghost btn-xl magnetic" data-buy="bundle">
+            Llevar toda la Suite (5 apps) · 48.88 USD
+          </button>
+        </div>
+
+        <ul class="proof reveal d4">
+          <li><strong>Audio Ducking</strong> por WASAPI</li>
+          <li><strong>Hotkey</strong> global instantáneo</li>
+          <li><strong>Licencia</strong> de por vida</li>
+          <li><strong>Sin suscripciones</strong> obligatorias</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CARACTERÍSTICAS -->
+    <section class="section" style="padding-top:2rem;">
+      <div class="section-head">
+        <p class="eyebrow">AUDIO PROFESIONAL</p>
+        <h2>Escucha sin interrumpir tu flujo<br><span class="shimmer">ni pelear con el volumen.</span></h2>
+      </div>
+
+      <div class="mods">
+        <article class="mod">
+          <header>
+            <span class="mod-tag">WASAPI</span>
+            <h3>Atenuación Automática</h3>
+            <p class="mod-line">Audio Ducking del sistema.</p>
+          </header>
+          <p>Conecta directamente con Windows Core Audio para bajar suavemente la música de Spotify o YouTube mientras sintetiza, y restablece el volumen al terminar.</p>
+        </article>
+
+        <article class="mod">
+          <header>
+            <span class="mod-tag">Hotkey</span>
+            <h3>Atajo Global</h3>
+            <p class="mod-line">Ctrl + Shift + V</p>
+          </header>
+          <p>Selecciona cualquier texto en un navegador, correo o editor de código y presiona el atajo para comenzar a escuchar de inmediato con animador visual HUD.</p>
+        </article>
+
+        <article class="mod">
+          <header>
+            <span class="mod-tag">TTS</span>
+            <h3>Velocidad y Tono</h3>
+            <p class="mod-line">Control total de locución.</p>
+          </header>
+          <p>Ajusta el ritmo de habla y el volumen a tu gusto con una interfaz flotante minimalista que no ocupa espacio en tu pantalla.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- OFERTA Y COMPARACIÓN -->
+    <section class="section">
+      <div class="glass" style="padding: 2.5rem; text-align: center; max-width: 800px; margin: 0 auto;">
+        <span class="badge badge-inline">OFERTA DE LA SUITE</span>
+        <h2>¿Por qué elegir uno si puedes tener los cinco?</h2>
+        <p class="lead-sm" style="margin: 1rem 0 2rem;">
+          Compra <strong>ToolTip AI Voice</strong> por <strong>9.99 USD</strong> o llévate la <strong>Suite Completa por 48.88 USD</strong> con Voice, Translate, Aura, Bridge y <strong>Assistant gratis</strong> de por vida.
+          <br><small style="color:var(--ink3); display:inline-block; margin-top:0.6rem;">Precio regular: 56.96 USD · Oferta especial de por vida</small>
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-lg magnetic" data-buy="voice">Comprar solo Voice (9.99 USD)</button>
+          <button class="btn btn-ghost btn-lg magnetic" data-buy="bundle">Comprar Suite Completa (48.88 USD)</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal" id="checkout" hidden>
+    <div class="glass modal-card">
+      <button class="modal-close" data-close aria-label="Cerrar">✕</button>
+      <div class="ck-kicker">CHECKOUT SEGURO</div>
+      <h3 id="ckTitle">ToolTip AI Voice</h3>
+      <p class="ck-sub" id="ckDesc">Sintetizador de voz con audio ducking · licencia de por vida</p>
+      <div class="ck-row">
+        <span id="ckProduct">Voice</span>
+        <strong id="ckTotal">9.99 USD</strong>
+      </div>
+      <button class="btn btn-primary btn-block magnetic" id="ckPay">
+        <span class="btn-shine"></span>
+        Pagar con PayPal
+      </button>
+      <div id="ckDl" hidden></div>
+      <p class="ck-note">PayPal se abre en ventana aparte — <strong>no sales de esta página</strong>.</p>
+      <div class="ck-trust"><span>PayPal</span><span>· Licencia de por vida</span><span>· Sin suscripción</span></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">
+      <img src="/icon.png" alt="Logo" width="32" height="32">
+      <div>
+        <strong>Tooltip AI Voice</strong>
+        <span>Dixi3 Labs · <a href="/">tooltip-ai.com</a></span>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="/">Inicio</a>
+      <a href="/assistant/">Assistant</a>
+      <a href="/aura/">Aura</a>
+      <a href="/translate/">Translate</a>
+      <a href="/bridge/">Bridge</a>
+      <a href="/privacy/">Privacidad</a>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

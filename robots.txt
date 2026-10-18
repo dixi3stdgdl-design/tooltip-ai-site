@@ -1,0 +1,23 @@
+# robots.txt — tooltip-ai.com
+# ToolTip AI Suite | Dixi3 Labs
+
+User-agent: *
+Allow: /
+Allow: /assistant/
+Allow: /aura/
+Allow: /translate/
+Allow: /voice/
+Allow: /en/
+Allow: /de/
+Allow: /privacy/
+
+# Block internal/dev paths
+Disallow: /src-dotnet/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /MicrosoftStore_Submission/
+Disallow: /.staging_publish/
+Disallow: /scripts/
+Disallow: /_qa_dossier/
+
+Sitemap: https://tooltip-ai.com/sitemap.xml
