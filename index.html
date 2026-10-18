@@ -7,8 +7,12 @@
 <!-- CSP medida sobre lo que esta pagina carga de verdad: ni un origen de mas.
      Fonts no: la tipografia es Segoe UI Variable del propio Windows.
      Los unicos terceros admitidos son los dos declarados en /privacy/ y solo
-     se piden si el visitante da permiso (ver el bloque de medicion al final). -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+     se piden si el visitante da permiso (ver el bloque de medicion al final).
+     Sin frame-ancestors: dentro de una <meta> el navegador la IGNORA y ademas
+     deja un error en consola en cada carga. GitHub Pages no permite mandar
+     cabeceras de respuesta en dominio propio, asi que aqui no puede vivir;
+     el hueco esta declarado en MicrosoftStore_Submission/SECURITY_HEADERS.md. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>ToolTip AI — Apuntas. Responde.</title>
 <meta name="description" content="Una sola aplicación de Windows 11 que lee lo que hay bajo tu cursor y lo explica: traduce, identifica el control, advierte del riesgo y lo lee en voz alta. Sin capturas, sin cambiar de ventana.">
