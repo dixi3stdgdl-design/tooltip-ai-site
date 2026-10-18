@@ -200,6 +200,13 @@ footer .cap{margin-left:auto;max-width:46ch;text-align:right;font-size:12.5px;li
 @media(max-width:620px){.consent{left:12px;right:12px;bottom:12px;max-width:none}}
 @media(prefers-reduced-motion:reduce){.consent{transform:none;transition:none}.consent button{transition:none}}
 </style>
+<noscript><style>
+/* Sin JavaScript, el IntersectionObserver nunca añade .in y todo lo que entra con
+   animacion se quedaria con opacity:0: una pagina aparentemente vacia para quien no
+   ejecuta JS, y un problema de indexacion para el buscador. Ahi no hay animacion que
+   defender, asi que el contenido se muestra directamente. */
+.rise{opacity:1;transform:none}
+</style></noscript>
 </head>
 <body>
 <a class="skip" href="#hace">Saltar al contenido</a>
