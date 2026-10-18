@@ -158,7 +158,7 @@
       total: '48.88 USD',
       url: 'https://paypal.me/DixLqb/48.88',
       downloads: [
-        { label: 'Bridge Companion Android (APK)', href: '/downloads/ToolTipAIBridge.apk' }
+        { label: 'Bridge Companion Android (APK)', href: 'https://github.com/dixi3stdgdl-design/tooltip-ai-site/releases/download/instaladores-2026-10-18/ToolTipAIBridge.apk' }
       ],
       delivery: 'paid'
     },
@@ -217,7 +217,7 @@
       storeUri: 'ms-windows-store://pdp/?productid=9PN1B2M4N7DK',
       storeWeb: 'https://apps.microsoft.com/detail/9PN1B2M4N7DK',
       downloads: [
-        { label: 'Companion Android (APK)', href: '/downloads/ToolTipAIBridge.apk' }
+        { label: 'Companion Android (APK)', href: 'https://github.com/dixi3stdgdl-design/tooltip-ai-site/releases/download/instaladores-2026-10-18/ToolTipAIBridge.apk' }
       ],
       delivery: 'paid'
     },
@@ -231,8 +231,8 @@
       storeUri: 'ms-windows-store://pdp/?productid=9N3D02KXKD3D',
       storeWeb: 'https://apps.microsoft.com/detail/9N3D02KXKD3D',
       downloads: [
-        { label: 'Assistant 1.1.8 (MSIX Oficial)', href: '/downloads/ToolTipAIAssistant_1.1.8.0_x64.msix' },
-        { label: 'Assistant (EXE portable)', href: '/downloads/TooltipAI.exe' }
+        { label: 'Assistant 1.1.9 (MSIX Oficial)', href: 'https://github.com/dixi3stdgdl-design/tooltip-ai-site/releases/download/instaladores-2026-10-18/ToolTipAIAssistant_1.1.9.0_x64.msix' },
+        { label: 'Assistant (EXE portable)', href: 'https://github.com/dixi3stdgdl-design/tooltip-ai-site/releases/download/instaladores-2026-10-18/TooltipAI.exe' }
       ],
       delivery: 'free'
     },
