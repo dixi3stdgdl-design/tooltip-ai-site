@@ -1,118 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, follow">
-  <meta name="theme-color" content="#04060A">
-  <title>404 — Página no encontrada | ToolTip AI</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" href="/icon.png">
-  <link rel="stylesheet" href="/styles.css">
-  <script>
-    // Enrutador de respaldo si GitHub Pages sirve 404 para rutas sin barra final
-    (function () {
-      var p = window.location.pathname.replace(/\/$/, '').toLowerCase();
-      var targets = {
-        '/translate': '/translate/',
-        '/aura': '/aura/',
-        '/voice': '/voice/',
-        '/assistant': '/assistant/',
-        '/bridge': '/bridge/',
-        '/privacy': '/privacy/'
-      };
-      if (targets[p]) {
-        window.location.replace(targets[p]);
-      }
-    })();
-  </script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WSGPY3DK4Z"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-WSGPY3DK4Z');
-  </script>
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "yx9lgph0yh");
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página no encontrada — ToolTip AI</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico">
+<style>
+  /* Autocontenida: el 404 no depende de la hoja de estilos de la portada. */
+  :root{
+    --fondo:#04060A; --agua:#7BE4E4; --menta:#B1F4D8; --tinta:#EAF6F8; --bruma:#8AA0A8;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--fondo); color:var(--tinta);
+    font-family:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;
+    display:grid; place-items:center; padding:32px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .caja{max-width:44rem;width:100%;text-align:center}
+  .haz{
+    display:block;width:100%;height:1px;margin-bottom:2.5rem;
+    background:linear-gradient(90deg,transparent,var(--agua),var(--menta),transparent);
+    box-shadow:0 0 18px 1px rgba(123,228,228,.45);
+  }
+  .codigo{
+    font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--bruma);
+    margin:0 0 .75rem;
+  }
+  h1{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:600;margin:0 0 1rem;letter-spacing:-.015em}
+  p{margin:0 auto 2rem;max-width:34rem;color:#C2D6DC}
+  .acciones{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+  a{color:var(--agua);text-decoration:none;border-bottom:1px solid rgba(123,228,228,.28);padding-bottom:2px}
+  a:hover{color:var(--menta);border-bottom-color:var(--menta)}
+  a:focus-visible{outline:2px solid var(--menta);outline-offset:4px;border-radius:2px}
+  .secundaria{color:var(--bruma);border-bottom-color:rgba(138,160,168,.25)}
+  .secundaria:hover{color:var(--tinta);border-bottom-color:var(--tinta)}
+</style>
 </head>
 <body>
-  <div class="progress" id="progress"></div>
-
-  <header class="topbar">
-    <a class="brand" href="/">
-      <img src="/icon.png" alt="Logo Tooltip AI" width="30" height="30">
-      <span>Tooltip<em>AI</em></span>
-    </a>
-    <nav class="nav">
-      <a href="/">Inicio</a>
-      <a href="/#modulos">Módulos</a>
-      <a href="/#precios">Precios</a>
-      <a href="/privacy/">Privacidad</a>
-    </nav>
-    <div class="topbar-actions">
-      <button class="btn btn-primary btn-sm magnetic" onclick="location.href='/#precios'">Ver Suite (48.88)</button>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 1.5rem;">
-      <div class="glass" style="max-width: 640px; width: 100%; padding: 3rem 2rem; border-radius: 24px;">
-        <span class="badge badge-inline">ERROR 404</span>
-        <h1 style="font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.1;">
-          Pantalla fuera de rango.<br>
-          <span class="shimmer">Página no encontrada.</span>
-        </h1>
-        <p class="lead-sm" style="margin-bottom: 2rem; color: var(--muted, #94a3b8);">
-          La ruta que solicitaste no existe o se ha reubicado. Puedes explorar los módulos de la Suite o volver al inicio:
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 2rem;">
-          <a class="btn btn-ghost btn-sm" href="/assistant/" style="padding: 0.75rem;">Assistant (Prueba)</a>
-          <a class="btn btn-ghost btn-sm" href="/translate/" style="padding: 0.75rem;">Translate</a>
-          <a class="btn btn-ghost btn-sm" href="/aura/" style="padding: 0.75rem;">Aura</a>
-          <a class="btn btn-ghost btn-sm" href="/voice/" style="padding: 0.75rem;">Voice</a>
-          <a class="btn btn-ghost btn-sm" href="/bridge/" style="padding: 0.75rem;">Bridge</a>
-        </div>
-
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a class="btn btn-primary btn-lg magnetic" href="/">Volver al Inicio</a>
-          <a class="btn btn-ghost btn-lg magnetic" href="/#precios">Ver Oferta Suite (48.88 USD)</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-brand">
-      <img src="/icon.png" alt="Logo" width="32" height="32">
-      <div>
-        <strong>Tooltip AI</strong>
-        <span>Dixi3 Labs · <a href="/">tooltip-ai.com</a></span>
-      </div>
-    </div>
-    <div class="footer-links">
-      <a href="/">Inicio</a>
-      <a href="/assistant/">Assistant</a>
-      <a href="/translate/">Translate</a>
-      <a href="/aura/">Aura</a>
-      <a href="/voice/">Voice</a>
-      <a href="/bridge/">Bridge</a>
-      <a href="/privacy/">Privacidad</a>
-    </div>
-  </footer>
-
-  <script src="/app.js"></script>
+<main class="caja">
+  <span class="haz" aria-hidden="true"></span>
+  <p class="codigo">404 · sin lectura bajo el cursor</p>
+  <h1>Esta página ya no está</h1>
+  <p>ToolTip AI es una sola aplicación para Windows 11 y este sitio es una sola página.
+     Lo que buscabas pertenecía a la estructura anterior, cuando el producto estaba partido en varias apps.</p>
+  <nav class="acciones">
+    <a href="/">Volver a ToolTip AI</a>
+    <a class="secundaria" href="/privacy/">Política de privacidad</a>
+  </nav>
+</main>
 </body>
 </html>

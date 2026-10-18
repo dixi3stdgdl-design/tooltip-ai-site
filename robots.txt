@@ -1,23 +1,20 @@
 # robots.txt — tooltip-ai.com
-# ToolTip AI Suite | Dixi3 Labs
+# ToolTip AI | Dixi3 Labs
+# Una app, una pagina. Los enlaces por comportamiento son anclas (#), no rutas.
 
 User-agent: *
 Allow: /
-Allow: /assistant/
-Allow: /aura/
-Allow: /translate/
-Allow: /voice/
-Allow: /en/
-Allow: /de/
 Allow: /privacy/
 
-# Block internal/dev paths
-Disallow: /src-dotnet/
+# Rutas internas de desarrollo y empaquetado
+Disallow: /src/
 Disallow: /.git/
 Disallow: /node_modules/
 Disallow: /MicrosoftStore_Submission/
+Disallow: /docs/
 Disallow: /.staging_publish/
-Disallow: /scripts/
+Disallow: /_archive/
+Disallow: /_paid_deliveries/
 Disallow: /_qa_dossier/
 
 Sitemap: https://tooltip-ai.com/sitemap.xml

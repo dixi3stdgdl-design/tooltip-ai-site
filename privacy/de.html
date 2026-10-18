@@ -9,12 +9,46 @@
   <link rel="alternate" hreflang="es" href="https://tooltip-ai.com/privacy/">
   <link rel="alternate" hreflang="en" href="https://tooltip-ai.com/privacy/en.html">
   <link rel="alternate" hreflang="de" href="https://tooltip-ai.com/privacy/de.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="../favicon.ico">
   <link rel="icon" type="image/png" href="../icon.png">
-  <link rel="stylesheet" href="../styles.css">
+  <style>
+  /* Base y cabecera: autocontenido. Sin tipografias ni analitica de terceros, y en
+     el mismo mundo visual que la portada (negro con tinte cian, vidrio sin filetes). */
+  :root{--void:#04060A;--deep:#070C11;--soft:#0B1218;--ink:#EAF6F8;--dim:#9FB6BD;--faint:#6C838B;--aqua:#7BE4E4;--mint:#B1F4D8}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif;color:var(--ink);
+    background:var(--void);line-height:1.65;overflow-x:clip;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(123,228,228,.28);color:var(--void)}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--aqua);outline-offset:3px;border-radius:3px}
+  .topbar{display:flex;align-items:center;gap:26px;flex-wrap:wrap;padding:18px clamp(1.1rem,4vw,2rem);
+    background:linear-gradient(180deg,rgba(11,18,24,.92),rgba(4,6,10,0))}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
+    font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .brand em{font-style:normal;color:var(--aqua)}
+  .brand img{border-radius:8px}
+  .nav{display:flex;gap:22px;flex-wrap:wrap}
+  .nav a{color:var(--dim);text-decoration:none;font-size:14px}
+  .nav a:hover,.nav a[aria-current="page"]{color:var(--ink)}
+  .topbar-actions{margin-left:auto}
+  .lang{display:flex;gap:2px;font-family:'Cascadia Mono',Consolas,monospace;font-size:12px}
+  .lang a{color:var(--faint);text-decoration:none;padding:6px 10px;border-radius:999px}
+  .lang a:hover{color:var(--ink)}
+  .lang a.on{color:var(--void);background:var(--aqua)}
+  @media(max-width:620px){.topbar-actions{margin-left:0;width:100%}}
+.footer{display:flex;flex-wrap:wrap;gap:22px 40px;align-items:center;
+    padding:34px clamp(1.1rem,4vw,2rem);color:var(--faint);font-size:13.5px}
+  .footer-brand{display:flex;align-items:center;gap:12px}
+  .footer-brand strong{display:block;color:var(--ink);font-size:14px}
+  .footer-brand span{font-size:12.5px}
+  .footer-brand img{border-radius:8px}
+  .footer-nav{display:flex;gap:20px;flex-wrap:wrap}
+  .footer-nav a{color:var(--faint);text-decoration:none}
+  .footer-nav a:hover{color:var(--dim)}
+  .footer-copy{margin-left:auto;font-size:12.5px}
+  @media(max-width:620px){.footer{gap:16px}.footer-copy{margin-left:0;width:100%}}
+</style>
   <style>
     .privacy-wrap{max-width:820px;margin:2.5rem auto 4rem;padding:0 clamp(1.1rem,4vw,2rem)}
     .privacy-card{background:rgba(12,18,28,.92);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:clamp(1.4rem,4vw,2.4rem)}
@@ -30,44 +64,25 @@
     .warn strong{color:var(--amber)} .legal{margin-top:2.25rem;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.09)}
     .back-link{display:inline-flex;gap:.35rem;color:var(--teal);font-size:.88rem;font-weight:600;margin-bottom:1.15rem}
   </style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WSGPY3DK4Z"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-WSGPY3DK4Z');
-  </script>
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "yx9lgph0yh");
-  </script>
-</head>
+  </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="../"><img src="../icon.png" alt="" width="30" height="30"><span>Tooltip<em>AI</em></span></a>
+    <a class="brand" href="../"><img src="../icon.png" alt="" width="30" height="30"><span>ToolTip <em>AI</em></span></a>
     <nav class="nav">
-      <a href="../de/">Start</a>
-      <a href="../de/#producto">Produkt</a>
-      <a href="../de/#modulos">Module</a>
+      <a href="../">Start</a>
+      <a href="../#hace">Funktionen</a>
       <a href="./de.html" aria-current="page">Datenschutz</a>
     </nav>
     <div class="topbar-actions">
       <div class="lang"><a href="./">ES</a><a href="./en.html">EN</a><a href="./de.html" class="on">DE</a></div>
     </div>
-    <button class="menu-btn" id="menuBtn" aria-label="Menü"><span></span><span></span></button>
-  </header>
+    </header>
   <main class="privacy-wrap">
-    <a class="back-link" href="../de/">← Zur Startseite</a>
+    <a class="back-link" href="../">← Zur Startseite</a>
     <article class="privacy-card">
       <h1>Datenschutzerklärung und Rechtlicher Hinweis</h1>
       <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Version 3.0 · Gültig ab 30. September 2026</span>
-      <p>Dieses Dokument regelt die Nutzung der Desktop-Software <strong>ToolTip AI</strong> (Assistant, Aura, Translate und Voice), der Website <strong>tooltip-ai.com</strong> und zugehöriger Dienste (das „Produkt“). Mit Installation oder Nutzung akzeptieren Sie diese Bedingungen.</p>
+      <p>Dieses Dokument regelt die Nutzung der Desktop-Software <strong>ToolTip AI</strong> — eine Anwendung mit kontextualen Verhalten: übersetzen, erklären, vorlesen und Systemkontext — der Website <strong>tooltip-ai.com</strong> und zugehöriger Dienste (das „Produkt“). Mit Installation oder Nutzung akzeptieren Sie diese Bedingungen.</p>
       <div class="warn">
         <strong>Funktionaler Hinweis (nicht Kleingedrucktes).</strong>
         ToolTip AI ist ein <strong>BYOK</strong>-KI-Werkzeug (eigener Schlüssel). Bei einer Analyse werden <strong>Bildausschnitte und extrahierter Text an den von Ihnen gewählten KI-Anbieter</strong> gesendet (z. B. Google Gemini, OpenAI, Azure OpenAI, OpenRouter oder Anthropic Claude). Wir betreiben <strong>keine eigenen Capture-Server</strong>; das bedeutet <strong>nicht</strong>, dass Daten auf Ihrem PC bleiben.
@@ -93,18 +108,19 @@
       <ul>
         <li>API-Schlüssel: Windows DPAPI (Benutzerbereich) in <code>%APPDATA%\ToolTipAI\config.json</code>.</li>
         <li>Einstellungen und Protokoll <code>%APPDATA%\ToolTipAI\run.log</code> (löschbar).</li>
-        <li>Translate-Cache in <code>%APPDATA%\ToolTipAITranslate\</code>.</li>
+        <li>Übersetzungs- und Kontextcache in <code>%APPDATA%\ToolTipAI\</code>.</li>
       </ul>
       <p>Kurzbefehle: <code>Ctrl+Shift+A</code> · <code>Ctrl+Shift+D</code> · <code>Ctrl+Shift+C</code> · <code>Ctrl+Shift+T</code>.</p>
-      <h2>5. Website und Zahlungen</h2>
+      <h2 id="medicion">5. Website, Messung und Zahlungen</h2>
       <ul>
-        <li>Keine eigenen Werbe-Cookies oder Tracking-Analysen im Landing-Code.</li>
-        <li>Google Fonts möglich (übliche Verbindungsdaten).</li>
-        <li>Zahlung über PayPal (oder offizielle Kanäle). Keine Kartenspeicherung bei uns.</li>
-        <li>Nur kostenlose/Demo-Installer öffentlich; bezahlte Modul-Installer nicht frei auf der Website.</li>
+        <li><strong>Messung der Website, nur mit Ihrer Erlaubnis.</strong> Die Startseite (<code>tooltip-ai.com/</code>) kann zwei Drittdienste laden: <strong>Google Analytics 4</strong> (Mess-ID <code>G-WSGPY3DK4Z</code>, Verantwortlicher Google Ireland Limited) und <strong>Microsoft Clarity</strong> (Projekt-ID <code>yx9lgph0yh</code>, Verantwortlicher Microsoft Ireland Operations Limited). Beim Öffnen erscheint ein dezenter Hinweis; erst wenn Sie „Messung erlauben“ klicken, wird eines der beiden Skripte geladen, eine Mess-Cookie gesetzt oder Verhalten beobachtet. Ihre Wahl liegt im lokalen Speicher Ihres Browsers (diese Seite hat keine Benutzerkonten) und ist unten auf der Seite über „Messung erneut wählen“ jederzeit änderbar.</li>
+        <li><strong>Was aufgezeichnet wird, wenn Sie es erlauben.</strong> Google Analytics: besuchte Seiten, Reihenfolge und ungefähre Dauer des Besuchs, Gerätetyp, Browser, Betriebssystem, Sprache und aus gekürzter IP abgeleitetes Land; Google verknüpft Ihre IP nicht mit anderen Daten. Microsoft Clarity beobachtet zusätzlich die Interaktion auf dieser Seite: Mausbewegung, Klicks, Scrollen, Fenstergröße und Dokumentstruktur. <strong>Diese Seite hat keine Formulare und keine Textfelder</strong>; es gibt also keinen von Ihnen geschriebenen Text, der erfasst werden könnte, und Passwortfelder sind durch Claritys eigene Konfiguration ausgeschlossen. Aufbewahrung und Löschung verwalten Google und Microsoft in ihren Konsolen; siehe <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutz bei Google</a> und <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Clarity</a>.</li>
+        <li><strong>Diagnose der Anwendung (standardmäßig aus).</strong> ToolTip AI kann Fehlermeldungen an <strong>Microsoft Application Insights</strong> senden (Ressourcen von Dixi3 Lqbs, Azure-Region <em>Mexico Central</em>). Es schaltet sich nie selbst ein: Sie müssen in den Einstellungen der App „Fehler melden“ aktivieren und können es jederzeit wieder abwählen. Eine Meldung enthält den Fehlertyp und den technischen Trace, die App-Version und die Windows-Version. Ordnerpfade, Ihr Benutzername und alles, was auf Ihrem Bildschirm steht, werden aus der Meldung entfernt, bevor sie das Gerät verlässt; kopierte Texte, Fenstertitel und Fremdprozessnamen werden nie gesendet.</li>
+        <li><strong>Zahlungen:</strong> Bezug, Preis und Lizenz laufen über <strong>Microsoft Store</strong>; dort erfolgen Abbuchung, Steuer und Erstattung. Von dieser Website werden keine Installateure ausgeliefert und keine Zahlungsdaten erfasst.</li>
+        <li>Der Download und die Lizenz laufen über Microsoft Store; von dieser Website werden keine Installer ausgeliefert.</li>
       </ul>
       <h2>6. Dritte und Übermittlungen</h2>
-      <p>KI-Anbieter (Google, OpenAI/Microsoft, OpenRouter, Anthropic), Zahlung (PayPal), Microsoft Store und Hosting (GitHub Pages) können außerhalb des EWR verarbeiten (z. B. USA). Bei BYOK schließen Sie mit dem KI-Anbieter ab; prüfen Sie dessen Bedingungen. Azure OpenAI im eigenen Tenant nutzt die Garantien Ihrer Organisation.</p>
+      <p>KI-Anbieter (Google, OpenAI/Microsoft, OpenRouter, Anthropic), die Messung dieser Website nach Ihrer Erlaubnis (Google Analytics, Microsoft Clarity), die optionale Fehlerdiagnose der App (Microsoft Application Insights), Microsoft Store als Verkäufer und Auszahler sowie Hosting (GitHub Pages) können außerhalb des EWR verarbeiten (z. B. USA). Bei BYOK schließen Sie mit dem KI-Anbieter ab; prüfen Sie dessen Bedingungen. Azure OpenAI im eigenen Tenant nutzt die Garantien Ihrer Organisation.</p>
       <h2>7. Rechtsgrundlage und Speicherung</h2>
       <ul>
         <li>Vertrag / Dienstleistung; berechtigtes Interesse (Sicherheit, Missbrauch, Rechtsverteidigung).</li>
@@ -139,9 +155,8 @@
   </main>
   <footer class="footer">
     <div class="footer-brand"><img src="../icon.png" alt="" width="32" height="32"><div><strong>ToolTip AI</strong><span>Dixi3 Lqbs · tooltip-ai.com</span></div></div>
-    <nav class="footer-nav"><a href="../de/">Start</a><a href="../de/#precios">Preise</a><a href="./de.html">Datenschutz</a><a href="mailto:dixstdgdl3@gmail.com">Kontakt</a></nav>
+    <nav class="footer-nav"><a href="../">Start</a><a href="../#conseguir">Beziehen</a><a href="./de.html">Datenschutz</a><a href="mailto:dixstdgdl3@gmail.com">Kontakt</a></nav>
     <p class="footer-copy">© 2026 Dixi3 Lqbs · Mit KI-Unterstützung erstellt · Keine offizielle Zugehörigkeit.</p>
   </footer>
-  <script>document.getElementById('menuBtn').addEventListener('click',function(){document.body.classList.toggle('nav-open')});</script>
-</body>
+  </body>
 </html>

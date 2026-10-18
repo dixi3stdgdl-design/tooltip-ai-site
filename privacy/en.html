@@ -9,12 +9,46 @@
   <link rel="alternate" hreflang="es" href="https://tooltip-ai.com/privacy/">
   <link rel="alternate" hreflang="en" href="https://tooltip-ai.com/privacy/en.html">
   <link rel="alternate" hreflang="de" href="https://tooltip-ai.com/privacy/de.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="../favicon.ico">
   <link rel="icon" type="image/png" href="../icon.png">
-  <link rel="stylesheet" href="../styles.css">
+  <style>
+  /* Base y cabecera: autocontenido. Sin tipografias ni analitica de terceros, y en
+     el mismo mundo visual que la portada (negro con tinte cian, vidrio sin filetes). */
+  :root{--void:#04060A;--deep:#070C11;--soft:#0B1218;--ink:#EAF6F8;--dim:#9FB6BD;--faint:#6C838B;--aqua:#7BE4E4;--mint:#B1F4D8}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif;color:var(--ink);
+    background:var(--void);line-height:1.65;overflow-x:clip;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(123,228,228,.28);color:var(--void)}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--aqua);outline-offset:3px;border-radius:3px}
+  .topbar{display:flex;align-items:center;gap:26px;flex-wrap:wrap;padding:18px clamp(1.1rem,4vw,2rem);
+    background:linear-gradient(180deg,rgba(11,18,24,.92),rgba(4,6,10,0))}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
+    font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .brand em{font-style:normal;color:var(--aqua)}
+  .brand img{border-radius:8px}
+  .nav{display:flex;gap:22px;flex-wrap:wrap}
+  .nav a{color:var(--dim);text-decoration:none;font-size:14px}
+  .nav a:hover,.nav a[aria-current="page"]{color:var(--ink)}
+  .topbar-actions{margin-left:auto}
+  .lang{display:flex;gap:2px;font-family:'Cascadia Mono',Consolas,monospace;font-size:12px}
+  .lang a{color:var(--faint);text-decoration:none;padding:6px 10px;border-radius:999px}
+  .lang a:hover{color:var(--ink)}
+  .lang a.on{color:var(--void);background:var(--aqua)}
+  @media(max-width:620px){.topbar-actions{margin-left:0;width:100%}}
+.footer{display:flex;flex-wrap:wrap;gap:22px 40px;align-items:center;
+    padding:34px clamp(1.1rem,4vw,2rem);color:var(--faint);font-size:13.5px}
+  .footer-brand{display:flex;align-items:center;gap:12px}
+  .footer-brand strong{display:block;color:var(--ink);font-size:14px}
+  .footer-brand span{font-size:12.5px}
+  .footer-brand img{border-radius:8px}
+  .footer-nav{display:flex;gap:20px;flex-wrap:wrap}
+  .footer-nav a{color:var(--faint);text-decoration:none}
+  .footer-nav a:hover{color:var(--dim)}
+  .footer-copy{margin-left:auto;font-size:12.5px}
+  @media(max-width:620px){.footer{gap:16px}.footer-copy{margin-left:0;width:100%}}
+</style>
   <style>
     .privacy-wrap{max-width:820px;margin:2.5rem auto 4rem;padding:0 clamp(1.1rem,4vw,2rem)}
     .privacy-card{background:rgba(12,18,28,.92);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:clamp(1.4rem,4vw,2.4rem)}
@@ -30,44 +64,25 @@
     .warn strong{color:var(--amber)} .legal{margin-top:2.25rem;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.09)}
     .back-link{display:inline-flex;gap:.35rem;color:var(--teal);font-size:.88rem;font-weight:600;margin-bottom:1.15rem}
   </style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WSGPY3DK4Z"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-WSGPY3DK4Z');
-  </script>
-  <!-- Microsoft Clarity -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "yx9lgph0yh");
-  </script>
-</head>
+  </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="../"><img src="../icon.png" alt="" width="30" height="30"><span>Tooltip<em>AI</em></span></a>
+    <a class="brand" href="../"><img src="../icon.png" alt="" width="30" height="30"><span>ToolTip <em>AI</em></span></a>
     <nav class="nav">
-      <a href="../en/">Home</a>
-      <a href="../en/#producto">Product</a>
-      <a href="../en/#modulos">Modules</a>
+      <a href="../">Home</a>
+      <a href="../#hace">What it does</a>
       <a href="./en.html" aria-current="page">Privacy</a>
     </nav>
     <div class="topbar-actions">
       <div class="lang"><a href="./">ES</a><a href="./en.html" class="on">EN</a><a href="./de.html">DE</a></div>
     </div>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span></button>
-  </header>
+    </header>
   <main class="privacy-wrap">
-    <a class="back-link" href="../en/">← Back to home</a>
+    <a class="back-link" href="../">← Back to home</a>
     <article class="privacy-card">
       <h1>Privacy Policy and Legal Notice</h1>
       <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Version 3.0 · Effective 30 September 2026</span>
-      <p>This document governs use of the <strong>ToolTip AI</strong> desktop software (Assistant, Aura, Translate and Voice), the website <strong>tooltip-ai.com</strong> and related services (the “Product”). By installing, accessing or using the Product you accept these terms.</p>
+      <p>This document governs use of the <strong>ToolTip AI</strong> desktop software — one application with contextual behaviours: translate, explain, read aloud and system context — the website <strong>tooltip-ai.com</strong> and related services (the “Product”). By installing, accessing or using the Product you accept these terms.</p>
       <div class="warn">
         <strong>Functional warning (not fine print).</strong>
         ToolTip AI is a <strong>bring-your-own-key (BYOK)</strong> AI utility. When you start an analysis, <strong>screenshot crops and extracted text are sent to the AI provider you configure</strong> (e.g. Google Gemini, OpenAI, Azure OpenAI, OpenRouter or Anthropic Claude). <strong>We do not run our own capture servers</strong>; that does <strong>not</strong> mean your data stays on your PC.
@@ -93,18 +108,19 @@
       <ul>
         <li>API key: Windows DPAPI (user scope) in <code>%APPDATA%\ToolTipAI\config.json</code>.</li>
         <li>Preferences and local log <code>%APPDATA%\ToolTipAI\run.log</code> (you can delete it).</li>
-        <li>Translate cache in <code>%APPDATA%\ToolTipAITranslate\</code> if installed.</li>
+        <li>Translation and repeated-context cache in <code>%APPDATA%\ToolTipAI\</code>.</li>
       </ul>
-      <p>Real shortcuts: <code>Ctrl+Shift+A</code> crop · <code>Ctrl+Shift+D</code> radar · <code>Ctrl+Shift+C</code> settings · <code>Ctrl+Shift+T</code> Translate.</p>
-      <h2>5. Website and payments</h2>
+      <p>Real shortcuts: <code>Ctrl+Shift+A</code> crop · <code>Ctrl+Shift+D</code> radar · <code>Ctrl+Shift+C</code> settings · <code>Ctrl+Shift+T</code> translate what is under the cursor.</p>
+      <h2 id="medicion">5. Website, measurement and payments</h2>
       <ul>
-        <li>No first-party ad cookies or tracking analytics in the landing code.</li>
-        <li>Google Fonts may be requested by your browser (normal connection data).</li>
-        <li>Payments go through PayPal (or other official channels). We do not store card numbers.</li>
-        <li>Only free/demo installers are published on the web; paid module installers are not served publicly from the site.</li>
+        <li><strong>Website measurement, only if you allow it.</strong> The home page (<code>tooltip-ai.com/</code>) can load two third-party services: <strong>Google Analytics 4</strong> (measurement ID <code>G-WSGPY3DK4Z</code>, controller Google Ireland Limited) and <strong>Microsoft Clarity</strong> (project ID <code>yx9lgph0yh</code>, controller Microsoft Ireland Operations Limited). A discreet notice appears when you open the page. Until you press “Allow measurement” neither script is downloaded, no measurement cookie is set and there is no behaviour observation. Your choice is stored in your browser's local storage (this site has no user accounts) and can be changed at any time from the page footer with “Choose measurement again”.</li>
+        <li><strong>What they record if you allow it.</strong> Google Analytics: pages visited, order and approximate duration of the visit, device type, browser, operating system, language and country derived from a truncated IP address, which Google does not link to other data of yours. Microsoft Clarity additionally observes interaction on this page: mouse movement and clicks, scrolling, window size and document structure. <strong>This page has no forms or text fields</strong>, so there is nothing you typed that could be captured, and password fields are excluded by Clarity's own configuration. Retention and deletion are administered by Google and Microsoft in their consoles; see the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy policy</a> and <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Clarity</a>.</li>
+        <li><strong>Application diagnostics (off by default).</strong> ToolTip AI can send failure notices to <strong>Microsoft Application Insights</strong> (resources belonging to Dixi3 Lqbs, Azure region <em>Mexico Central</em>). It never turns itself on: you must tick “Report failures” in the app's settings, and you can untick it whenever you like. A notice contains the error type and its technical trace, the app version and the Windows version. Folder paths, your user name and anything on your screen are removed from the message before it leaves the device; copied text, window titles and third-party process names are never sent.</li>
+        <li><strong>Payments:</strong> download, price and licence are handled by <strong>Microsoft Store</strong>, which processes the charge, the tax and the refund. This website serves no installers and takes no payment data.</li>
+        <li>The app is obtained and installed from Microsoft Store, which handles licence and updates. No installers are served from this website.</li>
       </ul>
       <h2>6. Third parties and transfers</h2>
-      <p>AI providers (Google, OpenAI/Microsoft, OpenRouter, Anthropic), payment (PayPal), Microsoft Store and hosting (GitHub Pages) may process data outside the EEA (e.g. the United States). With BYOK you contract with the AI provider of your choice; review their transfer, retention and training terms. Azure OpenAI in your own tenant uses your organisation’s safeguards.</p>
+      <p>AI providers (Google, OpenAI/Microsoft, OpenRouter, Anthropic), measurement of this site when you allow it (Google Analytics, Microsoft Clarity), optional app diagnostics (Microsoft Application Insights), Microsoft Store as seller and payout, and hosting (GitHub Pages) may process data outside the EEA (e.g. the United States). With BYOK you contract with the AI provider of your choice; review their transfer, retention and training terms. Azure OpenAI in your own tenant uses your organisation’s safeguards.</p>
       <h2>7. Legal basis and retention</h2>
       <ul>
         <li>Contract / service delivery; legitimate interest (security, abuse prevention, defence).</li>
@@ -120,7 +136,7 @@
         <h2>10. Legal notice and liability</h2>
         <p>The Product is a <strong>software utility</strong>, not professional advice. AI output can be wrong. Provided <strong>“as is”</strong> without warranties of fitness, accuracy or uninterrupted availability.</p>
         <h3>10.1 Limitation of liability</h3>
-        <p>Dixi3 Lqbs is not liable for indirect damages, lost profits, data loss or business interruption from use of the Product, interpretation of this text or AI output, third-party services, or stolen API keys. Where liability cannot be excluded, it is limited to the amount you paid for the module/license in the prior twelve (12) months, or 100 USD if none.</p>
+        <p>Dixi3 Lqbs is not liable for indirect damages, lost profits, data loss or business interruption from use of the Product, interpretation of this text or AI output, third-party services, or stolen API keys. Where liability cannot be excluded, it is limited to the amount you paid for the licence in the prior twelve (12) months, or 100 USD if none.</p>
         <h3>10.2 Interpretation disclaimer</h3>
         <p>This text does not create insurance, guarantees of absolute privacy/anonymity, or responsibility for fraud/impersonation by you or third parties using the Product. Mandatory consumer law prevails over any conflicting wording.</p>
         <h2>11. Misuse, third parties and fraud</h2>
@@ -140,9 +156,8 @@
   </main>
   <footer class="footer">
     <div class="footer-brand"><img src="../icon.png" alt="" width="32" height="32"><div><strong>ToolTip AI</strong><span>Dixi3 Lqbs · tooltip-ai.com</span></div></div>
-    <nav class="footer-nav"><a href="../en/">Home</a><a href="../en/#precios">Pricing</a><a href="./en.html">Privacy</a><a href="mailto:dixstdgdl3@gmail.com">Contact</a></nav>
+    <nav class="footer-nav"><a href="../">Home</a><a href="../#conseguir">Get it</a><a href="./en.html">Privacy</a><a href="mailto:dixstdgdl3@gmail.com">Contact</a></nav>
     <p class="footer-copy">© 2026 Dixi3 Lqbs · Built with AI assistance · No official affiliation.</p>
   </footer>
-  <script>document.getElementById('menuBtn').addEventListener('click',function(){document.body.classList.toggle('nav-open')});</script>
-</body>
+  </body>
 </html>

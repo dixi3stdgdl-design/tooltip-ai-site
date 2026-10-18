@@ -1,12 +1,473 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-
-  width, initial-scale=1.0"><title>ToolTip AI — Actualización en curso</title><style>*{box-sizing:border-box;
-  margin:0;padding:0}body{font-family:system-ui,-apple-system,sans-serif;background:#0b0f19;color:#f8fafc;
-  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}.card{background:#111827;
-  border:1px solid #1f2937;border-radius:16px;padding:40px;max-width:520px;text-align:center;box-shadow:0 20px 40px
-  rgba(0,0,0,.5)}.badge{display:inline-block;background:rgba(99,102,241,.15);color:#818cf8;padding:6px 14px;border-
-  radius:20px;font-size:.85rem;font-weight:600;margin-bottom:20px}h1{font-size:1.8rem;margin-
-  bottom:12px}p{color:#94a3b8;font-size:1rem;line-height:1.6;margin-bottom:24px}.footer{font-size:.85rem;
-  color:#64748b}</style></head><body><div class="card"><div class="badge">Actualización del Sistema</div><h1>ToolTip
-  AI</h1><p>Estamos realizando mejoras y configurando las nuevas actualizaciones de la plataforma. El acceso y las
-  descargas estarán disponibles muy pronto.</p><div class="footer">Gracias por tu paciencia.
-  </div></div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="cqqlBtntciRV89PVp7S2z9CqgupkGMD9XTkaD1op2Ow">
+<!-- CSP medida sobre lo que esta pagina carga de verdad: ni un origen de mas.
+     Fonts no: la tipografia es Segoe UI Variable del propio Windows.
+     Los unicos terceros admitidos son los dos declarados en /privacy/ y solo
+     se piden si el visitante da permiso (ver el bloque de medicion al final). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>ToolTip AI — Apuntas. Responde.</title>
+<meta name="description" content="Una sola aplicación de Windows 11 que lee lo que hay bajo tu cursor y lo explica: traduce, identifica el control, advierte del riesgo y lo lee en voz alta. Sin capturas, sin cambiar de ventana.">
+<link rel="canonical" href="https://tooltip-ai.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ToolTip AI">
+<meta property="og:title" content="ToolTip AI — Apuntas. Responde.">
+<meta property="og:description" content="Dejas el puntero sobre cualquier control de Windows y la app te dice qué es, para qué sirve y qué pasa si lo pulsas.">
+<meta property="og:url" content="https://tooltip-ai.com/">
+<meta property="og:image" content="https://tooltip-ai.com/icon.png">
+<meta name="theme-color" content="#04060A">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/icon.png">
+<style>
+/* ---------------------------------------------------------------------------
+   Paleta medida sobre el diseño de referencia (vidrio neon, no navy saturado):
+   aqua  #7BE4E4 -> #A5F2F4 -> #EAF6F8 · menta #B1F4D8 · oro pálido #FEDA9A
+   violeta #837DD0 · negros con tinte cian. Sin filetes: la separacion es aire
+   y halo, nunca un borde de 1 px.
+--------------------------------------------------------------------------- */
+:root{
+  --void:#04060A; --deep:#070C11; --soft:#0B1218; --glass:#101A20B8; --glass2:#14232BD0;
+  --ink:#EAF6F8; --aqua-hi:#A5F2F4; --dim:#9FB6BD; --faint:#6C838B;
+  --aqua:#7BE4E4; --mint:#B1F4D8; --gold:#FEDA9A; --gold-pale:#FDF9C5; --violet:#837DD0;
+  --disp:'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
+  --text:'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Cascadia Code',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ink);font-family:var(--text);line-height:1.62;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(123,228,228,.28);color:var(--void)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--aqua);outline-offset:3px;border-radius:3px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--glass2);color:var(--ink);padding:12px 18px;z-index:60;border-radius:0 0 12px 0}
+.skip:focus{left:0}
+canvas#beam{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.8}
+main{position:relative;z-index:1}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+
+/* nav --------------------------------------------------------------------- */
+.top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:26px;padding:22px 32px;transition:background .3s,backdrop-filter .3s}
+.top.stuck{background:linear-gradient(180deg,rgba(4,6,10,.9),rgba(4,6,10,0));backdrop-filter:blur(14px) saturate(1.2)}
+.mark{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em;text-decoration:none}
+.mark .ring{width:15px;height:15px;border-radius:50%;background:conic-gradient(from 220deg,var(--aqua),var(--mint),var(--gold),var(--aqua));position:relative;box-shadow:0 0 16px rgba(123,228,228,.45)}
+.mark .ring::after{content:'';position:absolute;inset:4.5px;border-radius:50%;background:var(--void)}
+.top nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+.top nav a{color:var(--dim);text-decoration:none;font-size:14px;transition:color .18s}
+.top nav a:hover{color:var(--ink)}
+.pill{background:linear-gradient(120deg,var(--aqua),var(--mint));color:#04121A;font-weight:600;font-size:14px;padding:10px 19px;border-radius:999px;text-decoration:none;display:inline-block;transition:transform .18s,box-shadow .18s;box-shadow:0 0 0 rgba(123,228,228,0)}
+.pill:hover{transform:translateY(-1px);box-shadow:0 10px 28px -12px rgba(123,228,228,.85)}
+.top nav a.pill{color:#04121A}
+.top nav a.pill:hover{color:#04121A}
+@media(max-width:860px){.top nav a:not(.pill){display:none}.top{padding:18px 22px}}
+
+/* hero -------------------------------------------------------------------- */
+.hero{min-height:min(100svh,920px);display:flex;flex-direction:column;justify-content:center;padding:132px 0 80px}
+.hero>.wrap{width:100%}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--aqua-hi);margin-bottom:30px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--aqua);box-shadow:0 0 14px var(--aqua);animation:beat 2.1s ease-in-out infinite}
+@keyframes beat{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(42px,7.4vw,96px);line-height:.98;letter-spacing:-.04em;max-width:15ch}
+h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-pale));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin-top:30px;font-size:clamp(17px,1.7vw,21px);color:var(--dim);max-width:46ch;line-height:1.55}
+.hero .go{margin-top:44px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.hero .go small{color:var(--faint);font-size:14px}
+.scrollhint{margin-top:78px;color:var(--faint);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.scrollhint .ln{width:52px;height:1px;background:linear-gradient(90deg,var(--faint),transparent)}
+
+/* secciones --------------------------------------------------------------- */
+section{padding:118px 0}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(30px,4.2vw,54px);letter-spacing:-.03em;line-height:1.06;max-width:17ch}
+.lead{margin-top:20px;color:var(--dim);font-size:18px;max-width:52ch}
+[id]{scroll-margin-top:96px}
+
+/* panel de vidrio: el limite lo marca el halo, no un trazo ---------------- */
+.glass{position:relative;background:linear-gradient(180deg,var(--glass2),var(--glass));backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border-radius:26px;box-shadow:0 30px 70px -40px rgba(0,0,0,.9),inset 0 1px 0 rgba(234,246,248,.06)}
+
+/* demo -------------------------------------------------------------------- */
+.demo{margin-top:56px;padding:34px 34px 40px;overflow:hidden}
+.demo:before{content:'';position:absolute;inset:0;background:radial-gradient(620px 230px at var(--mx,50%) 38%,rgba(123,228,228,.14),transparent 70%);pointer-events:none;transition:background .2s}
+.demo .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;gap:16px}
+.track{margin-top:26px;position:relative;height:74px;cursor:ew-resize;touch-action:none}
+.track .rail{position:absolute;top:35px;left:0;right:0;height:3px;border-radius:999px;background:linear-gradient(90deg,rgba(234,246,248,.22),rgba(234,246,248,.1))}
+.track .fill{position:absolute;top:35px;left:0;height:3px;width:0;border-radius:999px;background:linear-gradient(90deg,var(--aqua),var(--mint));box-shadow:0 0 22px rgba(123,228,228,.7),0 0 2px rgba(165,242,244,.9)}
+.track .head{position:absolute;top:24px;left:0;width:26px;height:26px;margin-left:-13px;display:grid;place-items:center}
+.track .head svg{width:26px;height:26px;filter:drop-shadow(0 0 13px rgba(123,228,228,.8))}
+.track .stops{position:absolute;top:58px;left:0;right:0;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.answer{margin-top:30px;display:grid;gap:14px;min-height:132px}
+.answer .st{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--aqua-hi);transition:color .3s}
+.answer .st.busy{color:var(--gold)}.answer .st.done{color:var(--mint)}
+.answer h3{font-family:var(--disp);font-size:clamp(22px,2.6vw,33px);font-weight:600;letter-spacing:-.02em;line-height:1.16;transition:opacity .35s}
+.answer p{color:var(--dim);font-size:16.5px;max-width:62ch;transition:opacity .35s}
+.answer .src{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em}
+@media(max-width:620px){.track .stops{font-size:9.5px}.demo{padding:26px 22px 32px}}
+
+/* verbos ------------------------------------------------------------------ */
+.verbs{margin-top:52px;display:grid;gap:16px;grid-template-columns:repeat(2,1fr)}
+.verbs .v{padding:28px 26px 32px;transition:transform .25s,box-shadow .25s}
+.verbs .v:hover{transform:translateY(-3px);box-shadow:0 34px 60px -42px rgba(123,228,228,.55),inset 0 1px 0 rgba(234,246,248,.08)}
+.verbs .v .t{display:flex;align-items:center;gap:12px;font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.verbs .v .t i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--aqua);box-shadow:0 0 14px rgba(123,228,228,.6)}
+.verbs .v.gold .t i{background:var(--gold);box-shadow:0 0 14px rgba(254,218,154,.6)}
+.verbs .v.violet .t i{background:var(--violet);box-shadow:0 0 14px rgba(131,125,208,.75)}
+.verbs .v p{margin-top:12px;color:var(--dim);font-size:15.5px}
+@media(max-width:760px){.verbs{grid-template-columns:1fr}}
+
+/* la senal: cinco estados, los reales ------------------------------------- */
+.legend{margin-top:54px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.legend .c{padding:22px 20px 24px}
+.legend .c .sw{width:100%;height:3px;border-radius:999px;margin-bottom:18px}
+.legend .c h4{font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:-.01em}
+.legend .c p{margin-top:7px;color:var(--dim);font-size:14px}
+.legend .c code{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
+@media(max-width:900px){.legend{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.legend{grid-template-columns:1fr}}
+.tune{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px 30px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--faint)}
+.tune b{color:var(--aqua-hi);font-weight:600}
+
+/* privacidad -------------------------------------------------------------- */
+.priv{margin-top:50px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+.priv .big{font-family:var(--disp);font-size:clamp(21px,2.4vw,30px);font-weight:600;letter-spacing:-.02em;line-height:1.24}
+.priv ul{list-style:none;display:grid;gap:12px}
+.priv li{padding:15px 20px 15px 36px;font-size:15.5px;color:var(--dim);position:relative;line-height:1.58}
+.priv li b{color:var(--ink);font-weight:600}
+.priv li::before{content:'';position:absolute;left:14px;top:24px;width:6px;height:6px;border-radius:50%;background:var(--mint);opacity:.8}
+@media(max-width:860px){.priv{grid-template-columns:1fr;gap:28px}}
+
+/* atajos ------------------------------------------------------------------ */
+.hot{margin-top:46px;display:flex;flex-wrap:wrap;gap:14px}
+.hot .h{padding:15px 20px;display:flex;align-items:center;gap:13px}
+.hot kbd{font-family:var(--mono);font-size:12px;background:rgba(234,246,248,.08);color:var(--ink);padding:5px 9px;border-radius:7px}
+.hot span{color:var(--dim);font-size:14.5px}
+
+/* cierre ------------------------------------------------------------------ */
+.final{text-align:center;padding:150px 0 130px}
+.final h2{margin:0 auto;max-width:14ch}
+.final p{margin:22px auto 0;color:var(--dim);max-width:44ch;font-size:17px}
+.final .pill{margin-top:38px;font-size:16px;padding:15px 32px}
+.final small{display:block;margin-top:16px;color:var(--faint);font-size:13.5px}
+
+footer{padding:36px 0 60px;position:relative;z-index:1}
+footer .in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;color:var(--faint);font-size:13.5px}
+footer a{color:var(--faint);text-decoration:none}
+footer a:hover{color:var(--dim)}
+footer .rewake{border:0;-webkit-appearance:none;appearance:none;background:none;padding:0;margin:0;
+  font-family:var(--text);font-size:13.5px;color:var(--faint);cursor:pointer;text-align:left}
+footer .rewake:hover{color:var(--aqua)}
+footer .rewake:focus-visible{outline:2px solid var(--aqua);outline-offset:3px;border-radius:6px}
+footer .cap{margin-left:auto;max-width:46ch;text-align:right;font-size:12.5px;line-height:1.5}
+@media(max-width:620px){footer .cap{margin-left:0;text-align:left}}
+
+.rise{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.rise.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rise{opacity:1;transform:none;transition:none}
+  .eyebrow i{animation:none}
+  .pill:hover,.verbs .v:hover{transform:none}
+}
+
+/* medicion -----------------------------------------------------------------
+   El aviso no es una barra que cruza la pantalla: vive abajo a la izquierda,
+   hondo y desenfocado, con la misma luz que el vidrio de la portada. Sin
+   filetes: la separacion con el fondo la hace la sombra exterior y el desenfoque. */
+.consent{position:fixed;left:24px;bottom:24px;z-index:40;max-width:min(460px,calc(100vw - 48px));
+  display:grid;gap:14px;padding:20px 22px;border-radius:18px;
+  background:linear-gradient(155deg,rgba(20,35,43,.9),rgba(7,12,17,.94));
+  -webkit-backdrop-filter:blur(26px) saturate(160%);backdrop-filter:blur(26px) saturate(160%);
+  box-shadow:0 30px 70px -26px rgba(0,0,0,.9),0 14px 34px -18px rgba(0,0,0,.7);
+  opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.2,.7,.3,1),transform .5s cubic-bezier(.2,.7,.3,1)}
+.consent.in{opacity:1;transform:none}
+.consent p{margin:0;color:var(--dim);font-size:13.5px;line-height:1.6}
+.consent b{color:var(--aqua-hi);font-weight:600}
+.consent .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.consent button{border:0;-webkit-appearance:none;appearance:none;margin:0;padding:10px 18px;border-radius:999px;
+  font-family:var(--text);font-size:13px;color:var(--ink);background:rgba(234,246,248,.07);cursor:pointer;
+  transition:background .25s,transform .25s}
+.consent button:hover{background:rgba(234,246,248,.14)}
+.consent button.yes{background:linear-gradient(120deg,rgba(123,228,228,.26),rgba(177,244,216,.18))}
+.consent button:focus-visible{outline:2px solid var(--aqua);outline-offset:3px}
+.consent .mas{color:var(--faint);font-size:12.5px;text-decoration:none;letter-spacing:.02em}
+.consent .mas:hover{color:var(--aqua)}
+.consent[hidden]{display:none}
+@media(max-width:620px){.consent{left:12px;right:12px;bottom:12px;max-width:none}}
+@media(prefers-reduced-motion:reduce){.consent{transform:none;transition:none}.consent button{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#hace">Saltar al contenido</a>
+<canvas id="beam" aria-hidden="true"></canvas>
+<main>
+
+<div class="top" id="top">
+  <a class="mark" href="/"><span class="ring"></span>ToolTip AI</a>
+  <nav aria-label="Secciones">
+    <a href="#hace">Qué hace</a><a href="#senal">La señal</a><a href="#privacidad">Privacidad</a><a href="#atajos">Atajos</a>
+    <a class="pill" href="#conseguir">Microsoft Store</a>
+  </nav>
+</div>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow"><i></i>la señal vive bajo tu cursor</div>
+  <h1>Apuntas.<br><span class="g">Responde.</span></h1>
+  <p>Sin capturas, sin menús, sin cambiar de ventana. Dejas el puntero sobre un control de Windows y ToolTip AI te dice qué es, para qué sirve y qué pasa si lo pulsas.</p>
+  <div class="go">
+    <a class="pill" href="#conseguir">Conseguir en Microsoft Store</a>
+    <small>Windows 11 · una sola aplicación</small>
+  </div>
+  <div class="scrollhint"><span class="ln"></span>arrastra el puntero de la demo</div>
+</div></header>
+
+<section id="demo"><div class="wrap">
+  <h2 class="rise">Pruébalo aquí mismo, con el ratón.</h2>
+  <p class="lead rise">Mueve el puntero por la pista. Es exactamente el gesto de la app: detenerte y esperar la lectura.</p>
+  <div class="demo glass rise">
+    <div class="lbl"><span>demostración · datos de ejemplo</span><span id="pct">0 %</span></div>
+    <div class="track" id="track">
+      <div class="rail"></div><div class="fill" id="fill"></div>
+      <div class="head" id="head"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3l14 8-6 1.6-3.2 6.4z" fill="#EAF6F8"/></svg></div>
+      <div class="stops"><span>control</span><span>proceso</span><span>riesgo</span><span>código</span></div>
+    </div>
+    <div class="answer">
+      <div class="st" id="st">escuchando</div>
+      <h3 id="aq"></h3>
+      <p id="ap"></p>
+      <div class="src" id="as"></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="hace"><div class="wrap">
+  <h2 class="rise">No hay módulos que aprender.</h2>
+  <p class="lead rise">Es una app con comportamientos, y los activa sobre lo que ya tienes delante. Estos son los que vas a usar el primer día.</p>
+  <div class="verbs">
+    <div class="v glass rise"><div class="t"><i></i>Traduce lo que no entiendes</div><p>El texto en pantalla pasa por el OCR de Windows y por la traducción, y aparece debajo con el original intacto para comparar.</p></div>
+    <div class="v glass violet rise"><div class="t"><i></i>Explica el elemento</div><p>Lee la UI Automation real del control —nombre, tipo, valor, estado— y te lo cuenta en una frase, en lenguaje llano.</p></div>
+    <div class="v glass gold rise"><div class="t"><i></i>Advierte antes de pulsar</div><p>Marca lo que borra, lo que instala, lo que cambia permisos. Antes de que lo pulses, no después.</p></div>
+    <div class="v glass rise"><div class="t"><i></i>Lo lee en voz alta</div><p>Con la voz activada, pronuncia la traducción o el consejo con la síntesis de voz del sistema mientras sigues con otra cosa.</p></div>
+    <div class="v glass violet rise"><div class="t"><i></i>Se activa al detenerte</div><p>El radar de reposo reconoce que llevas un rato mirando lo mismo y responde solo, sin que tengas que pedirlo.</p></div>
+    <div class="v glass gold rise"><div class="t"><i></i>Pregunta encima</div><p>Abre el chat del panel y pregunta por eso que estás mirando: ya tiene el contexto cargado.</p></div>
+  </div>
+</div></section>
+
+<section id="senal"><div class="wrap">
+  <h2 class="rise">El haz no decora: informa.</h2>
+  <p class="lead rise">Cinco estados, cinco lecturas del latido. Aprendes el ritmo y sabes siempre qué está pasando sin leer etiquetas.</p>
+  <div class="legend">
+    <div class="c glass rise"><div class="sw" style="background:linear-gradient(90deg,#7BE4E4,rgba(123,228,228,.12))"></div><h4>Viajando</h4><p>Mueves el puntero libremente. Latido lento y fino.</p><code>aqua</code></div>
+    <div class="c glass rise"><div class="sw" style="background:linear-gradient(90deg,#837DD0,#EAF6F8)"></div><h4>Leyendo</h4><p>Está descifrando el elemento. El haz se agita y se vuelve violeta.</p><code>violeta</code></div>
+    <div class="c glass rise"><div class="sw" style="background:linear-gradient(90deg,#7BE4E4,#FEDA9A)"></div><h4>Escuchando</h4><p>Contando tu reposo antes de responder. Pasa de aqua a oro según avanza.</p><code>aqua → oro</code></div>
+    <div class="c glass rise"><div class="sw" style="background:linear-gradient(90deg,#B1F4D8,#EAF6F8)"></div><h4>Respondido</h4><p>La lectura ya está en pantalla. Vuelve a un pulso calmado.</p><code>menta</code></div>
+    <div class="c glass rise"><div class="sw" style="background:linear-gradient(90deg,#7BE4E4,#B1F4D8)"></div><h4>Hablando</h4><p>La capa de voz está leyendo en alto. Amplitud alta, ritmo de sílaba.</p><code>aqua · menta</code></div>
+  </div>
+  <div class="tune rise">
+    <span>temperamento <b>Sereno · Equilibrado · Radiante</b></span>
+    <span>ritmo <b>0,6× – 1,8×</b></span>
+    <span>luminosidad <b>0,6 – 1,6</b></span>
+    <span>espera del radar <b>0,8 – 8 s</b></span>
+  </div>
+  <div class="priv" style="margin-top:64px">
+    <div class="big rise">Y nunca estorba: <b>se retira solo</b> al borde cuando dejas de usarlo, vuelve bajo el cursor cuando lo buscas, y se coloca según dónde está el elemento y el espacio libre que queda.</div>
+    <ul class="rise">
+      <li><b>Nunca tapa.</b> Elige lado y altura en función del hueco real de la pantalla.</li>
+      <li><b>Se recuerda.</b> Láser, voz, temperamento y espera sobreviven entre sesiones.</li>
+      <li><b>Se apaga.</b> Desactivas el láser en ajustes y el haz deja de existir; la app sigue leyendo sin él.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="privacidad"><div class="wrap">
+  <h2 class="rise">La lectura es local.<br>La IA es tu decisión.</h2>
+  <div class="priv">
+    <p class="lead rise" style="margin-top:0">ToolTip AI no tiene servidor propio, no te pide cuenta y no sube nada por sí solo. Identifica el elemento y lee sus metadatos dentro de Windows, con las capacidades que el sistema ya trae. Sólo si tú pones una clave de proveedor viaja algo —y viaja a donde tú elijas.</p>
+    <ul class="rise">
+      <li><b>Sin clave</b> sigue funcionando en local: pierde el consejo experto, no la lectura.</li>
+      <li><b>La clave</b> se guarda cifrada con DPAPI, ligada a tu usuario de Windows.</li>
+      <li><b>El HUD no sale en capturas</b> ni en grabaciones, a propósito.</li>
+      <li><b>Compatible con</b> Gemini, OpenAI, Azure OpenAI, OpenRouter y Claude.</li>
+    </ul>
+  </div>
+  <p class="lead rise" style="margin-top:34px;font-size:15.5px">Yendo más lejos: la app puede resolver la mayor parte de lo que señalas sin tocar la red, porque UI Automation, el OCR y la síntesis de voz ya viven en tu Windows.</p>
+</div></section>
+
+<section id="atajos"><div class="wrap">
+  <h2 class="rise">Cuatro gestos globales.</h2>
+  <div class="hot">
+    <div class="h glass rise"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>A</kbd><span>recortar un área y analizarla</span></div>
+    <div class="h glass rise"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>T</kbd><span>traducir lo que hay bajo el cursor</span></div>
+    <div class="h glass rise"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>D</kbd><span>radar de reposo, encender y apagar</span></div>
+    <div class="h glass rise"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>C</kbd><span>ajustes</span></div>
+  </div>
+</div></section>
+
+<section class="final" id="conseguir"><div class="wrap">
+  <h2 class="rise">Pruébalo en tu propio escritorio.</h2>
+  <p class="rise">Se instala desde la Tienda y se actualiza sola. Windows 11 x64 (10.0.19041 o superior).</p>
+  <!-- Ficha unica del producto. Al consolidar la ficha en Partner Center,
+       esta URL es la unica que cambia en todo el sitio. -->
+  <a class="pill rise" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Abrir en Microsoft Store</a>
+  <small>El precio lo muestra la Tienda en el momento de comprar.</small>
+</div></section>
+
+<footer><div class="in">
+  <a href="/privacy/">Política de privacidad</a>
+  <a href="/privacy/#medicion">Qué se mide</a>
+  <button class="rewake" id="medicion-abrir" type="button" hidden>Volver a elegir medición</button>
+  <span class="cap">La demostración usa datos de ejemplo: las ventanas de la app están marcadas como no capturables, así que aquí no verás capturas de pantalla.</span>
+</div></footer>
+
+<div class="consent" id="consent" role="region" aria-label="Medición de uso de esta página" hidden>
+  <p>Esta página puede cargar <b>Google Analytics</b> y <b>Microsoft Clarity</b> para saber cuánta gente llega y dónde se atasca. Sin tu permiso no se carga ninguno: ni cookie de medición, ni observación de comportamiento.</p>
+  <div class="acts">
+    <button type="button" class="yes" id="medicion-si">Permitir medición</button>
+    <button type="button" id="medicion-no">Solo la página</button>
+    <a class="mas" href="/privacy/#medicion">Qué guardan</a>
+  </div>
+</div>
+
+</main>
+<script>
+/* ---------- haz de fondo ---------- */
+const cv=document.getElementById('beam'),cx=cv.getContext('2d');
+let W=0,H=0,dpr=Math.min(devicePixelRatio||1,2),mx=.5,my=.5,t=0;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';draw()}
+addEventListener('resize',size);
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth;my=e.clientY/innerHeight});
+function line(yBase,amp,col,glow,wd,spd,ph){
+  cx.beginPath();
+  for(let x=0;x<=W;x+=5*dpr){
+    const u=x/W;
+    const near=Math.exp(-Math.pow((u-mx)*3.6,2));
+    const y=yBase+Math.sin(u*11*Math.PI+t*spd+ph)*amp*(.3+near*1.7)
+              +Math.sin(u*3.1*Math.PI+t*spd*.4)*amp*.4;
+    x===0?cx.moveTo(x,y):cx.lineTo(x,y);
+  }
+  cx.strokeStyle=col;cx.shadowColor=glow;cx.shadowBlur=18*dpr;
+  cx.lineWidth=wd*dpr;cx.stroke();cx.shadowBlur=0;
+}
+/* draw() va enganchado al tamano: cambiar cv.width limpia el lienzo,
+   y si el unico que repintaba era el bucle de animacion, quien tenga el
+   movimiento reducido se quedaba sin haz en cuanto se movia la ventana. */
+function draw(){
+  cx.clearRect(0,0,W,H);
+  line(H*.365,17*dpr,'rgba(123,228,228,.85)','rgba(123,228,228,.6)',2.2,.9,0);
+  line(H*.385,11*dpr,'rgba(177,244,216,.60)','rgba(177,244,216,.45)',1.7,1.25,1.4);
+  line(H*.402,7*dpr,'rgba(131,125,208,.34)','rgba(131,125,208,.35)',1.3,.7,2.2);
+}
+function tick(){t+=.014;draw();requestAnimationFrame(tick)}
+size();
+if(!reduce)requestAnimationFrame(tick);
+
+/* ---------- demo del puntero ---------- */
+const track=document.getElementById('track'),fill=document.getElementById('fill'),head=document.getElementById('head'),
+ st=document.getElementById('st'),aq=document.getElementById('aq'),ap=document.getElementById('ap'),
+ asp=document.getElementById('as'),pct=document.getElementById('pct'),demo=document.querySelector('.demo');
+const STEPS=[
+ {q:'¿para qué sirve esto?',a:'Ajusta el tamaño del texto de la interfaz si se ve pequeña en tu pantalla. Al activarlo recalcula el escalado y reorganiza el panel.',s:'UIA · CheckBox · config.exe',n:'identidad del control'},
+ {q:'¿qué proceso está ocupando el núcleo?',a:'El elemento pertenece al proceso que tienes delante ahora mismo. Es él quien consume la CPU, no el sistema.',s:'Shell · proceso dueño · lectura local',n:'proceso'},
+ {q:'¿puedo pulsar esto sin más?',a:'Ojo: borra el historial de sesiones al cerrar y no se puede deshacer. Guarda antes la sesión abierta.',s:'UIA · Button · acción no reversible',n:'riesgo'},
+ {q:'¿qué código lo mueve?',a:'Es un control nativo Win32 enlazado a una clave del registro del usuario. Cambiarlo afecta a la sesión actual.',s:'HKCU\\Software\\… · ventana contenedora',n:'código'}
+];
+let dragging=false,timer=null;
+function setP(p){
+  p=Math.max(0,Math.min(1,p));
+  fill.style.width=(p*100)+'%';head.style.left=(p*100)+'%';
+  pct.textContent=Math.round(p*100)+' %';
+  const i=Math.min(STEPS.length-1,Math.floor(p*STEPS.length));
+  if(track.dataset.i==i)return;
+  track.dataset.i=i;
+  clearTimeout(timer);
+  st.className='st busy';st.textContent='leyendo';
+  aq.style.opacity=0;ap.style.opacity=0;
+  timer=setTimeout(()=>{
+    const d=STEPS[i];
+    st.className=i===2?'st busy':'st done';
+    st.textContent=i===2?'señal de riesgo':'respuesta lista';
+    aq.textContent=d.q;ap.textContent=d.a;asp.textContent=d.s+' · '+d.n;
+    aq.style.opacity=1;ap.style.opacity=1;
+  },420);
+}
+function fromEvt(e){const r=track.getBoundingClientRect();setP((e.clientX-r.left)/r.width)}
+track.addEventListener('pointerdown',e=>{dragging=true;track.setPointerCapture(e.pointerId);fromEvt(e)});
+track.addEventListener('pointermove',e=>{if(dragging||e.pointerType==='mouse')fromEvt(e)});
+track.addEventListener('pointerup',()=>dragging=false);
+track.addEventListener('pointercancel',()=>dragging=false);
+track.addEventListener('keydown',e=>{
+  const cur=Number(track.dataset.i||0);
+  if(e.key==='ArrowRight')setP((cur+1)/STEPS.length);
+  if(e.key==='ArrowLeft')setP((cur-1)/STEPS.length);
+});
+track.tabIndex=0;track.setAttribute('role','slider');
+track.setAttribute('aria-label','Demostración: arrastra el puntero para leer un elemento');
+demo.addEventListener('pointermove',e=>{const r=demo.getBoundingClientRect();demo.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%')});
+// al cargar ya hay una lectura en pantalla: la pista no empieza vacia ni oscura
+setP(0.14);
+
+/* ---------- revelados ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rise').forEach(el=>io.observe(el));
+addEventListener('scroll',()=>document.getElementById('top').classList.toggle('stuck',scrollY>40),{passive:true});
+
+/* ---------- medicion: GA4 + Microsoft Clarity, solo con permiso ----------
+   Los dos IDs son los de las propiedades reales del proyecto (GA `G-WSGPY3DK4Z`,
+   Clarity `yx9lgph0yh`), verificados contra el endpoint de cada proveedor antes
+   de dejarlos aqui. Nada de esto toca la red hasta que se pulse "Permitir":
+   por defecto no hay cookie de mediacion ni observacion de comportamiento.
+   La decision se guarda en el navegador (aqui no hay cuentas de usuario). */
+const GA_ID='G-WSGPY3DK4Z', CLARITY_ID='yx9lgph0yh', CLAVE='tooltipai.medicion.v1';
+const aviso=document.getElementById('consent'), reabrir=document.getElementById('medicion-abrir');
+let cargado=false;
+let eleccion=null;
+try{eleccion=localStorage.getItem(CLAVE)}catch(e){/* ventana privada: se decide en cada visita */}
+
+function mostrarAviso(){
+  aviso.hidden=false;
+  void aviso.offsetHeight;   // reflow forzado: sin esto el salto de opacidad 0 -> .in puede colapsarse en el mismo pintado
+  aviso.classList.add('in');
+  aviso.querySelector('button').focus({preventScroll:true});
+}
+function cargarMedicion(){
+  if(cargado)return;
+  cargado=true;
+
+  window.dataLayer=window.dataLayer||[];
+  if(typeof window.gtag!=='function'){window.gtag=function(){dataLayer.push(arguments)}}
+  gtag('consent','default',{ad_storage:'denied',analytics_storage:'denied',function_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait:120});
+  const s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+  document.head.appendChild(s);
+  gtag('js',new Date());
+  gtag('config',GA_ID);
+  gtag('consent','update',{analytics_storage:'granted',function_storage:'granted'});
+
+  if(!window.clarity){
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,'clarity','script',CLARITY_ID);
+  }
+}
+function decidir(si){
+  try{localStorage.setItem(CLAVE,si?'si':'no')}catch(e){}
+  aviso.hidden=true;
+  aviso.classList.remove('in');
+  reabrir.hidden=false;
+  if(si){cargarMedicion()}
+  else if(window.gtag){gtag('consent','update',{analytics_storage:'denied',function_storage:'denied'})}
+}
+document.getElementById('medicion-si').addEventListener('click',()=>decidir(true));
+document.getElementById('medicion-no').addEventListener('click',()=>decidir(false));
+reabrir.addEventListener('click',mostrarAviso);
+
+if(eleccion==='si'){cargarMedicion();reabrir.hidden=false}
+else if(eleccion==='no'){reabrir.hidden=false}
+else{mostrarAviso()}
+</script>
+</body>
+</html>
