@@ -166,7 +166,7 @@
     <a class="back-link" href="../">← Volver al inicio</a>
     <article class="privacy-card">
       <h1>Política de Privacidad y Aviso Legal</h1>
-      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Versión 3.2 · Vigente desde el 20 de octubre de 2026</span>
+      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Versión 3.3 · Vigente desde el 20 de octubre de 2026</span>
 
       <p>
         Este documento rige el uso del software de escritorio <strong>ToolTip AI</strong>
@@ -366,12 +366,15 @@
           <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Clarity</a>.
         </li>
         <li>
-          <strong>Diagnóstico de la aplicación (apagado por defecto y, en la distribución actual, sin destino).</strong>
+          <strong>Diagnóstico de la aplicación (apagado por defecto y con un destino que no acepta nada).</strong>
           El código puede enviar avisos de fallo a <strong>Microsoft Application Insights</strong>, pero se necesitan
           dos condiciones simultáneas: que usted marque la casilla <em>«Avisar de fallos»</em> en los ajustes de la
           aplicación y que junto al ejecutable exista un fichero de destino (<code>telemetry.json</code>) con la
-          dirección de ingesta. Las dos fallan: el paquete que se distribuye no incluye ese fichero, y el destino
-          que figura en el código de la aplicación apunta a una <strong>suscripción de Azure deshabilitada</strong>,
+          dirección de ingesta. <strong>El paquete en distribución desde el 20 de octubre de 2026 —versión 1.1.12.0—
+          sí lleva ese fichero dentro.</strong> Entró por un error del script de empaquetado, que lo montaba con solo
+          existir una configuración local; ya está corregido y las versiones siguientes no lo incluirán. La segunda
+          condición sigue sin cumplirse: la casilla viene sin marcar en una instalación nueva. Y aun marcándola, la
+          dirección registrada en ese fichero apunta a una <strong>suscripción de Azure deshabilitada</strong>,
           cuyo punto de ingesta rechaza la clave con <code>Invalid instrumentation key</code>. Comprobado el 20 de
           octubre de 2026 contra el propio servicio, que devuelve <strong>cero eventos</strong> en todo su periodo de
           retención. Es decir: <strong>hoy ningún aviso de fallo sale de su equipo</strong>, ni siquiera con la
@@ -548,8 +551,10 @@
         <h2>14. Cambios y contacto</h2>
         <p>
           Publicaremos en esta misma URL las modificaciones sustanciales, con su fecha de vigencia.
-          La versión 3.2 sustituye a la 3.1, que afirmaba que el recurso de diagnóstico se había dado de baja
-          el 18 de octubre de 2026: no era cierto, y el apartado 5 describe ya el estado medido contra el servicio.
+          La versión 3.3 sustituye a la 3.2, que afirmaba que el paquete en distribución no incluía el fichero de
+          destino del diagnóstico: sí lo incluye, y el apartado 5 describe ahora ese hecho junto con las dos razones
+          por las que aun así no sale ningún dato. La 3.2 había sustituido a la 3.1, que afirmaba que el recurso de
+          diagnóstico se había dado de baja el 18 de octubre de 2026: no era cierto.
           La 3.1 sustituyó a la 3.0, que describía el flujo de datos de forma incompleta o no incluía el régimen
           de responsabilidad.
         </p>
@@ -581,7 +586,7 @@
       <a href="mailto:contact@tooltip-ai.com">Contacto</a>
     </nav>
     <p class="footer-copy">
-      © 2026 Dixi3 Lqbs · tooltip-ai.com/privacy · v3.2
+      © 2026 Dixi3 Lqbs · tooltip-ai.com/privacy · v3.3
     </p>
   </footer>
 
