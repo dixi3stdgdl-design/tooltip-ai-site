@@ -166,7 +166,7 @@
     <a class="back-link" href="../">← Volver al inicio</a>
     <article class="privacy-card">
       <h1>Política de Privacidad y Aviso Legal</h1>
-      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Versión 3.1 · Vigente desde el 19 de octubre de 2026</span>
+      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Versión 3.2 · Vigente desde el 20 de octubre de 2026</span>
 
       <p>
         Este documento rige el uso del software de escritorio <strong>ToolTip AI</strong>
@@ -370,9 +370,12 @@
           El código puede enviar avisos de fallo a <strong>Microsoft Application Insights</strong>, pero se necesitan
           dos condiciones simultáneas: que usted marque la casilla <em>«Avisar de fallos»</em> en los ajustes de la
           aplicación y que junto al ejecutable exista un fichero de destino (<code>telemetry.json</code>) con la
-          dirección de ingesta. El paquete que se distribuye no incluye ese fichero, y el recurso que Dixi3 Lqbs tenía
-          en Azure (región <em>Mexico Central</em>) se dio de baja el 18 de octubre de 2026. Es decir:
-          <strong>hoy ningún aviso de fallo sale de su equipo</strong>, ni siquiera con la casilla marcada.
+          dirección de ingesta. Las dos fallan: el paquete que se distribuye no incluye ese fichero, y el destino
+          que figura en el código de la aplicación apunta a una <strong>suscripción de Azure deshabilitada</strong>,
+          cuyo punto de ingesta rechaza la clave con <code>Invalid instrumentation key</code>. Comprobado el 20 de
+          octubre de 2026 contra el propio servicio, que devuelve <strong>cero eventos</strong> en todo su periodo de
+          retención. Es decir: <strong>hoy ningún aviso de fallo sale de su equipo</strong>, ni siquiera con la
+          casilla marcada, y no hay ningún aviso guardado en el recurso.
           Si algún día se activa, el aviso contendrá solo el tipo de error y su traza técnica, la versión de la
           aplicación y la de Windows. Las rutas de carpeta, el nombre de usuario y los rastros del contenido de la
           pantalla se eliminan del mensaje antes de que salga del equipo, el texto se corta a 1024 caracteres,
@@ -394,7 +397,7 @@
         proveedores de modelos de IA (Google, OpenAI / Microsoft Azure, OpenRouter, Anthropic);
         servicios públicos de traducción cuando usted usa la traducción rápida (Google y MyMemory / Translated, véase 3.3);
         la medición de este sitio <strong>solo si usted la permite</strong> (Google Analytics y Microsoft Clarity);
-        el diagnóstico opcional de la aplicación (Microsoft Application Insights, hoy sin destino configurado, según el apartado 5);
+        el diagnóstico opcional de la aplicación (Microsoft Application Insights, cuyo destino no es accesible hoy, según el apartado 5);
         Microsoft Store como vendedor, interlocutor del cliente y canal de cobro e impuesto, y alojamiento del sitio (GitHub Pages).
         <code>paypal.com</code> interviene únicamente como medio de pago del titular de la cuenta
         (payout de Partner Center) o en ventas directas fuera de la Tienda: no es la pasarela con la que usted compra la aplicación.
@@ -545,8 +548,10 @@
         <h2>14. Cambios y contacto</h2>
         <p>
           Publicaremos en esta misma URL las modificaciones sustanciales, con su fecha de vigencia.
-          La versión 3.1 sustituye a la 3.0, que describía el flujo de datos de forma incompleta
-          o no incluía el régimen de responsabilidad.
+          La versión 3.2 sustituye a la 3.1, que afirmaba que el recurso de diagnóstico se había dado de baja
+          el 18 de octubre de 2026: no era cierto, y el apartado 5 describe ya el estado medido contra el servicio.
+          La 3.1 sustituyó a la 3.0, que describía el flujo de datos de forma incompleta o no incluía el régimen
+          de responsabilidad.
         </p>
         <p>
           <strong>Contacto (privacidad, legal y seguridad):</strong>
@@ -576,7 +581,7 @@
       <a href="mailto:contact@tooltip-ai.com">Contacto</a>
     </nav>
     <p class="footer-copy">
-      © 2026 Dixi3 Lqbs · tooltip-ai.com/privacy · v3.1
+      © 2026 Dixi3 Lqbs · tooltip-ai.com/privacy · v3.2
     </p>
   </footer>
 
