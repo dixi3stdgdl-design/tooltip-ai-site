@@ -81,17 +81,18 @@
     <a class="back-link" href="../">← Back to home</a>
     <article class="privacy-card">
       <h1>Privacy Policy and Legal Notice</h1>
-      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Version 3.0 · Effective 30 September 2026</span>
+      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Version 3.1 · Effective 19 October 2026</span>
       <p>This document governs use of the <strong>ToolTip AI</strong> desktop software — one application with contextual behaviours: translate, explain, read aloud and system context — the website <strong>tooltip-ai.com</strong> and related services (the “Product”). By installing, accessing or using the Product you accept these terms.</p>
       <div class="warn">
         <strong>Functional warning (not fine print).</strong>
         ToolTip AI is a <strong>bring-your-own-key (BYOK)</strong> AI utility. When you start an analysis, <strong>screenshot crops and extracted text are sent to the AI provider you configure</strong> (e.g. Google Gemini, OpenAI, Azure OpenAI, OpenRouter or Anthropic Claude). <strong>We do not run our own capture servers</strong>; that does <strong>not</strong> mean your data stays on your PC.
         Do not analyse passwords, bank data, IDs, health data or third-party personal data if you do not want that content sent to the API.
+        There is a second send that <strong>does not</strong> depend on your key: quick translation uses a public translation service (Google, and MyMemory if Google fails). Every destination is listed one by one in section 3.
       </div>
       <h2>1. Controller and notices</h2>
       <ul>
         <li><strong>Controller / Product owner:</strong> Dixi3 Lqbs (commercially ToolTip AI / Dixi3 Labs).</li>
-        <li><strong>Official contact:</strong> <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a></li>
+        <li><strong>Official contact:</strong> <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a></li>
         <li>For personal security and anti-impersonation reasons, <strong>no postal home address</strong> is published. Formal notices go to the email above and, if applicable, the Microsoft Store / PayPal publisher account.</li>
       </ul>
       <h2>2. Purpose</h2>
@@ -103,33 +104,40 @@
         <li>HUD follow-up chat questions if you use them.</li>
         <li>Text to translate (password fields are blocked).</li>
       </ul>
-      <p>This travels over HTTPS to the API you configured, with <strong>your</strong> key. Dixi3 Lqbs does not receive copies of those images on its own servers. The AI provider’s privacy policy and retention apply. <strong>You</strong> are responsible for what you choose to analyse.</p>
+      <p>This travels over HTTPS to the destination that matches the action you started: the AI API you configured, with <strong>your</strong> key, or the free translation engine (see below — it is the only send that does not depend on your settings). Dixi3 Lqbs does not receive copies of those images on its own servers, and the third party that receives the data applies <strong>its</strong> privacy policy and retention terms. <strong>You</strong> are responsible for what you choose to analyse.</p>
+      <h3>The destinations, one by one</h3>
+      <ul>
+        <li><strong>Analysis and explanation (your key, only when you start it).</strong> Depending on the provider chosen in Settings: <code>generativelanguage.googleapis.com</code> (Google Gemini), <code>api.openai.com</code> (OpenAI), <code>openrouter.ai</code> (OpenRouter), <code>api.anthropic.com</code> (Anthropic) or the Azure OpenAI address you type in; only <code>https</code> is accepted and addresses with an embedded user and password are rejected. The crop, the extracted text and your question leave the device. With OpenRouter an <code>HTTP-Referer</code> header carrying this website's address is also sent to identify the application; it contains none of your data.</li>
+        <li><strong>Translation (no key, no tick box: this is the default path).</strong> When you press <code>Ctrl+Shift+T</code> and the text is not in the local dictionary, that text is sent to <code>translate.googleapis.com</code> (Google's public translator endpoint, with no API key and no contract of yours with Google). If Google does not answer, the same text is tried against <code>api.mymemory.translated.net</code> (MyMemory, by Translated). <strong>Your BYOK key does not control this send</strong>; it exists so translation answers in milliseconds without you contracting anything. If your screen shows content that must not leave the device, do not translate it with this feature; password fields are excluded before the send phase.</li>
+        <li><strong>What never leaves the device.</strong> Read-aloud speech is generated on your PC by the Windows voice synthesizers; text recognition of the capture uses <code>Windows.Media.Ocr</code>, which is local; and until you press an action the app opens no connection to any third party. The low-level <strong>keyboard hook</strong> is not permanent either: it is installed only if Windows refused one of the four shortcuts, or if you switch the dwell radar on. With the radar off and the combinations registered, the app observes no keystroke at all. While the hook is active it reads only the four product shortcuts and the signal that you are typing; pressed text is never stored or sent.</li>
+      </ul>
       <h2>4. Data that stays on your device</h2>
       <ul>
         <li>API key: Windows DPAPI (user scope) in <code>%APPDATA%\ToolTipAI\config.json</code>.</li>
         <li>Preferences and local log <code>%APPDATA%\ToolTipAI\run.log</code> (you can delete it).</li>
-        <li>Translation and repeated-context cache in <code>%APPDATA%\ToolTipAI\</code>.</li>
+        <li>Translation and repeated-context cache in <code>%APPDATA%\ToolTipAI\semantic_cache.json</code>. It stores text recognised on your screen together with the analysis obtained, so it can contain screen content. Each entry expires after 24 hours, and opening the app rewrites the file without anything expired, so it does not accumulate text from earlier days.</li>
+        <li><strong>Erasure with a button.</strong> Settings contain <em>“Delete local data”</em>, which removes the log, the cache and the configuration files from that folder. It deliberately keeps the downloaded OCR models (they contain none of your data), the licence and the trial anchor: deleting the latter two would restart the 24-hour trial every time someone pressed the button.</li>
       </ul>
       <p>Real shortcuts: <code>Ctrl+Shift+A</code> crop · <code>Ctrl+Shift+D</code> radar · <code>Ctrl+Shift+C</code> settings · <code>Ctrl+Shift+T</code> translate what is under the cursor.</p>
       <h2 id="medicion">5. Website, measurement and payments</h2>
       <ul>
         <li><strong>Website measurement, only if you allow it.</strong> The home page (<code>tooltip-ai.com/</code>) can load two third-party services: <strong>Google Analytics 4</strong> (measurement ID <code>G-WSGPY3DK4Z</code>, controller Google Ireland Limited) and <strong>Microsoft Clarity</strong> (project ID <code>yx9lgph0yh</code>, controller Microsoft Ireland Operations Limited). A discreet notice appears when you open the page. Until you press “Allow measurement” neither script is downloaded, no measurement cookie is set and there is no behaviour observation. Your choice is stored in your browser's local storage (this site has no user accounts) and can be changed at any time from the page footer with “Choose measurement again”.</li>
         <li><strong>What they record if you allow it.</strong> Google Analytics: pages visited, order and approximate duration of the visit, device type, browser, operating system, language and country derived from a truncated IP address, which Google does not link to other data of yours. Microsoft Clarity additionally observes interaction on this page: mouse movement and clicks, scrolling, window size and document structure. <strong>This page has no forms or text fields</strong>, so there is nothing you typed that could be captured, and password fields are excluded by Clarity's own configuration. Retention and deletion are administered by Google and Microsoft in their consoles; see the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy policy</a> and <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Clarity</a>.</li>
-        <li><strong>Application diagnostics (off by default).</strong> ToolTip AI can send failure notices to <strong>Microsoft Application Insights</strong> (resources belonging to Dixi3 Lqbs, Azure region <em>Mexico Central</em>). It never turns itself on: you must tick “Report failures” in the app's settings, and you can untick it whenever you like. A notice contains the error type and its technical trace, the app version and the Windows version. Folder paths, your user name and anything on your screen are removed from the message before it leaves the device; copied text, window titles and third-party process names are never sent.</li>
+        <li><strong>Application diagnostics (off by default, and in the current build with nowhere to go).</strong> The code can send failure notices to <strong>Microsoft Application Insights</strong>, but two conditions must be met at once: you tick “Report failures” in the app's settings, and an ingestion file (<code>telemetry.json</code> with the destination address) sits next to the executable. The distributed package does not include that file, and the Azure resource Dixi3 Lqbs had in <em>Mexico Central</em> was decommissioned on 18 October 2026. In other words: <strong>today no failure notice leaves your device</strong>, not even with the box ticked. If it is ever switched on, a notice would contain only the error type and its technical trace, the app version and the Windows version; folder paths, your user name and traces of screen content are stripped before the message leaves the device, the text is cut at 1024 characters, the full stack is not sent, and copied text, window titles and third-party process names are never sent. You can untick the box at any time.</li>
         <li><strong>Payments:</strong> download, price and licence are handled by <strong>Microsoft Store</strong>, which processes the charge, the tax and the refund. This website serves no installers and takes no payment data.</li>
         <li>The app is obtained and installed from Microsoft Store, which handles licence and updates. No installers are served from this website.</li>
       </ul>
       <h2>6. Third parties and transfers</h2>
-      <p>AI providers (Google, OpenAI/Microsoft, OpenRouter, Anthropic), measurement of this site when you allow it (Google Analytics, Microsoft Clarity), optional app diagnostics (Microsoft Application Insights), Microsoft Store as seller and payout, and hosting (GitHub Pages) may process data outside the EEA (e.g. the United States). With BYOK you contract with the AI provider of your choice; review their transfer, retention and training terms. Azure OpenAI in your own tenant uses your organisation’s safeguards.</p>
+      <p>AI providers (Google, OpenAI/Microsoft, OpenRouter, Anthropic), public translation services when you use quick translation (Google and MyMemory/Translated), measurement of this site when you allow it (Google Analytics, Microsoft Clarity), optional app diagnostics (Microsoft Application Insights, currently with no destination configured — see section 5), Microsoft Store as seller and payout, and hosting (GitHub Pages) may process data outside the EEA (e.g. the United States). With BYOK you contract with the AI provider of your choice; review their transfer, retention and training terms. Azure OpenAI in your own tenant uses your organisation’s safeguards.</p>
       <h2>7. Legal basis and retention</h2>
       <ul>
         <li>Contract / service delivery; legitimate interest (security, abuse prevention, defence).</li>
-        <li>User decision/consent for sending to the AI API.</li>
+        <li>User decision/consent for sending: every crop, every analysis and every translation starts from a key press by you; you also set the AI key, provider and model. There is no batch or background send.</li>
         <li>Legal obligation for billing/tax where applicable.</li>
       </ul>
       <p>Local data: until you delete or uninstall. AI content: per provider. Purchase data: per law and store rules.</p>
       <h2>8. Your rights</h2>
-      <p>Access, rectification, erasure, objection, restriction, portability and withdrawal of consent: write to <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a>. We reply within the legal deadline (generally one month). You may complain to the Spanish Data Protection Agency (AEPD) or your local authority.</p>
+      <p>Access, rectification, erasure, objection, restriction, portability and withdrawal of consent: write to <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a>. We reply within the legal deadline (generally one month). You may complain to the Spanish Data Protection Agency (AEPD) or your local authority.</p>
       <h2>9. Minors</h2>
       <p>Not directed at children under 14. If such data is processed without a proper basis, it will be erased without undue delay.</p>
       <div class="legal">
@@ -150,13 +158,13 @@
         <h2>13. Law and jurisdiction</h2>
         <p>Spanish and EU law (GDPR; Spanish LOPDGDD). Consumer disputes: courts of the consumer’s domicile, subject to mandatory consumer law.</p>
         <h2>14. Changes and contact</h2>
-        <p>Material changes are published at this URL with a new date. Contact: <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a></p>
+        <p>Material changes are published at this URL with a new date. Contact: <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a></p>
       </div>
     </article>
   </main>
   <footer class="footer">
     <div class="footer-brand"><img src="../icon.png" alt="" width="32" height="32"><div><strong>ToolTip AI</strong><span>Dixi3 Lqbs · tooltip-ai.com</span></div></div>
-    <nav class="footer-nav"><a href="../">Home</a><a href="../#conseguir">Get it</a><a href="./en.html">Privacy</a><a href="mailto:dixstdgdl3@gmail.com">Contact</a></nav>
+    <nav class="footer-nav"><a href="../">Home</a><a href="../#conseguir">Get it</a><a href="./en.html">Privacy</a><a href="mailto:contact@tooltip-ai.com">Contact</a></nav>
     <p class="footer-copy">© 2026 Dixi3 Lqbs · Built with AI assistance · No official affiliation.</p>
   </footer>
   </body>

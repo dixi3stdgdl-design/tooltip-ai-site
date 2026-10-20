@@ -166,7 +166,7 @@
     <a class="back-link" href="../">← Volver al inicio</a>
     <article class="privacy-card">
       <h1>Política de Privacidad y Aviso Legal</h1>
-      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Versión 3.0 · Vigente desde el 30 de septiembre de 2026</span>
+      <span class="privacy-meta">ToolTip AI · tooltip-ai.com/privacy · Versión 3.1 · Vigente desde el 19 de octubre de 2026</span>
 
       <p>
         Este documento rige el uso del software de escritorio <strong>ToolTip AI</strong>
@@ -182,6 +182,9 @@
         al proveedor de IA que usted configura</strong> (por ejemplo Google Gemini, OpenAI, Azure OpenAI,
         OpenRouter o Anthropic Claude). <strong>No operamos un servidor propio de capturas</strong>;
         eso <strong>no</strong> implica que sus datos permanezcan en su equipo.
+        Y hay un segundo envío que <strong>no</strong> depende de su clave: la traducción rápida usa un
+        servicio público de traducción (Google y, si falla, MyMemory). Los destinos están listados uno por uno
+        en el apartado 3.3.
         No utilice el analizador sobre contraseñas, datos bancarios, documentos identificativos,
         información sanitaria ni datos personales de terceros si no desea que ese contenido se envíe a la API.
       </div>
@@ -214,7 +217,7 @@
         </li>
         <li>
           <strong>Canal oficial de notificaciones y ejercicio de derechos:</strong>
-          <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a>
+          <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a>
         </li>
         <li>
           <strong>Dominio oficial:</strong> tooltip-ai.com
@@ -249,9 +252,12 @@
         <li>Texto bajo el cursor cuando usted pide traducir. Los campos de contraseña quedan excluidos de la lectura, de modo que ese contenido no llega a la fase de envío.</li>
       </ul>
       <p>
-        Ese contenido viaja por HTTPS a la API del proveedor que usted haya configurado, con <strong>su</strong> clave.
+        Ese contenido viaja por HTTPS al destino concreto que corresponda a la acción que usted lanzó:
+        la API del proveedor de IA que usted configuró, con <strong>su</strong> clave, o el motor de
+        traducción gratuito (véase 3.3, es el único envío que no depende de su configuración).
         Dixi3 Lqbs no recibe copia de esas imágenes en servidores propios.
-        El proveedor de IA aplica <strong>su</strong> política de privacidad y sus condiciones de retención.
+        El tercero que recibe los datos aplica <strong>su</strong> política de privacidad y sus condiciones
+        de retención.
       </p>
 
       <h3>3.2. Responsabilidad sobre el contenido enviado</h3>
@@ -260,6 +266,42 @@
         presencia de datos de terceros en su pantalla. El uso del Producto no autoriza a capturar,
         tratar o difundir datos personales ajenos sin legitimación.
       </p>
+
+      <h3>3.3. Los destinos, uno por uno</h3>
+      <p>
+        No existe un servidor intermedio de Dixi3 Lqbs. Estas son las <strong>únicas</strong> direcciones a las que
+        la aplicación abre conexión, y en qué caso lo hace cada una:
+      </p>
+      <ul>
+        <li>
+          <strong>Análisis y explicación (se hace con su clave y solo cuando usted lo lanza).</strong>
+          Según el proveedor que tenga elegido en Ajustes: <code>generativelanguage.googleapis.com</code> (Google Gemini),
+          <code>api.openai.com</code> (OpenAI), <code>openrouter.ai</code> (OpenRouter), <code>api.anthropic.com</code> (Anthropic)
+          o la dirección de Azure OpenAI que usted escriba; la aplicación solo acepta <code>https</code> y rechaza
+          direcciones con usuario y contraseña empotrados. Sale el recorte, el texto extraído y su pregunta.
+          Con OpenRouter viaja además una cabecera <code>HTTP-Referer</code> con la dirección de este sitio, para
+          identificar la aplicación: no contiene ningún dato suyo.
+        </li>
+        <li>
+          <strong>Traducción (sin clave, sin casilla que marcar: es la vía por defecto).</strong>
+          Cuando usted pulsa <code>Ctrl+Shift+T</code> y el texto no está en el diccionario local, ese texto se envía a
+          <code>translate.googleapis.com</code> (interfaz pública del traductor de Google, sin clave de API y sin
+          contrato suyo con Google). Si Google no responde, el mismo texto se intenta con
+          <code>api.mymemory.translated.net</code> (MyMemory, de Translated). <strong>La clave BYOK no controla este envío</strong>:
+          existe para que la traducción responda en milisegundos sin contratar nada. Si en su pantalla hay contenido que
+          no debe salir del equipo, no lo traduzca con esta función; los campos de contraseña sí quedan excluidos antes
+          de la fase de envío.
+        </li>
+        <li>
+          <strong>Lo que nunca sale del equipo.</strong> La lectura en voz alta se genera con los sintetizadores de voz
+          de Windows en su PC; el reconocimiento de texto de la captura usa <code>Windows.Media.Ocr</code>, que es local;
+          y mientras usted no pulse ninguna acción la aplicación no abre ninguna conexión con terceros.
+          El <strong>gancho de teclado</strong> de bajo nivel tampoco es permanente: solo se instala si Windows no cedió
+          alguna de las cuatro combinaciones, o si usted enciende el radar de reposo. Con el radar apagado y las
+          combinaciones registradas, la aplicación no observa ninguna pulsación. Cuando el gancho está activo solo lee
+          los cuatro atajos del producto y la señal de que usted está escribiendo; no se guarda ni se envía el texto pulsado.
+        </li>
+      </ul>
 
       <h2>4. Datos que permanecen en su equipo</h2>
       <ul>
@@ -276,7 +318,16 @@
           Puede eliminarlo en cualquier momento.
         </li>
         <li>
-          <strong>Caché de traducciones y contexto repetido</strong> en <code>%APPDATA%\ToolTipAI\</code> (cache.json).
+          <strong>Caché de traducciones y contexto repetido</strong> en <code>%APPDATA%\ToolTipAI\semantic_cache.json</code>.
+          Guarda texto reconocido en la pantalla junto con el análisis obtenido, para no volver a preguntar lo mismo;
+          por tanto, puede contener contenido de su pantalla. Cada entrada caduca a las 24 horas y, al abrir la
+          aplicación, el fichero se reescribe sin lo caducado: no acumula texto de días anteriores.
+        </li>
+        <li>
+          <strong>Borrado con un botón.</strong> En los ajustes de la aplicación existe <em>«Borrar datos locales»</em>,
+          que elimina el registro, la caché y los ficheros de configuración de esa carpeta. Conserva a propósito los
+          modelos de OCR descargados (no contienen datos suyos), la licencia y el ancla del periodo de prueba: borrar
+          estas dos últimas piezas reiniciaría la prueba de 24 horas cada vez que alguien pulsa el botón.
         </li>
         <li>
           Las imágenes de análisis se manejan en memoria durante la consulta; no se incorporan a un
@@ -315,12 +366,18 @@
           <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Clarity</a>.
         </li>
         <li>
-          <strong>Diagnóstico de la aplicación (apagado por defecto).</strong> ToolTip AI puede enviar avisos de fallo a
-          <strong>Microsoft Application Insights</strong> (recursos de Dixi3 Lqbs, región Azure <em>Mexico Central</em>). No se activa sola:
-          hace falta que marque la casilla <em>«Avisar de fallos»</em> en los ajustes de la aplicación, y puede desmarcarla cuando quiera.
-          Un aviso contiene el tipo de error y su traza técnica, la versión de la aplicación y de Windows. Las rutas de carpeta, el nombre de usuario
-          y el contenido de su pantalla se eliminan del mensaje antes de salir del equipo, y nunca se envían textos copiados, títulos de ventana
-          ni nombres de proceso ajenos.
+          <strong>Diagnóstico de la aplicación (apagado por defecto y, en la distribución actual, sin destino).</strong>
+          El código puede enviar avisos de fallo a <strong>Microsoft Application Insights</strong>, pero se necesitan
+          dos condiciones simultáneas: que usted marque la casilla <em>«Avisar de fallos»</em> en los ajustes de la
+          aplicación y que junto al ejecutable exista un fichero de destino (<code>telemetry.json</code>) con la
+          dirección de ingesta. El paquete que se distribuye no incluye ese fichero, y el recurso que Dixi3 Lqbs tenía
+          en Azure (región <em>Mexico Central</em>) se dio de baja el 18 de octubre de 2026. Es decir:
+          <strong>hoy ningún aviso de fallo sale de su equipo</strong>, ni siquiera con la casilla marcada.
+          Si algún día se activa, el aviso contendrá solo el tipo de error y su traza técnica, la versión de la
+          aplicación y la de Windows. Las rutas de carpeta, el nombre de usuario y los rastros del contenido de la
+          pantalla se eliminan del mensaje antes de que salga del equipo, el texto se corta a 1024 caracteres,
+          no se envía la pila completa y nunca se envían textos copiados, títulos de ventana ni nombres de proceso
+          ajenos. Puede desmarcar la casilla cuando quiera.
         </li>
         <li>
           <strong>Pagos:</strong> la descarga y la licencia se canalizan a través de <strong>Microsoft Store</strong>, que es quien gestiona el cobro,
@@ -335,8 +392,9 @@
       <p>
         Pueden intervenir, según el comportamiento activo y la configuración del usuario:
         proveedores de modelos de IA (Google, OpenAI / Microsoft Azure, OpenRouter, Anthropic);
+        servicios públicos de traducción cuando usted usa la traducción rápida (Google y MyMemory / Translated, véase 3.3);
         la medición de este sitio <strong>solo si usted la permite</strong> (Google Analytics y Microsoft Clarity);
-        el diagnóstico opcional de la aplicación (Microsoft Application Insights, con la casilla de avisos marcada);
+        el diagnóstico opcional de la aplicación (Microsoft Application Insights, hoy sin destino configurado, según el apartado 5);
         Microsoft Store como vendedor, interlocutor del cliente y canal de cobro e impuesto, y alojamiento del sitio (GitHub Pages).
         <code>paypal.com</code> interviene únicamente como medio de pago del titular de la cuenta
         (payout de Partner Center) o en ventas directas fuera de la Tienda: no es la pasarela con la que usted compra la aplicación.
@@ -357,7 +415,9 @@
           <strong>Interés legítimo:</strong> seguridad, prevención de abuso, diagnóstico técnico y defensa de reclamaciones.
         </li>
         <li>
-          <strong>Consentimiento / decisión del usuario:</strong> es usted quien activa el envío a la API de IA y quien configura la clave.
+          <strong>Consentimiento / decisión del usuario:</strong> es usted quien activa el envío. Cada recorte, cada análisis
+          y cada traducción parten de una pulsación suya; la clave de IA, el proveedor y el modelo también los configura
+          usted. No hay envío por lotes ni en segundo plano.
         </li>
         <li>
           <strong>Obligación legal:</strong> facturación y obligaciones fiscales o de la tienda, cuando proceda.
@@ -372,7 +432,7 @@
       <p>
         Puede ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad,
         así como retirar el consentimiento cuando este sea la base, escribiendo a
-        <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a>.
+        <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a>.
         Responderemos en el plazo legalmente exigible (con carácter general un mes).
         El ejercicio es gratuito, salvo solicitudes manifiestamente infundadas o excesivas.
         Puede reclamar ante la Agencia Española de Protección de Datos (AEPD) o ante la autoridad de control competente.
@@ -462,7 +522,7 @@
           </li>
           <li>
             Si sospecha suplantación o fraude, cese el uso y comuníquelo a
-            <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a> y a las autoridades.
+            <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a> y a las autoridades.
           </li>
         </ul>
 
@@ -485,12 +545,12 @@
         <h2>14. Cambios y contacto</h2>
         <p>
           Publicaremos en esta misma URL las modificaciones sustanciales, con su fecha de vigencia.
-          La versión 3.0 sustituye a las anteriores, que describían el flujo de datos de forma incompleta
-          o no incluían el régimen de responsabilidad.
+          La versión 3.1 sustituye a la 3.0, que describía el flujo de datos de forma incompleta
+          o no incluía el régimen de responsabilidad.
         </p>
         <p>
           <strong>Contacto (privacidad, legal y seguridad):</strong>
-          <a href="mailto:dixstdgdl3@gmail.com">dixstdgdl3@gmail.com</a>
+          <a href="mailto:contact@tooltip-ai.com">contact@tooltip-ai.com</a>
         </p>
       </div>
 
@@ -513,10 +573,10 @@
       <a href="../">Inicio</a>
       <a href="../#conseguir">Conseguir</a>
       <a href="./">Privacidad</a>
-      <a href="mailto:dixstdgdl3@gmail.com">Contacto</a>
+      <a href="mailto:contact@tooltip-ai.com">Contacto</a>
     </nav>
     <p class="footer-copy">
-      © 2026 Dixi3 Lqbs · tooltip-ai.com/privacy · v3.0
+      © 2026 Dixi3 Lqbs · tooltip-ai.com/privacy · v3.1
     </p>
   </footer>
 
