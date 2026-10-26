@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,15 +16,34 @@
      fichero: no hay <img>, asi que ninguna ruta de imagen puede romperse. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>ToolTip AI — Apuntas. Responde.</title>
-<meta name="description" content="Una sola aplicación de Windows que lee lo que hay bajo tu cursor y lo explica: traduce, identifica el control, advierte del riesgo y lo lee en voz alta. Licencia de por vida, sin cuenta y sin servidor propio.">
+<title>ToolTip AI — You point. It answers.</title>
+<meta name="description" content="A single Windows application that reads what is under your cursor and explains it: it translates, identifies the control, warns about the risk and reads it out loud. Lifetime license, no account and no server of its own.">
 <link rel="canonical" href="https://tooltip-ai.com/">
+<!-- Cada portada se declara a si misma y a la otra. x-default apunta al ingles de
+     la raiz: es la portada a la que llega todo el mundo que entra desde fuera. -->
+<link rel="alternate" hreflang="es" href="https://tooltip-ai.com/es/">
+<link rel="alternate" hreflang="es-419" href="https://tooltip-ai.com/es/">
+<link rel="alternate" hreflang="en" href="https://tooltip-ai.com/">
+<link rel="alternate" hreflang="x-default" href="https://tooltip-ai.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ToolTip AI">
-<meta property="og:title" content="ToolTip AI — Apuntas. Responde.">
-<meta property="og:description" content="Dejas el puntero sobre cualquier control de Windows y la app te dice qué es, para qué sirve y qué pasa si lo pulsas.">
+<meta property="og:title" content="ToolTip AI — You point. It answers.">
+<meta property="og:description" content="You leave the pointer on any Windows control and the app tells you what it is, what it is for and what happens if you press it.">
 <meta property="og:url" content="https://tooltip-ai.com/">
-<meta property="og:image" content="https://tooltip-ai.com/icon.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_MX">
+<!-- icon.png es de 1024x1024 y 1,7 MB: sirve como toque de pantalla de inicio,
+     no como vista previa. Las redes recortan el cuadrado y tardan en bajar ese
+     peso, justo cuando el enlace viaja por X, Reddit o Discord. La tarjeta es
+     1200x630 y pesa una fraccion. No es una captura: no puede serlo. -->
+<meta property="og:image" content="https://tooltip-ai.com/social-card-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ToolTip AI — the HUD panel reading a Windows control under the pointer.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ToolTip AI — You point. It answers.">
+<meta name="twitter:description" content="A Windows app that explains what is under your cursor. A $26.99 lifetime license and separate listings you can try free before paying.">
+<meta name="twitter:image" content="https://tooltip-ai.com/social-card-en.png">
 <meta name="theme-color" content="#04060A">
 <link rel="icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/icon.png">
@@ -75,7 +94,10 @@ main{position:relative;z-index:1}
 .pill:hover{transform:translateY(-1px);box-shadow:0 10px 28px -12px rgba(123,228,228,.85)}
 .top nav a.pill{color:#04121A}
 .top nav a.pill:hover{color:#04121A}
-@media(max-width:1020px){.top nav a:not(.pill){display:none}.top{padding:18px 22px}}
+.top nav a.lang{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);
+  border:1px solid rgba(234,246,248,.14);border-radius:999px;padding:5px 10px;transition:color .18s,border-color .18s}
+.top nav a.lang:hover{color:var(--aqua);border-color:rgba(123,228,228,.5)}
+@media(max-width:1020px){.top nav a:not(.pill):not(.lang){display:none}.top{padding:18px 22px}}
 
 /* secciones --------------------------------------------------------------- */
 section{padding:112px 0}
@@ -102,10 +124,10 @@ h2{font-family:var(--disp);font-weight:600;font-size:clamp(30px,4.2vw,54px);lett
 .hud .chip{background:rgba(234,246,248,.09);border-radius:4px;padding:2.5px 5px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--dim)}
 .hud .chip.sky{background:rgba(56,189,248,.14);color:#7DD3FC}
 .hud .chip.ver{background:rgba(0,0,0,.28);display:inline-flex;align-items:center;gap:4px;color:var(--dim)}
-.hud .chip.ver.revisar{color:#FCD34D}
-.hud .chip.ver.revisar .dot{background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,.7)}
-.hud .chip.ver.peligroso{color:#FDA4AF}
-.hud .chip.ver.peligroso .dot{background:#FB7185;box-shadow:0 0 8px rgba(251,113,133,.7)}
+.hud .chip.ver.warn{color:#FCD34D}
+.hud .chip.ver.warn .dot{background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,.7)}
+.hud .chip.ver.danger{color:#FDA4AF}
+.hud .chip.ver.danger .dot{background:#FB7185;box-shadow:0 0 8px rgba(251,113,133,.7)}
 .hud .dot{width:5px;height:5px;border-radius:50%;background:var(--neon);flex:none}
 .hud .tools{display:flex;gap:4px;flex:none}
 .hud .tool{width:19px;height:19px;border-radius:6px;background:rgba(234,246,248,.07);display:grid;place-items:center}
@@ -158,6 +180,10 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .hero p.sub{margin-top:26px;font-size:clamp(17px,1.7vw,20px);color:var(--dim);max-width:44ch;line-height:1.55}
 .hero .go{margin-top:38px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .hero .go .pill{font-size:15px;padding:13px 24px}
+.hero .go .otro{font-size:14.5px;color:var(--dim);text-decoration:none;border-bottom:1px solid rgba(123,228,228,.28);padding-bottom:2px;transition:color .2s,border-color .2s}
+.hero .go .otro:hover{color:var(--aqua);border-color:var(--aqua)}
+.hero .go .importe{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--faint);white-space:nowrap}
+.hero .go .importe b{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--aqua-hi);margin-right:3px}
 .hero .hint{margin-top:26px;color:var(--faint);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:11px}
 .hero .hint .ln{width:44px;height:1px;background:linear-gradient(90deg,var(--faint),transparent)}
 @media(max-width:1020px){.hero>.wrap{grid-template-columns:1fr;gap:44px}.hero{padding:104px 0 56px;min-height:0}}
@@ -229,6 +255,8 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .libro dt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .libro dd{font-size:15px;color:var(--ink);line-height:1.5}
 .libro dd small{display:block;color:var(--dim);font-size:13px;margin-top:3px}
+.libro dd small a{color:var(--aqua);text-decoration:none;border-bottom:1px solid rgba(123,228,228,.3)}
+.libro dd small a:hover{color:var(--aqua-hi);border-color:var(--aqua-hi)}
 @media(max-width:900px){.oferta{grid-template-columns:1fr;gap:34px}.libro .p{grid-template-columns:120px 1fr;gap:14px}}
 @media(max-width:520px){.libro .p{grid-template-columns:1fr;gap:4px}.libro .p+.p{box-shadow:0 -1px 0 rgba(234,246,248,.05);padding-top:18px}}
 
@@ -257,6 +285,7 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .laboratorio .capa-off span{color:var(--dim);font-size:13.5px;max-width:30ch}
 .cita-haz{margin-top:34px;font-family:var(--disp);font-size:clamp(17px,1.9vw,22px);font-weight:600;letter-spacing:-.02em;line-height:1.4;color:var(--aqua-hi);max-width:44ch}
 .cita-haz small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:10px}
+.subnote{margin-top:14px;font-size:14.5px;line-height:1.55;color:var(--faint);max-width:62ch}
 @media(max-width:900px){.capas{grid-template-columns:1fr;gap:26px}}
 
 /* --------------------------- la demo del gesto -------------------------- */
@@ -307,6 +336,53 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .comport li::before{content:'';position:absolute;left:16px;top:24px;width:6px;height:6px;border-radius:50%;background:var(--mint);opacity:.85;box-shadow:0 0 10px rgba(177,244,216,.6)}
 @media(max-width:860px){.comport{grid-template-columns:1fr;gap:26px}}
 
+/* --------------------------- las cuatro fichas ---------------------------
+   Cuatro fichas vivas en la Tienda, cada una con su propio color de senal
+   heredado del HUD. La linea de la izquierda no es decoracion: es el haz del
+   estado, y es lo unico que separa una ficha de otra. Sin bordes de 1 px. */
+.fichas{margin-top:52px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.ficha{position:relative;padding:24px 24px 22px 28px;display:flex;flex-direction:column;overflow:hidden;
+  transition:transform .22s,box-shadow .22s}
+.ficha:hover{transform:translateY(-2px);box-shadow:0 34px 66px -36px rgba(0,0,0,.95),inset 0 1px 0 rgba(234,246,248,.09)}
+.ficha::before{content:'';position:absolute;left:11px;top:24px;bottom:24px;width:2px;border-radius:999px;
+  background:linear-gradient(180deg,var(--fc,var(--aqua)),rgba(4,6,10,0));box-shadow:0 0 14px var(--fc,var(--aqua))}
+.ficha .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.ficha h3{margin-top:10px;font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.ficha h3 i{font-style:normal;color:var(--fc,var(--aqua-hi))}
+.ficha p{margin-top:10px;color:var(--dim);font-size:14.5px;line-height:1.56;flex:1;max-width:44ch}
+.ficha .meta{margin-top:18px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.05em;border-radius:999px;padding:5px 11px;
+  color:var(--mint);background:rgba(177,244,216,.1)}
+.tag.muda{color:var(--faint);background:rgba(234,246,248,.05)}
+.ficha .ir{margin-top:16px;font-size:14px;font-weight:600;color:var(--aqua);text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px;width:max-content;transition:gap .2s}
+.ficha .ir:hover{gap:12px}
+.ficha .pie{margin-top:16px;display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.ficha .pie .ir{margin-top:0}
+.precio{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.01em;color:var(--fc,var(--aqua-hi));
+  display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap}
+.precio small{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;color:var(--faint)}
+.ficha .ir svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:700px){.fichas{grid-template-columns:1fr}}
+
+/* ------------------------------- las dudas -------------------------------
+   Los <details> nativos: sin JavaScript ya funcionan, y el estado abierto se
+   imprime. La marca es un signo del haz, no un chevron heredado del navegador. */
+.faq{margin-top:48px;display:grid;gap:8px;max-width:920px}
+.faq details{background:linear-gradient(180deg,var(--glass2),var(--glass));border-radius:18px;overflow:hidden;
+  -webkit-backdrop-filter:blur(22px) saturate(1.35);backdrop-filter:blur(22px) saturate(1.35);
+  box-shadow:0 26px 54px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(234,246,248,.06)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:14px;padding:19px 22px;
+  font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:'+';flex:none;font-family:var(--mono);font-weight:400;font-size:17px;line-height:1;
+  color:var(--aqua);transform:translateY(1px)}
+.faq details[open] summary::before{content:'\2013';color:var(--gold)}
+.faq summary:focus-visible{outline:2px solid var(--aqua);outline-offset:-3px;border-radius:18px}
+.faq .a{padding:0 24px 22px 50px;color:var(--dim);font-size:15.5px;line-height:1.62;max-width:74ch}
+.faq .a b{color:var(--ink);font-weight:600}
+.faq .a code{font-family:var(--mono);font-size:13px;color:var(--aqua-hi)}
+
 /* --------------------------- los gestos --------------------------------- */
 .hot{margin-top:44px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .hot .h{padding:16px 20px;display:flex;align-items:center;gap:13px;transition:transform .22s,box-shadow .22s}
@@ -324,6 +400,22 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .final small{display:block;margin-top:16px;color:var(--faint);font-size:13.5px}
 .requisitos{margin:38px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:660px}
 .requisitos span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--dim);background:rgba(234,246,248,.05);border-radius:999px;padding:7px 13px}
+.marca{margin:32px auto 0;display:flex;align-items:baseline;justify-content:center;gap:13px;flex-wrap:wrap}
+.marca b{font-family:var(--disp);font-size:clamp(40px,6.4vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(100deg,var(--aqua-hi),var(--mint));-webkit-background-clip:text;background-clip:text;color:transparent}
+.marca span{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.prox{margin:66px auto 0;max-width:900px;text-align:left;border:1px solid rgba(234,246,248,.09);border-radius:18px;padding:25px 27px;
+  background:linear-gradient(180deg,rgba(234,246,248,.035),rgba(4,6,10,0))}
+.prox .k{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.prox .k::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--gold);box-shadow:0 0 11px var(--gold)}
+.prox-g{margin-top:17px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.prox .pi{position:relative;padding-left:14px}
+.prox .pi::before{content:'';position:absolute;left:0;top:.55em;width:2px;height:calc(100% - .9em);border-radius:999px;
+  background:linear-gradient(180deg,rgba(234,246,248,.3),rgba(234,246,248,0))}
+.prox .pi b{display:block;font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:-.015em;color:var(--ink)}
+.prox .pi small{display:block;margin-top:5px;font-size:13px;line-height:1.5;color:var(--dim)}
+.prox .nota{margin:19px 0 0;max-width:none;font-size:12.5px;line-height:1.55;color:var(--faint)}
+@media(max-width:700px){.prox{padding:20px 18px}}
 
 footer{padding:36px 0 60px;position:relative;z-index:1}
 footer .in{max-width:1180px;margin:0 auto;padding:0 32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;color:var(--faint);font-size:13.5px}
@@ -386,31 +478,339 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
    existe sin JS: quien no lo ejecuta ve el panel dentro de la demo, que es real. */
 .rise{opacity:1;transform:none}
 </style></noscript>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://tooltip-ai.com/#site",
+      "url": "https://tooltip-ai.com/",
+      "name": "ToolTip AI",
+      "publisher": {
+        "@id": "https://tooltip-ai.com/#dixi3"
+      },
+      "inLanguage": [
+        "en"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://tooltip-ai.com/#dixi3",
+      "name": "Dixi3 Labs",
+      "alternateName": "Dixi3 Lqbs",
+      "url": "https://tooltip-ai.com/"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/#app",
+      "name": "ToolTip AI",
+      "url": "https://tooltip-ai.com/",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Assistant",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "softwareVersion": "1.2",
+      "publisher": {
+        "@id": "https://tooltip-ai.com/#dixi3"
+      },
+      "image": "https://tooltip-ai.com/icon.png",
+      "screenshot": "https://tooltip-ai.com/social-card-en.png",
+      "description": "Windows app that explains the control under your pointer: what it is, what it is for and what happens if you click it. Local OCR translation, rest radar and read-aloud.",
+      "featureList": [
+        "Explanation of the control under the pointer using UI Automation",
+        "Translation of the text under the cursor using Windows OCR",
+        "Rest radar: opens the panel when you pause, from 0.8 to 8 seconds",
+        "Read-aloud using the system voices",
+        "Optional AI key encrypted with DPAPI: Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude"
+      ],
+      "isAccessibleForFree": false,
+      "offers": {
+        "@type": "Offer",
+        "url": "https://apps.microsoft.com/detail/9N3D02KXKD3D",
+        "category": "paid",
+        "price": "26.99",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@id": "https://tooltip-ai.com/#dixi3"
+        }
+      },
+      "subjectOf": {
+        "@id": "https://tooltip-ai.com/#faq"
+      },
+      "sameAs": [
+        "https://apps.microsoft.com/detail/9N3D02KXKD3D"
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://tooltip-ai.com/#fichas",
+      "name": "ToolTip AI listings on Microsoft Store",
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "numberOfItems": 4,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://tooltip-ai.com/#translate"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://tooltip-ai.com/#aura"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://tooltip-ai.com/#voice"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://tooltip-ai.com/#bridge"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/#translate",
+      "name": "ToolTip AI Translate",
+      "url": "https://tooltip-ai.com/#translate",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Translates the text you are already looking at: UI Automation when the control exposes its text, Windows.Media.Ocr when it does not.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9NQN3RZ2Z655",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free trial",
+            "category": "free trial",
+            "price": "0",
+            "priceCurrency": "USD",
+            "eligibleDuration": "P7D"
+          },
+          {
+            "@type": "Offer",
+            "name": "Lifetime license",
+            "category": "paid",
+            "price": "11.99",
+            "priceCurrency": "USD"
+          }
+        ]
+      },
+      "sameAs": [
+        "https://apps.microsoft.com/detail/9NQN3RZ2Z655"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/#aura",
+      "name": "ToolTip AI Aura",
+      "url": "https://tooltip-ai.com/#aura",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Voice guide: analyses the element under the cursor or the active window and reads it aloud with local TTS.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9P33P1P5Z8DC",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free trial",
+            "category": "free trial",
+            "price": "0",
+            "priceCurrency": "USD",
+            "eligibleDuration": "P7D"
+          },
+          {
+            "@type": "Offer",
+            "name": "Lifetime license",
+            "category": "paid",
+            "price": "11.99",
+            "priceCurrency": "USD"
+          }
+        ]
+      },
+      "sameAs": [
+        "https://apps.microsoft.com/detail/9P33P1P5Z8DC"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/#voice",
+      "name": "ToolTip AI Voice",
+      "url": "https://tooltip-ai.com/#voice",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Turns clipboard text into speech using the system voices, with no account and no AI key.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9P417GZB0FVB",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free trial",
+            "category": "free trial",
+            "price": "0",
+            "priceCurrency": "USD",
+            "eligibleDuration": "P7D"
+          },
+          {
+            "@type": "Offer",
+            "name": "Lifetime license",
+            "category": "paid",
+            "price": "11.99",
+            "priceCurrency": "USD"
+          }
+        ]
+      },
+      "sameAs": [
+        "https://apps.microsoft.com/detail/9P417GZB0FVB"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/#bridge",
+      "name": "ToolTip AI Bridge",
+      "url": "https://tooltip-ai.com/#bridge",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Sends text and links from your phone to your PC over the local Wi-Fi network, with no cloud servers.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9PN1B2M4N7DK",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free trial",
+            "category": "free trial",
+            "price": "0",
+            "priceCurrency": "USD",
+            "eligibleDuration": "P7D"
+          },
+          {
+            "@type": "Offer",
+            "name": "Lifetime license",
+            "category": "paid",
+            "price": "11.99",
+            "priceCurrency": "USD"
+          }
+        ]
+      },
+      "sameAs": [
+        "https://apps.microsoft.com/detail/9PN1B2M4N7DK"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://tooltip-ai.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does it work offline and without an API key?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Identifying the control and reading its metadata happen inside Windows with UI Automation, and the text is recognized with Windows.Media.Ocr on your own machine. Without a key you lose the expert advice written by AI, not the reading."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to create an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The app has no server of its own and no sign-up. The license ties to the Microsoft account you use to install from the Store, and it is not a subscription: it is a one-time payment for life."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does my screen upload to the internet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nothing on its own. If you ask for an explanation with AI, the image of the area you snipped travels to the provider you configured, with your key encrypted on the machine with DPAPI. The password fields that UI Automation detects are neither read nor sent."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on Windows 10?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, from build 19041, and also on Windows 11. There is only an x64 build: there is no ARM64 build."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Four listings that look alike, which one do I install?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ToolTip AI is the complete application: the three layers live on the same element, with a single panel and a single configuration. Translate and Aura are two of those layers living in their own listing. Voice and Bridge are two other utilities by the same author that are not part of the set. If you want the set, the listing is ToolTip AI."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens when the free trial ends?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each listing sets the duration in Microsoft Store. When it ends, the app stops answering until you buy the license. There is no automatic charge: there is no subscription to renew, so nobody charges you by surprise."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
 </head>
 <body>
-<a class="skip" href="#producto">Saltar al contenido</a>
+<a class="skip" href="#producto">Skip to content</a>
 <canvas id="fondo" aria-hidden="true"></canvas>
 <main>
 
 <div class="top" id="top">
   <a class="mark" href="/"><span class="ring"></span>ToolTip AI</a>
-  <nav aria-label="Secciones">
-    <a href="#producto">El producto</a><a href="#capas">Capas</a><a href="#demo">Pruébalo</a><a href="#senal">La señal</a><a href="#privacidad">Privacidad</a>
-    <a class="pill" href="#conseguir">Microsoft Store</a>
+  <nav aria-label="Sections">
+    <a href="#producto">The product</a><a href="#capas">Layers</a><a href="#fichas">Listings</a><a href="#demo">Try it</a><a href="#senal">The signal</a><a href="#privacidad">Privacy</a><a href="#faq">Questions</a>
+    <a class="lang" href="/es/" hreflang="es" lang="es" title="Leer esta página en español">ES</a>
+    <a class="pill" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Get it</a>
   </nav>
 </div>
 
 <header class="hero"><div class="wrap">
   <div>
-    <h1 data-lectura data-z="El titular de esta portada"
-        data-qs="Es la promesa entera de la app en dos palabras: apuntas con el puntero y la pantalla te responde."
-        data-imp="Si entendiste eso, ya sabes qué hace ToolTip AI. No hay que aprender ningún módulo."
-        data-tipo="H1 · portada" data-padre="index.html" data-atajo="Ctrl+Shift+D radar">Apuntas.<br><span class="g">Responde.</span></h1>
-    <p class="sub">Una sola aplicación de Windows. La dejas detrás de tus ventanas y, cuando te detienes sobre algo, te dice qué es, para qué sirve y qué pasa si lo pulsas.</p>
+    <h1 data-lectura data-z="The headline of this cover"
+        data-qs="It is the app's whole promise in two words: you point with the pointer and the screen answers."
+        data-imp="If you understood that, you already know what ToolTip AI does. There is no module to learn."
+        data-tipo="H1 · cover" data-padre="index.html" data-atajo="Ctrl+Shift+D radar">You point.<br><span class="g">It answers.</span></h1>
+    <p class="sub">A single Windows application. You leave it behind your windows and, when you stop over something, it tells you what it is, what it is for and what happens if you press it.</p>
     <div class="go">
-      <a class="pill" href="#conseguir">Conseguir en Microsoft Store</a>
+      <a class="pill" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Get it on Microsoft Store</a>
+      <span class="importe"><b>$26.99</b>usd · one-time payment</span>
+      <a class="otro" href="#fichas">or try a listing free for 7 days</a>
     </div>
-    <div class="hint"><span class="ln"></span>detente sobre cualquier texto de esta página</div>
+    <div class="hint"><span class="ln"></span>hover over any text on this page</div>
   </div>
 
   <!-- ESCENA: la ventana real de Windows bajo el puntero, el haz latiendo y el
@@ -420,24 +820,24 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
   <div class="stage" aria-hidden="true">
     <div class="escena">
     <div class="win">
-      <div class="cap"><span class="ic"></span><span class="nm">Opciones de copia de seguridad</span><span class="wbtns"><i></i><i></i><i></i></span></div>
+      <div class="cap"><span class="ic"></span><span class="nm">Backup options</span><span class="wbtns"><i></i><i></i><i></i></span></div>
       <div class="bd">
         <div class="fila">
           <span class="cbx"></span>
-          <span class="tx">Mantener versiones anteriores<small>Guarda una copia por sesión en la unidad de red.</small></span>
+          <span class="tx">Keep previous versions<small>Keeps one copy per session on the network drive.</small></span>
         </div>
         <div class="fila activo">
           <span class="cbx"></span>
-          <span class="tx">Comprobar integridad al terminar<small>Vuelve a leer lo copiado y compara los hashes.</small></span>
+          <span class="tx">Verify integrity when done<small>It reads the copy again and compares the hashes.</small></span>
         </div>
-        <div class="btn"><span>Cancelar</span><span class="p">Iniciar copia</span></div>
+        <div class="btn"><span>Cancel</span><span class="p">Start copy</span></div>
       </div>
     </div>
     <span class="pond"></span>
     <span class="needle"><svg viewBox="0 0 24 24" fill="none"><path d="M5 3l14 8-6 1.6-3.2 6.4z" fill="#EAF6F8" stroke="#04060A" stroke-width="1"/></svg></span>
     <div class="lens">
-      <b>Comprobar integridad al terminar</b>
-      <small>original: «Comprobare la integritat en acabar» · català → es</small>
+      <b>Verify integrity when done</b>
+      <small>original: «Comprobare la integritat en acabar» · Catalan → English</small>
       <span class="barra"></span>
     </div>
     </div>
@@ -445,93 +845,95 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="glow"></div>
       <div class="hh">
         <div class="who">
-          <span class="badge">ASISTENTE COGNITIVO · ESCRITORIO</span>
-          <div class="title">Comprobar integridad al terminar</div>
-          <div class="chips"><span class="chip">explorer.exe</span><span class="chip ver"><i class="dot"></i>seguro</span></div>
+          <span class="badge">COGNITIVE ASSISTANT · DESKTOP</span>
+          <div class="title">Verify integrity when done</div>
+          <div class="chips"><span class="chip">explorer.exe</span><span class="chip ver"><i class="dot"></i>safe</span></div>
         </div>
         <div class="tools"><span class="tool"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8"/></svg></span><span class="tool"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
       </div>
-      <div class="live"><i></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>respuesta lista · 1,2 s</div>
+      <div class="live"><i></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>answer ready · 1.2 s</div>
       <div class="advice">
-        <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>POR QUÉ IMPORTA</div>
-        <p>Relee lo copiado y lo compara. Si algo se corrompió en el trayecto, te enteras ahora y no dentro de un año.</p>
+        <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>WHY IT MATTERS</div>
+        <p>It re-reads what was copied and compares. If something got corrupted on the way, you find out now and not a year from now.</p>
       </div>
-      <div class="tabs"><span class="on">Qué es</span><span>Specs</span><span>Preguntar</span></div>
+      <div class="tabs"><span class="on">What it is</span><span>Specs</span><span>Ask</span></div>
       <div class="body">
-        <div><div class="fk">RESUMEN DIDÁCTICO</div><div class="v1">Casilla de <b>CheckBox</b> de un diálogo de Windows. Cambia una preferencia de la copia; no ejecuta nada por sí sola.</div></div>
-        <div><div class="fk">CONSECUENCIAS E IMPACTO</div><div class="v2">Al marcarla, la copia tarda más porque añade una segunda pasada de lectura. Vale la pena si el destino es una unidad de red.</div></div>
+        <div><div class="fk">TEACHING SUMMARY</div><div class="v1">It is a <b>CheckBox</b> in a Windows dialog. It changes a copy preference; it runs nothing by itself.</div></div>
+        <div><div class="fk">CONSEQUENCES AND IMPACT</div><div class="v2">Ticking it makes the copy slower because it adds a second reading pass. Worth it when the destination is a network drive.</div></div>
       </div>
-      <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">ajustes</span><span class="snip">Recortar</span></div>
+      <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">settings</span><span class="snip">Snip</span></div>
     </div>
-    <span class="rot">recreación del panel real · no es una captura</span>
+    <span class="rot">recreation of the real panel · not a screenshot</span>
   </div>
 </div></header>
 
 <section id="producto"><div class="wrap">
-  <h2 class="rise" data-lectura data-z="Este titular" data-qs="Nombra el objeto de compra: no una suscripción ni un conjunto de módulos, una aplicación."
-      data-imp="Si alguien confunde esto con las cuatro apps antiguas, está leyendo otra cosa: aquí se compra una." data-tipo="H2" data-padre="#producto">Esto es lo que compras.</h2>
+  <h2 class="rise" data-lectura data-z="This headline" data-qs="It names the object of purchase: not a subscription and not a set of modules, an application."
+      data-imp="If someone confuses this with the four old apps, they are reading something else: here you buy one." data-tipo="H2" data-padre="#producto">This is what you buy.</h2>
   <div class="oferta">
     <div>
-      <p class="claim rise" data-lectura data-z="La afirmación central"
-         data-qs="Resume el modelo: una app con comportamientos, no cuatro productos que instalar."
-         data-imp="Es la frase que la ficha de la Tienda tiene que poder sostener. Se midió dentro del paquete: un solo Application, un solo DisplayName." data-tipo="P · claim" data-padre="#producto">
-        Una aplicación de Windows. <b>Tres comportamientos que enciendes</b> cuando los necesitas, un haz que te dice en qué estado está, y una licencia que no caduca.
+      <p class="claim rise" data-lectura data-z="The central claim"
+         data-qs="It sums up the model: inside the application they are behaviors you turn on, not four installs to add up."
+         data-imp="It is the line the Store listing has to be able to hold up. It was measured inside the package: one Application, one DisplayName." data-tipo="P · claim" data-padre="#producto">
+        A Windows application. <b>Three behaviors you turn on</b> when you need them, a beam that tells you what state it is in, and a license that does not expire.
       </p>
-      <p class="lead rise" style="margin-top:26px">Se instala desde Microsoft Store y se actualiza sola. No tiene servidor propio, no te pide una cuenta y no guarda nada en nuestros sistemas: lo que configuras vive en tu Windows.</p>
-      <p class="lead rise" style="margin-top:22px;font-size:15.5px" data-lectura data-z="Un aviso honesto"
-         data-qs="Aquí la página admite una limitación en vez de esconderla."
-         data-imp="La app no puede capturar su propia interfaz, así que la web muestra una recreación dibujada campo a campo. Las capturas reales se piden aparte." data-tipo="P · nota" data-padre="#producto">
-        Y una cosa que vas a notar: <b>aquí no hay fotos de la app</b>. Sus ventanas están marcadas como no capturables, a propósito, para que nadie te grabe la pantalla con el HUD encima. Lo que ves arriba es una recreación dibujada campo a campo desde el XAML real.
+      <p class="lead rise" style="margin-top:26px">It installs from Microsoft Store and updates itself. It has no server of its own, it does not ask you for an account and it keeps nothing on our systems: what you configure lives in your Windows.</p>
+      <p class="lead rise" style="margin-top:22px;font-size:15.5px" data-lectura data-z="An honest warning"
+         data-qs="Here the page admits a limitation instead of hiding it."
+         data-imp="The app cannot capture its own interface, so the web shows a recreation drawn field by field. Real screenshots are requested separately." data-tipo="P · note" data-padre="#producto">
+        And one thing you will notice: <b>there are no photos of the app here</b>. Its windows are marked as not capturable, on purpose, so that nobody records your screen with the HUD on it. What you see above is a recreation drawn field by field from the real XAML.
       </p>
     </div>
     <dl class="libro rise">
-      <div class="p"><dt>Producto</dt><dd>ToolTip AI<small>Dixi3 Lqbs · una sola ficha en Microsoft Store</small></dd></div>
-      <div class="p"><dt>Licencia</dt><dd>Pago único, de por vida<small>Se liga a tu cuenta de Microsoft; no es suscripción</small></dd></div>
-      <div class="p"><dt>Capas</dt><dd>Traducir · Radar de reposo · Voz<small>Más la explicación del elemento, siempre activa</small></dd></div>
-      <div class="p"><dt>Sistema</dt><dd>Windows 10 (19041+) y Windows 11<small>Solo x64 · sin versión ARM64</small></dd></div>
-      <div class="p"><dt>Idiomas</dt><dd>Español, latinoamericano e inglés</dd></div>
-      <div class="p"><dt>IA</dt><dd>Opcional y con tu propia clave<small>Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude · cifrada con DPAPI</small></dd></div>
-      <div class="p"><dt>Precio</dt><dd>Lo muestra la Tienda<small>Ninguna página de este producto escribe una cifra</small></dd></div>
+      <div class="p"><dt>Product</dt><dd>ToolTip AI<small>Dixi3 Lqbs · the full listing, with the three layers inside</small></dd></div>
+      <div class="p"><dt>License</dt><dd>One-time payment, for life<small>It ties to your Microsoft account; it is not a subscription</small></dd></div>
+      <div class="p"><dt>Layers</dt><dd>Translate · Rest radar · Voice<small>Plus the element explanation, always active</small></dd></div>
+      <div class="p"><dt>Separate listings</dt><dd>Translate · Aura · Voice · Bridge<small>One per layer, each with its own trial: <a href="#fichas">which ones do what</a></small></dd></div>
+      <div class="p"><dt>System</dt><dd>Windows 10 (19041+) and Windows 11<small>x64 only · no ARM64 build</small></dd></div>
+      <div class="p"><dt>Languages</dt><dd>Spanish, English and German<small>The labels follow whichever display language Windows is set to; translation points at ten target languages</small></dd></div>
+      <div class="p"><dt>AI</dt><dd>Optional, and with your own API key<small>Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude · encrypted with DPAPI</small></dd></div>
+      <div class="p"><dt>Price</dt><dd>$26.99 usd<small>One-time payment. The Store converts it to your currency when you pay; that figure overrides the one you see here</small></dd></div>
+      <div class="p"><dt>Coming soon</dt><dd>Mac App Store · skins · plugs<small>In development, no announced date: do not buy a listing expecting these</small></dd></div>
     </dl>
   </div>
 </div></section>
 
 <section id="capas"><div class="wrap">
-  <h2 class="rise">Enciendes lo que necesitas.</h2>
-  <p class="lead rise" data-lectura data-z="El párrafo de las capas"
-     data-qs="Explica que las capas no son pantallas distintas: conviven sobre el mismo elemento."
-     data-imp="Es la diferencia con la antigua estructura de cuatro apps, y es la razón del precio único." data-tipo="P · lead" data-padre="#capas">
-    Son casillas dentro del mismo panel, no ventanas distintas. Pulsa una y mira qué le pasa al panel de la derecha: es exactamente lo que cambia en tu escritorio.
+  <h2 class="rise">You turn on what you need.</h2>
+  <p class="lead rise" data-lectura data-z="The layers paragraph"
+     data-qs="It explains that the layers are not separate screens: they live on the same element."
+     data-imp="It is the difference with the old four-app structure, and it is the reason for the single price." data-tipo="P · lead" data-padre="#capas">
+    They are checkboxes inside the same panel, not separate windows. Click one and watch what happens to the panel on the right: that is exactly what changes on your desktop.
   </p>
   <div class="capas">
-    <div class="switches" role="group" aria-label="Capas de la aplicación">
-      <label class="sw" data-lectura data-z="La casilla Traducir"
-        data-qs="Casilla real: en la app se llama «Traducir donde pasa el puntero» y viene encendida por defecto."
-        data-imp="La traducción necesita red: el texto se envía al traductor y, de respaldo, a un segundo servicio."
-        data-tipo="CheckBox" data-padre="HudWindow.xaml · Ajustes › CAPAS" data-atajo="Ctrl+Shift+T traducir">
+    <div class="switches" role="group" aria-label="Application layers">
+      <label class="sw" data-lectura data-z="The Translate checkbox"
+        data-qs="Real checkbox: in the app it is called «Translate under the pointer» and it comes on by default."
+        data-imp="Translation needs a network: the text goes to the translator and, as a fallback, to a second service."
+        data-tipo="CheckBox" data-padre="HudWindow.xaml · Settings › Layers" data-atajo="Ctrl+Shift+T translate">
         <input type="checkbox" id="L-Traducir" checked><span class="box"></span>
-        <span class="t"><b>Traducir lo que no entiendes</b><span>El OCR de Windows lee la zona bajo el puntero y el texto aparece traducido, con el original intacto debajo para comparar.</span><em>en la app: «Traducir donde pasa el puntero» · encendida por defecto</em></span>
+        <span class="t"><b>Translate what you do not understand</b><span>Windows OCR reads the area under the pointer and the text appears translated, with the original left intact underneath for comparison.</span><em>in the app: «Translate under the pointer» · on by default</em></span>
       </label>
-      <label class="sw" data-lectura data-z="La casilla Radar de reposo"
-        data-qs="El disparador es el tiempo que pasas quieto, no el tipo de contenido."
-        data-imp="Viene apagada por defecto: nadie quiere que una app le hable por sí sola desde el primer día."
-        data-tipo="CheckBox" data-padre="HudWindow.xaml › Ajustes › CAPAS" data-atajo="Ctrl+Shift+D radar">
+      <label class="sw" data-lectura data-z="The Rest radar checkbox"
+        data-qs="The trigger is the time you stay still, not the type of content."
+        data-imp="It comes off by default: nobody wants an app talking to them on its own from the first day."
+        data-tipo="CheckBox" data-padre="HudWindow.xaml › Settings › Layers" data-atajo="Ctrl+Shift+D radar">
         <input type="checkbox" id="L-Radar" checked><span class="box"></span>
-        <span class="t"><b>Que se active solo al detenerte</b><span>Identifica el control con UI Automation, abre el panel y lo explica. Tú solo te quedas mirando.</span><em>en la app: «Radar de reposo: abrir al detenerte» · de 0,8 a 8 s</em></span>
+        <span class="t"><b>It switches on by itself when you stop</b><span>It identifies the control with UI Automation, opens the panel and explains it. You only keep looking.</span><em>in the app: «Idle radar: open when you pause» · from 0.8 to 8 s</em></span>
       </label>
-      <label class="sw" data-lectura data-z="La casilla Voz"
-        data-qs="Lee el resultado que ya está en pantalla, no lo que mira el cursor."
-        data-imp="Es accesibilidad de primera clase: funciona con la síntesis de voz del propio Windows."
-        data-tipo="CheckBox" data-padre="HudWindow.xaml › Ajustes › CAPAS" data-atajo="en Ajustes › CAPAS">
+      <label class="sw" data-lectura data-z="The Voice checkbox"
+        data-qs="It reads the result that is already on screen, not what the cursor is looking at."
+        data-imp="It is first-class accessibility: it runs on Windows' own speech synthesis."
+        data-tipo="CheckBox" data-padre="HudWindow.xaml › Settings › Layers" data-atajo="in Settings › Layers">
         <input type="checkbox" id="L-Voz"><span class="box"></span>
-        <span class="t"><b>Que lo lea en voz alta</b><span>Pronuncia la traducción o el consejo con la voz del sistema mientras sigues con otra cosa.</span><em>en la app: «Leer el resultado en voz alta» · apagada por defecto</em></span>
+        <span class="t"><b>It reads it out loud</b><span>It speaks the translation or the advice with the system voice while you keep working on something else.</span><em>in the app: «Read the result aloud» · off by default</em></span>
       </label>
-      <div class="sw" style="cursor:default" data-lectura data-z="La explicación del elemento"
-        data-qs="Este comportamiento no tiene casilla: siempre está disponible."
-        data-imp="Por eso el panel solo muestra tres interruptores, aunque la app tenga cuatro comportamientos."
-        data-tipo="Comportamiento fijo" data-padre="HudWindow.xaml" data-atajo="—">
+      <div class="sw" style="cursor:default" data-lectura data-z="The element explanation"
+        data-qs="This behavior has no checkbox: it is always available."
+        data-imp="That is why the panel shows only three switches, even though the app has four behaviors."
+        data-tipo="Fixed behavior" data-padre="HudWindow.xaml" data-atajo="—">
         <span class="box" style="background:linear-gradient(120deg,rgba(163,125,208,.45),rgba(216,180,254,.3));opacity:.7"></span>
-        <span class="t"><b>Explicar el elemento</b><span>Sin casilla: la lectura del control —nombre, tipo, valor, estado— ocurre siempre, con o sin clave de IA.</span><em>sin clave responde en local · con clave añade la asesoría</em></span>
+        <span class="t"><b>Explain the element</b><span>No checkbox: the reading of the control —name, type, value, state— always happens, with or without an API key.</span><em>without a key it answers locally · with a key it adds the advice</em></span>
       </div>
     </div>
 
@@ -540,51 +942,112 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
         <div class="glow"></div>
         <div class="hh">
           <div class="who">
-            <span class="badge">ASISTENTE COGNITIVO · ESCRITORIO</span>
+            <span class="badge">COGNITIVE ASSISTANT · DESKTOP</span>
             <div class="title">Comprobare la integritat en acabar</div>
-            <div class="chips"><span class="chip">explorer.exe</span><span class="chip sky" id="lab-db">0.00 dB</span><span class="chip ver"><i class="dot"></i><span id="lab-ver">seguro</span></span></div>
+            <div class="chips"><span class="chip">explorer.exe</span><span class="chip sky" id="lab-db">0.00 dB</span><span class="chip ver"><i class="dot"></i><span id="lab-ver">safe</span></span></div>
           </div>
           <div class="tools"><span class="tool"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8"/></svg></span><span class="tool"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
         </div>
         <div class="live"><i id="lab-dot"></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg><span id="lab-state">radar activo · 3.0 seg</span></div>
         <div class="radarline"><b id="lab-radar" style="width:100%"></b></div>
         <div class="notice" id="lab-notice">
-          <div><div class="nt">MODO LOCAL · IA INACTIVA</div><div class="ns">Añade tu clave del proveedor para activar la asesoría.</div></div>
-          <span class="cfg">Configurar</span>
+          <div><div class="nt">LOCAL MODE · AI OFF</div><div class="ns">Add your provider key to enable advice.</div></div>
+          <span class="cfg">Configure</span>
         </div>
         <div class="advice">
-          <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>POR QUÉ IMPORTA</div>
-          <p id="lab-advice">Relee lo copiado y lo compara: si algo se corrompió en el trayecto, aparece aquí y no dentro de un año.</p>
+          <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>WHY IT MATTERS</div>
+          <p id="lab-advice">It re-reads what was copied and compares: if something got corrupted on the way, it shows up here and not a year from now.</p>
         </div>
-        <div class="tabs"><span class="on">Qué es</span><span>Specs</span><span>Preguntar</span></div>
+        <div class="tabs"><span class="on">What it is</span><span>Specs</span><span>Ask</span></div>
         <div class="body">
-          <div><div class="fk" id="lab-fk1">TRADUCCIÓN BAJO EL PUNTERO</div><div class="v1" id="lab-t1">«Comprobare la integritat en acabar» — català, detectado por OCR de Windows.</div></div>
-          <div><div class="fk">CONSECUENCIAS E IMPACTO</div><div class="v2" id="lab-t2">Casilla que cambia una preferencia del diálogo. La segunda pasada de lectura añade tiempo a la copia.</div></div>
+          <div><div class="fk" id="lab-fk1">TRANSLATION UNDER THE POINTER</div><div class="v1" id="lab-t1">«Comprobare la integritat en acabar» — Catalan, detected by Windows OCR.</div></div>
+          <div><div class="fk">CONSEQUENCES AND IMPACT</div><div class="v2" id="lab-t2">A checkbox that changes a preference in the dialog. The second reading pass adds time to the copy.</div></div>
           <div class="row2">
-            <div><div class="fk">TIPO DE CONTROL</div><div class="mono g">CheckBox</div></div>
-            <div><div class="fk">ATAJO SUGERIDO</div><div class="v2" style="font-size:10.5px">Ctrl+Shift+A recortar · Ctrl+Shift+D radar</div></div>
+            <div><div class="fk">CONTROL TYPE</div><div class="mono g">CheckBox</div></div>
+            <div><div class="fk">SUGGESTED SHORTCUT</div><div class="v2" style="font-size:10.5px">Ctrl+Shift+A snip · Ctrl+Shift+D radar</div></div>
           </div>
         </div>
-        <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">ajustes</span><span class="snip">Recortar</span></div>
+        <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">settings</span><span class="snip">Snip</span></div>
       </div>
       <div class="capa-off" id="capa-off">
-        <b id="capa-off-t">Con las tres capas apagadas, la app sigue leyendo.</b>
-        <span id="capa-off-s">El panel se queda con la identidad del control: nombre, tipo, valor y estado. Sin traducción, sin radar, sin voz.</span>
+        <b id="capa-off-t">With all three layers off, the app still reads.</b>
+        <span id="capa-off-s">The panel keeps the identity of the control: name, type, value and state. No translation, no radar, no voice.</span>
       </div>
     </div>
   </div>
-  <p class="cita-haz rise">«El haz sigue a la capa despierta: viaja con el láser, late con el radar y se profundiza cuando habla la voz.»<small>literal del panel de ajustes de la app</small></p>
+  <p class="cita-haz rise">«The beam follows the active layer: it travels with the laser, pulses with the radar and deepens when the voice speaks.»<small>taken verbatim from the app's settings panel</small></p>
+</div></section>
+
+<!-- =========================================================================
+     LAS CUATRO FICHAS. Cada tarjeta describe lo que ESA ficha instala, no lo
+     que convendría al embudo que fuera. Translate y Aura sí son capas de la
+     suite vividas aparte; Voice y Bridge son otras dos utilidades del mismo
+     autor. Decirlo cuesta una venta y ahorra una devolución.
+     Las etiquetas de prueba se leen de Partner Center, no de aqui: si cambias
+     la duracion de una, cambia la etiqueta.
+========================================================================== -->
+<section id="fichas"><div class="wrap">
+  <h2 class="rise" data-lectura data-z="This headline" data-qs="It announces the other four listings published in Microsoft Store and their free trial."
+      data-imp="None of the four needs your API key to start, and none of them asks for a card to begin." data-tipo="H2" data-padre="#fichas">Four listings, each with its own trial.</h2>
+  <p class="lead rise" data-lectura data-z="The listings paragraph"
+     data-qs="It clarifies the relation between the complete application and the separate listings before someone installs two things that do the same."
+     data-imp="It is the line that avoids the refund: whoever wants the set buys ToolTip AI, not four separate windows." data-tipo="P · lead" data-padre="#fichas">
+    Besides the complete application there are four listings in Microsoft Store, each with its own free trial and no card up front. Two of them are layers of this same app lived apart. The other two are different utilities by the same author: we tell you here, not after you have installed them.
+  </p>
+  <div class="fichas">
+    <article class="ficha glass rise" id="translate" style="--fc:var(--aqua)"
+      data-lectura data-z="ToolTip AI Translate" data-qs="Separate listing with the suite's Translate layer: UI Automation when the control gives up its text, Windows OCR when it does not."
+      data-imp="It is the same reading the complete application does; what it does not bring is the radar, the voice or the advice panel." data-tipo="MSIX · 9NQN3RZ2Z655" data-padre="#fichas" data-atajo="Ctrl+Shift+T in the suite">
+      <span class="k">suite layer · translation</span>
+      <h3>ToolTip AI <i>Translate</i></h3>
+      <p>It translates the text you are already looking at, without copying it and without changing window. When the control gives up its text it reads it directly; when it does not, it recognizes the area around the pointer with Windows' own OCR, on your machine.</p>
+      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">es · en</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9NQN3RZ2Z655" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+
+    <article class="ficha glass rise" id="aura" style="--fc:var(--violet)"
+      data-lectura data-z="ToolTip AI Aura" data-qs="Separate listing with the voice guide: draggable floating capsule, status orb and reading out loud with local TTS."
+      data-imp="The trigger is the time you stay still over the element, about 1.8 seconds, or Ctrl+Shift+A." data-tipo="MSIX · 9P33P1P5Z8DC" data-padre="#fichas" data-atajo="Ctrl+Shift+A · Ctrl+Shift+V repeats">
+      <span class="k">suite layer · voice and radar</span>
+      <h3>ToolTip AI <i>Aura</i></h3>
+      <p>It tells you out loud. It analyzes the element under the cursor or the active window and reads it with the system voices, from a floating capsule that you drag to the corner you want. AI provider of your choice, with your key encrypted on the machine.</p>
+      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">local TTS</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P33P1P5Z8DC" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+
+    <article class="ficha glass rise" id="voice" style="--fc:var(--mint)"
+      data-lectura data-z="ToolTip AI Voice" data-qs="Separate utility: it turns the text you already copied to the clipboard into speech, not what is under the pointer."
+      data-imp="Its shortcuts are Ctrl+Shift+V and Ctrl+Shift+S, which are not the ones of the complete application. They are two different things." data-tipo="MSIX · 9P417GZB0FVB" data-padre="#fichas" data-atajo="Ctrl+Shift+V reads · Ctrl+Shift+S stops">
+      <span class="k">other utility · clipboard</span>
+      <h3>ToolTip AI <i>Voice</i></h3>
+      <p>It reads what you copy. You copy any text in Windows, press the shortcut and it speaks it while you keep working on something else; it lowers the system volume while it talks and restores it when it finishes. No account, no API key and no auto-start unless you turn it on.</p>
+      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">it is not a suite layer</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P417GZB0FVB" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+
+    <article class="ficha glass rise" id="bridge" style="--fc:var(--gold)"
+      data-lectura data-z="ToolTip AI Bridge" data-qs="Separate utility: it sends text and links from the phone to the PC over the local Wi-Fi network, with no cloud servers."
+      data-imp="It has nothing to do with explaining controls. If you are looking for the suite, this is not the listing." data-tipo="MSIX · 9PN1B2M4N7DK" data-padre="#fichas" data-atajo="on the phone: Share → Send to PC">
+      <span class="k">other utility · phone to PC</span>
+      <h3>ToolTip AI <i>Bridge</i></h3>
+      <p>From the phone to the computer without sending messages to yourself on WhatsApp or fighting with Bluetooth. You share text or a link from the phone and it appears on the PC over your local network. Nothing leaves your house: there are no intermediate servers.</p>
+      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">it is not a suite layer</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9PN1B2M4N7DK" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+  </div>
+  <p class="cita-haz rise">«If you want the whole set, there is a single listing: ToolTip AI. The other four each install on their own and do not share a panel.»<small>what this section is trying to prevent</small></p>
 </div></section>
 
 <section id="demo"><div class="wrap">
-  <h2 class="rise">Pruébalo aquí mismo, con el ratón.</h2>
-  <p class="lead rise">Mueve el puntero por la pista. Es exactamente el gesto de la app: detenerte y esperar la lectura.</p>
+  <h2 class="rise">Try it right here, with the mouse.</h2>
+  <p class="lead rise">Move the pointer along the track. It is exactly the app's gesture: stop and wait for the reading.</p>
+  <p class="subnote rise">This panel imitates the app's, which mirrors the Windows display language: on a machine set to English or German it comes out in that language.</p>
   <div class="demo glass rise">
-    <div class="lbl"><span>demostración · datos de ejemplo</span><span id="pct">0 %</span></div>
+    <div class="lbl"><span>demonstration · sample data</span><span id="pct">0 %</span></div>
     <div class="track" id="track">
       <div class="rail"></div><div class="fill" id="fill"></div>
       <div class="head" id="head"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3l14 8-6 1.6-3.2 6.4z" fill="#EAF6F8"/></svg></div>
-      <div class="stops"><span>control</span><span>proceso</span><span>riesgo</span><span>código</span></div>
+      <div class="stops"><span>control</span><span>process</span><span>risk</span><span>code</span></div>
     </div>
     <div class="interior">
       <div class="explic">
@@ -600,128 +1063,183 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
         <div class="glow"></div>
         <div class="hh">
           <div class="who">
-            <span class="badge">ASISTENTE COGNITIVO · ESCRITORIO</span>
-            <div class="title" id="d-title">Elemento inspeccionado de Windows.</div>
+            <span class="badge">COGNITIVE ASSISTANT · DESKTOP</span>
+            <div class="title" id="d-title">Inspected Windows element.</div>
             <div class="chips"><span class="chip" id="d-proc">explorer.exe</span><span class="chip ver"><i class="dot"></i><span id="d-ver">—</span></span></div>
           </div>
           <div class="tools"><span class="tool"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8"/></svg></span><span class="tool"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
         </div>
-        <div class="live"><i></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg><span id="d-live">en reposo</span></div>
+        <div class="live"><i></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg><span id="d-live">idle</span></div>
         <div class="radarline"><b id="d-radar"></b></div>
         <div class="notice">
-          <div><div class="nt">MODO LOCAL · IA INACTIVA</div><div class="ns">Añade tu clave del proveedor para activar la asesoría.</div></div>
-          <span class="cfg">Configurar</span>
+          <div><div class="nt">LOCAL MODE · AI OFF</div><div class="ns">Add your provider key to enable advice.</div></div>
+          <span class="cfg">Configure</span>
         </div>
         <div class="advice">
-          <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>POR QUÉ IMPORTA</div>
-          <p id="d-why">Pasa el puntero sobre cualquier elemento para recibir asesoría en tiempo real.</p>
+          <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>WHY IT MATTERS</div>
+          <p id="d-why">Hover any element to get real-time advice.</p>
         </div>
-        <div class="tabs"><span class="on">Qué es</span><span>Specs</span><span>Preguntar</span></div>
+        <div class="tabs"><span class="on">What it is</span><span>Specs</span><span>Ask</span></div>
         <div class="body">
-          <div><div class="fk">RESUMEN DIDÁCTICO</div><div class="v1" id="d-qs">—</div></div>
-          <div><div class="fk">CONSECUENCIAS E IMPACTO</div><div class="v2" id="d-imp">—</div></div>
+          <div><div class="fk">TEACHING SUMMARY</div><div class="v1" id="d-qs">—</div></div>
+          <div><div class="fk">CONSEQUENCES AND IMPACT</div><div class="v2" id="d-imp">—</div></div>
           <div class="row2">
-            <div><div class="fk">TIPO DE CONTROL</div><div class="mono g" id="d-tipo">UIElement</div></div>
-            <div><div class="fk">MÓDULO PADRE</div><div class="mono a" id="d-padre">MainRack</div><div class="v2" id="d-atajo" style="font-size:10.5px;margin-top:4px">Ctrl+Shift+A recortar</div></div>
+            <div><div class="fk">CONTROL TYPE</div><div class="mono g" id="d-tipo">UIElement</div></div>
+            <div><div class="fk">PARENT MODULE</div><div class="mono a" id="d-padre">MainRack</div><div class="v2" id="d-atajo" style="font-size:10.5px;margin-top:4px">Ctrl+Shift+A snip</div></div>
           </div>
-          <div><div class="fk">COMANDO CLI</div><div class="code"><span id="d-cli">Get-Process</span><em>Copiar</em></div></div>
+          <div><div class="fk">CLI COMMAND</div><div class="code"><span id="d-cli">Get-Process</span><em>Copy</em></div></div>
         </div>
-        <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">ajustes</span><span class="snip">Recortar</span></div>
+        <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">settings</span><span class="snip">Snip</span></div>
       </div>
     </div>
   </div>
 </div></section>
 
 <section id="senal"><div class="wrap">
-  <h2 class="rise">El haz no decora: informa.</h2>
-  <p class="lead rise" data-lectura data-z="El parrafo de la senal"
-     data-qs="Cada estado del haz cambia de color y de ritmo; la linea de arriba se mueve a esa velocidad."
-     data-imp="Es la unica capa informativa que no te obliga a leer texto: el ritmo se aprende en un dia." data-tipo="P · lead" data-padre="#senal">
-    Cinco estados, cinco lecturas del latido. Aquí cada línea late de verdad a la velocidad de su estado: aprendes el ritmo y sabes qué está pasando sin leer etiquetas.
+  <h2 class="rise">The beam does not decorate: it informs.</h2>
+  <p class="lead rise" data-lectura data-z="The signal paragraph"
+     data-qs="Each state of the beam changes color and rhythm; the line above moves at that speed."
+     data-imp="It is the only information layer that does not force you to read text: you learn the rhythm in a day." data-tipo="P · lead" data-padre="#senal">
+    Five states, five readings of the heartbeat. Here every line really beats at the speed of its state: you learn the rhythm and know what is happening without reading labels.
   </p>
   <div class="strip glass rise">
-    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#A5F2F4;--al:2px;--dur:2.6s"><i></i></div><h3>Viajando</h3><p>Mueves el puntero libremente. Latido lento y fino.</p><code>aqua · 0,6×</code></div>
-    <div class="c"><div class="wave" style="--c1:#837DD0;--c2:#EAF6F8;--al:4px;--dur:.75s"><i></i></div><h3>Leyendo</h3><p>Está descifrando el elemento. El haz se agita y se vuelve violeta.</p><code>violeta · 1,8×</code></div>
-    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#FEDA9A;--al:3px;--dur:1.5s"><i></i></div><h3>Escuchando</h3><p>Contando tu reposo antes de responder. Pasa de aqua a oro según avanza.</p><code>aqua → oro</code></div>
-    <div class="c"><div class="wave" style="--c1:#B1F4D8;--c2:#EAF6F8;--al:3px;--dur:3.2s"><i></i></div><h3>Respondido</h3><p>La lectura ya está en pantalla. Vuelve a un pulso calmado.</p><code>menta · 0,8×</code></div>
-    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#B1F4D8;--al:6px;--dur:.5s"><i></i></div><h3>Hablando</h3><p>La capa de voz está leyendo en voz alta. Amplitud alta, ritmo de sílaba.</p><code>aqua · menta</code></div>
+    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#A5F2F4;--al:2px;--dur:2.6s"><i></i></div><h3>Traveling</h3><p>You move the pointer freely. Slow, thin heartbeat.</p><code>aqua · 0.6×</code></div>
+    <div class="c"><div class="wave" style="--c1:#837DD0;--c2:#EAF6F8;--al:4px;--dur:.75s"><i></i></div><h3>Reading</h3><p>It is working out the element. The beam stirs and turns violet.</p><code>violet · 1.8×</code></div>
+    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#FEDA9A;--al:3px;--dur:1.5s"><i></i></div><h3>Listening</h3><p>Counting your rest before answering. It goes from aqua to gold as it advances.</p><code>aqua → gold</code></div>
+    <div class="c"><div class="wave" style="--c1:#B1F4D8;--c2:#EAF6F8;--al:3px;--dur:3.2s"><i></i></div><h3>Answered</h3><p>The reading is already on screen. It returns to a calm pulse.</p><code>mint · 0.8×</code></div>
+    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#B1F4D8;--al:6px;--dur:.5s"><i></i></div><h3>Speaking</h3><p>The voice layer is reading out loud. High amplitude, syllable rhythm.</p><code>aqua · mint</code></div>
   </div>
   <div class="tune rise">
-    <span>temperamento <b>Sereno · Equilibrado · Radiante</b></span>
-    <span>ritmo <b>0,6× – 1,8×</b></span>
-    <span>luminosidad <b>0,6 – 1,6</b></span>
-    <span>espera del radar <b>0,8 – 8 s</b></span>
+    <span>temperament <b>Calm · Balanced · Radiant</b></span>
+    <span>rhythm <b>0.6× – 1.8×</b></span>
+    <span>brightness <b>0.6 – 1.6</b></span>
+    <span>radar wait <b>0.8 – 8 s</b></span>
   </div>
   <div class="comport">
-    <div class="big rise">Y nunca estorba: <b>se retira solo</b> al borde cuando dejas de usarlo, vuelve bajo el cursor cuando lo buscas, y se coloca según dónde está el elemento y el espacio libre que queda.</div>
+    <div class="big rise">And it never gets in the way: <b>it steps aside on its own</b> to the edge when you stop using it, it comes back under the cursor when you look for it, and it places itself according to where the element is and the free space that is left.</div>
     <ul class="rise">
-      <li><b>Nunca tapa.</b> Elige lado y altura en función del hueco real de la pantalla.</li>
-      <li><b>Se recuerda.</b> Láser, voz, temperamento y espera sobreviven entre sesiones.</li>
-      <li><b>Se apaga.</b> Desactivas el láser en ajustes y el haz deja de existir; la app sigue leyendo sin él.</li>
-      <li><b>Se puede tocar.</b> Fijar, cambiar a vista panorámica y cerrar desde la cabecera del panel.</li>
+      <li><b>It never covers.</b> It picks side and height based on the real gap on the screen.</li>
+      <li><b>It is remembered.</b> Laser, voice, temperament and wait survive between sessions.</li>
+      <li><b>It switches off.</b> You disable the laser in settings and the beam stops existing; the app keeps reading without it.</li>
+      <li><b>It can be touched.</b> Pin it, switch to panoramic view and close it from the panel header.</li>
     </ul>
   </div>
 </div></section>
 
 <section id="privacidad"><div class="wrap">
-  <h2 class="rise">La lectura es local.<br>La IA es tu decisión.</h2>
+  <h2 class="rise">The reading is local.<br>The AI is your decision.</h2>
   <div class="comport">
-    <p class="lead rise" style="margin-top:0" data-lectura data-z="La promesa de privacidad"
-       data-qs="Separa dos cosas que casi nadie separa: leer (local) y explicar (tu elección)."
-       data-imp="Es la afirmación que la app puede sostener en el código: no hay servidor de Dixi3 Lqbs." data-tipo="P · lead" data-padre="#privacidad">
-      ToolTip AI no tiene servidor propio, no te pide cuenta y no sube nada por sí solo. Identifica el elemento y lee sus metadatos dentro de Windows, con las capacidades que el sistema ya trae. Sólo si tú pones una clave de proveedor viaja algo —y viaja a donde tú elijas.
+    <p class="lead rise" style="margin-top:0" data-lectura data-z="The privacy promise"
+       data-qs="It separates two things that almost nobody separates: reading (local) and explaining (your choice)."
+       data-imp="It is the claim the app can back up in code: there is no Dixi3 Lqbs server." data-tipo="P · lead" data-padre="#privacidad">
+      ToolTip AI has no server of its own, it does not ask you for an account and it uploads nothing on its own. It identifies the element and reads its metadata inside Windows, with the capabilities the system already brings. Only if you put in a provider key does anything travel — and it travels where you choose.
     </p>
     <ul class="rise">
-      <li><b>Sin clave</b> sigue funcionando en local: pierde el consejo experto, no la lectura.</li>
-      <li><b>La clave</b> se guarda cifrada con DPAPI, ligada a tu usuario de Windows.</li>
-      <li><b>El HUD no sale en capturas</b> ni en grabaciones, a propósito.</li>
-      <li><b>Compatible con</b> Gemini, OpenAI, Azure OpenAI, OpenRouter y Claude.</li>
+      <li><b>Without a key</b> it keeps working locally: it loses the expert advice, not the reading.</li>
+      <li><b>The key</b> is stored encrypted with DPAPI, tied to your Windows user.</li>
+      <li><b>The HUD does not come out in screenshots</b> or in recordings, on purpose.</li>
+      <li><b>Compatible with</b> Gemini, OpenAI, Azure OpenAI, OpenRouter and Claude.</li>
     </ul>
   </div>
   <div class="hot rise" style="margin-top:40px">
-    <div class="h glass" style="cursor:default" data-lectura data-z="El aviso de fallos del panel de ajustes"
-      data-qs="Casilla de avisos voluntarios, con su letra pequeña literal."
-      data-imp="Es la única telemetría que existe, y viene apagada: si alguien la activa, no salen rutas ni texto." data-tipo="CheckBox" data-padre="HudWindow.xaml › AVISO DE FALLOS">
-      <span style="color:var(--dim);font-size:14.5px"><b style="color:var(--ink)">Y sobre los avisos de error</b>, la letra pequeña del propio panel: «Sólo tipo de error y versión de la app. Nunca texto, títulos de ventana, rutas ni claves. Apagado por defecto.»</span>
+    <div class="h glass" style="cursor:default" data-lectura data-z="The error notice in the settings panel"
+      data-qs="Checkbox for voluntary notices, with its literal small print."
+      data-imp="It is the only telemetry that exists, and it is off by default: if someone turns it on, no paths and no text leave." data-tipo="CheckBox" data-padre="HudWindow.xaml › ERROR NOTICE">
+      <span style="color:var(--dim);font-size:14.5px"><b style="color:var(--ink)">And about the error notices</b>, the small print of the panel itself: «Only the error type and the app version. Never text, window titles, paths or keys. Off by default.»</span>
     </div>
   </div>
 </div></section>
 
 <section id="atajos"><div class="wrap">
-  <h2 class="rise">Cuatro gestos globales.</h2>
-  <p class="lead rise">No hay que traer la app a primer plano: se invoca desde donde estés.</p>
+  <h2 class="rise">Four global gestures.</h2>
+  <p class="lead rise">You do not have to bring the app to the front: it is called from wherever you are.</p>
   <div class="hot">
-    <div class="h glass rise" data-lectura data-z="El atajo de recortar" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Suelta el área que quieras analizar sin mover la ventana que tienes delante." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+A"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>A</kbd><span><b>recortar</b> un área y analizarla</span></div>
-    <div class="h glass rise" data-lectura data-z="El atajo de traducir" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Traduce sin activar la capa del puntero: se dispara sobre lo que haya bajo el cursor." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+T"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>T</kbd><span><b>traducir</b> lo que hay bajo el cursor</span></div>
-    <div class="h glass rise" data-lectura data-z="El atajo del radar" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Es el interruptor rápido del radar cuando no quieres entrar en ajustes." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+D"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>D</kbd><span><b>radar de reposo</b>, encender y apagar</span></div>
-    <div class="h glass rise" data-lectura data-z="El atajo de ajustes" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Abre el cajón de ajustes donde están las capas, el proveedor y la espera del radar." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+C"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>C</kbd><span><b>ajustes</b></span></div>
+    <div class="h glass rise" data-lectura data-z="The snip shortcut" data-qs="Key combination registered globally by the app." data-imp="Drop the area you want to analyze without moving the window you have in front of you." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+A"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>A</kbd><span><b>snip</b> an area and analyze it</span></div>
+    <div class="h glass rise" data-lectura data-z="The translate shortcut" data-qs="Key combination registered globally by the app." data-imp="It translates without activating the pointer layer: it fires on whatever is under the cursor." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+T"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>T</kbd><span><b>translate</b> what is under the cursor</span></div>
+    <div class="h glass rise" data-lectura data-z="The radar shortcut" data-qs="Key combination registered globally by the app." data-imp="It is the radar's quick switch for when you do not want to go into settings." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+D"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>D</kbd><span><b>rest radar</b>, on and off</span></div>
+    <div class="h glass rise" data-lectura data-z="The settings shortcut" data-qs="Key combination registered globally by the app." data-imp="It opens the settings drawer where the layers, the provider and the radar wait are." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+C"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>C</kbd><span><b>settings</b></span></div>
+  </div>
+</div></section>
+
+<!-- El texto visible y el FAQPage del <head> tienen que decir literalmente lo
+     mismo: si difieren, Google deja de considerar válida la marca de preguntas. -->
+<section id="faq"><div class="wrap">
+  <h2 class="rise" data-lectura data-z="This headline" data-qs="This answers what people look for before paying, not what the author would like to tell."
+      data-imp="These six questions are the ones that stop a desktop software purchase in 2026: what goes to the internet, whether there is a hidden subscription and which listing to install." data-tipo="H2" data-padre="#faq">The six questions before paying.</h2>
+  <div class="faq">
+    <details class="rise" data-lectura data-z="Question: offline" data-qs="It separates what is read locally from what requires AI, which is the distinction almost nobody makes."
+      data-imp="A buyer who believes the app needs an AI subscription to work never gets to install it." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Does it work offline and without an API key?</summary>
+      <div class="a">Yes. Identifying the control and reading its metadata happen inside Windows with UI Automation, and the text is recognized with <code>Windows.Media.Ocr</code> on your own machine. Without a key you lose the expert advice written by AI, not the reading.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Question: the account" data-qs="It denies the two things that produce the most friction: sign-up and automatic renewal."
+      data-imp="It is the difference with almost everything else in this category: there is nobody to sell your email to." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Do I have to create an account?</summary>
+      <div class="a">No. The app has no server of its own and no sign-up. The license ties to the Microsoft account you use to install from the Store, and it is not a subscription: it is a <b>one-time payment for life</b>.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Question: what is uploaded" data-qs="It names the only moment when anything leaves the machine, and where it goes."
+      data-imp="If you are going to snip a dialog with sensitive data, you want to know this before, not after." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>What does my screen upload to the internet?</summary>
+      <div class="a">Nothing on its own. If you ask for an explanation with AI, the image of the area you snipped travels to the provider you configured, with your key encrypted on the machine with DPAPI. The password fields that UI Automation detects <b>are neither read nor sent</b>.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Question: Windows 10" data-qs="It fixes the minimum build and rules out ARM64 without detours."
+      data-imp="ARM64 is the most repeated question on Surface and on Snapdragon laptops. There is no ambiguity here." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Does it work on Windows 10?</summary>
+      <div class="a">Yes, from build <code>19041</code>, and also on Windows 11. There is only an x64 build: <b>there is no ARM64 build</b>.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Question: which listing" data-qs="It defuses the most expensive mistake: installing two listings that do the same and returning the second."
+      data-imp="Four products with similar names get confused on their own. This answer is the one that saves the refund." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Four listings that look alike, which one do I install?</summary>
+      <div class="a"><b>ToolTip AI</b> is the complete application: the three layers live on the same element, with a single panel and a single configuration. <b>Translate</b> and <b>Aura</b> are two of those layers living in their own listing. <b>Voice</b> and <b>Bridge</b> are two other utilities by the same author that are not part of the set. If you want the set, the listing is ToolTip AI.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Question: the end of the trial" data-qs="It says what happens on day 8, which is exactly what nobody clarifies."
+      data-imp="The real fear is not paying: it is being charged without being asked. Here it is ruled out explicitly." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>What happens when the free trial ends?</summary>
+      <div class="a">Each listing sets the duration in Microsoft Store. When it ends, the app stops answering until you buy the license. <b>There is no automatic charge</b>: there is no subscription to renew, so nobody charges you by surprise.</div>
+    </details>
   </div>
 </div></section>
 
 <section class="final" id="conseguir"><div class="wrap">
-  <h2 class="rise">Una app. Licencia de por vida.</h2>
-  <p class="rise">Se instala desde Microsoft Store y se actualiza sola. El precio lo muestra la Tienda en el momento de comprar: ninguna página de este producto escribe una cifra.</p>
+  <h2 class="rise">One app. Lifetime license.</h2>
+  <p class="rise">It installs from Microsoft Store and updates itself. The figure below is in dollars and it is today's; the Store converts it to your currency at the moment of paying and that is the one that counts.</p>
+  <div class="marca rise" data-lectura data-z="The price of the complete application" data-qs="It is the one-time payment for ToolTip AI, the suite with the three layers inside."
+       data-imp="It is not a subscription: you pay once and it ties to your Microsoft account. The four separate listings are billed apart and cheaper." data-tipo="price · USD" data-padre="#conseguir">
+    <b>$26.99</b><span>usd · one-time payment</span>
+  </div>
   <!-- Ficha unica del producto. Al consolidar la ficha en Partner Center,
        esta URL es la unica que cambia en todo el sitio. -->
-  <a class="pill rise" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Abrir en Microsoft Store</a>
+  <a class="pill rise" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Open in Microsoft Store</a>
+  <p class="rise" style="margin-top:20px;font-size:15px">Would you rather try first? <a href="#fichas" style="color:var(--aqua)">Four listings with a free trial</a>, from $11.99 and no card up front.</p>
   <div class="requisitos rise">
-    <span>Windows 10 19041 o más nuevo</span><span>Windows 11 · x64</span><span>Pago único</span><span>Sin cuenta de la app</span><span>es · es-419 · en</span>
+    <span>Windows 10 19041 or newer</span><span>Windows 11 · x64</span><span>One-time payment</span><span>No app account</span><span>Listing in es · es-419 · en</span>
+  </div>
+  <div class="prox rise" data-lectura data-z="Coming soon" data-qs="Four things that do not exist yet: the Mac version, the skins, the plugs and the extra skills."
+       data-imp="They are announced so the project has a visible direction, not as part of what you buy today. They have no date." data-tipo="roadmap" data-padre="#conseguir">
+    <span class="k">Coming soon · in development</span>
+    <div class="prox-g">
+      <div class="pi"><b>Mac App Store</b><small>The same idea outside Windows, getting ready for its own Store.</small></div>
+      <div class="pi"><b>Skins</b><small>Looks for the panel and the beam: palette, shape and text density.</small></div>
+      <div class="pi"><b>Plugs</b><small>Add-ons that plug into the reading and widen it without touching the rest.</small></div>
+      <div class="pi"><b>Extra skills</b><small>New behaviors that are activated separately inside the app.</small></div>
+    </div>
+    <p class="nota">None of these four exists yet and they have no date. They are said here so that you see where the project is going, not as something you are buying with the <b>$26.99</b> above.</p>
   </div>
 </div></section>
 
 <footer><div class="in">
-  <a href="/privacy/">Política de privacidad</a>
-  <a href="/privacy/#medicion">Qué se mide</a>
-  <button class="rewake" id="medicion-abrir" type="button" hidden>Volver a elegir medición</button>
-  <span class="cap">La interfaz que ves aquí está dibujada a partir de la real: las ventanas de la app están marcadas como no capturables, así que ninguna foto de pantalla sería posible.</span>
+  <a href="/privacy/en.html">Privacy policy</a>
+  <a href="/privacy/en.html#medicion">What is measured</a>
+  <button class="rewake" id="medicion-abrir" type="button" hidden>Choose measurement again</button>
+  <span class="cap">The interface you see here is drawn from the real one: the app's windows are marked as not capturable, so no screen photo would be possible.</span>
 </div></footer>
 
-<div class="consent" id="consent" role="region" aria-label="Medición de uso de esta página" hidden>
-  <p>Puede cargar <b>Google Analytics</b> y <b>Microsoft Clarity</b> para medir el tráfico. Sin tu permiso no se carga ninguno.</p>
+<div class="consent" id="consent" role="region" aria-label="Usage measurement for this page" hidden>
+  <p>It may load <b>Google Analytics</b> and <b>Microsoft Clarity</b> to measure traffic. Without your permission, neither one loads.</p>
   <div class="acts">
-    <button type="button" class="yes" id="medicion-si">Permitir medición</button>
-    <button type="button" id="medicion-no">Solo la página</button>
-    <a class="mas" href="/privacy/#medicion">Qué guardan</a>
+    <button type="button" class="yes" id="medicion-si">Allow measurement</button>
+    <button type="button" id="medicion-no">Page only</button>
+    <a class="mas" href="/privacy/en.html#medicion">What they store</a>
   </div>
 </div>
 
@@ -793,7 +1311,7 @@ if(!reduce)requestAnimationFrame(a=>{ultimo=a;requestAnimationFrame(tick)});
    exactamente lo que hace la app cuando te detienes sobre algo. Las cadenas del
    lienzo son las mismas que se leen mas abajo en esta pagina: el fondo es el producto. */
 function macro(gl){
-const ETIQUETAS=['Comprobar integridad al terminar','Mantener versiones anteriores','Opciones de copia de seguridad','Iniciar copia','Cancelar','explorer.exe','respuesta lista · 1,2 s','RESUMEN DIDÁCTICO','CONSECUENCIAS E IMPACTO','Qué es','Specs','Preguntar','Ctrl Shift C','ajustes','Recortar','CheckBox','POR QUÉ IMPORTA','seguro','unidad de red','ASISTENTE COGNITIVO'];
+const ETIQUETAS=['Verify integrity when done','Keep previous versions','Backup options','Start copy','Cancel','explorer.exe','answer ready · 1.2 s','TEACHING SUMMARY','CONSEQUENCES AND IMPACT','What it is','Specs','Ask','Ctrl Shift C','settings','Snip','CheckBox','WHY IT MATTERS','safe','network drive','COGNITIVE ASSISTANT'];
 function campoTexto(w,h){
   const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
   x.fillStyle='#04070B';x.fillRect(0,0,w,h);x.textBaseline='top';
@@ -947,15 +1465,18 @@ const flot=(function(){
   document.body.appendChild(n);
   return {root:n};
 })();
-/* El veredicto sigue la regla de la app: lo que solo informa dice "seguro", lo
-   que cambia algo al pulsarse (una casilla, un boton, un enlace) dice "revisar". */
+/* El veredicto sigue la regla de la app: lo que solo informa va en verde y lo
+   que cambia algo al pulsarse (una casilla, un boton, un enlace) va en ambar.
+   La clase se elige con el codigo y la etiqueta aparte, porque la portada
+   inglesa traduce la etiqueta y la hoja de estilos no. */
+const VEREDICTO={ok:'safe',warn:'review',danger:'dangerous'};
 function veredicto(el){
   const interactivo=el.matches('label,button,a,input')||el.querySelector('label,button,a,input')!==null;
-  return interactivo?'revisar':'seguro';
+  return interactivo?'warn':'ok';
 }
-function ponVeredicto(chip,v){
-  chip.className='chip ver'+(v==='seguro'?'':' '+v);
-  chip.querySelector('span').textContent=v;
+function ponVeredicto(chip,k){
+  chip.className='chip ver'+(k==='ok'?'':' '+k);
+  chip.querySelector('span').textContent=VEREDICTO[k];
 }
 function selectorDe(el){
   const clase=(el.className||'').split(/\s+/).filter(c=>c&&c!=='rise'&&c!=='lectura')[0];
@@ -963,18 +1484,18 @@ function selectorDe(el){
 }
 function rellena(e){
   const d=flot.root,cuerpo=d.querySelector('.body');
-  d.querySelector('.title').textContent=e.dataset.z||'Elemento de la página';
+  d.querySelector('.title').textContent=e.dataset.z||'Page element';
   d.querySelector('.chips .chip').textContent='chrome.exe';
   ponVeredicto(d.querySelector('.chip.ver'),veredicto(e));
-  d.querySelector('.live span').textContent='respuesta lista';
+  d.querySelector('.live span').textContent='answer ready';
   d.querySelector('.radarline b').style.width='100%';
   d.querySelector('.advice p').textContent=e.dataset.imp||'';
-  cuerpo.children[0].querySelector('.fk').textContent='QUÉ ES';
+  cuerpo.children[0].querySelector('.fk').textContent='WHAT IT IS';
   cuerpo.children[0].querySelector('.v1').textContent=e.dataset.qs||'';
-  cuerpo.children[1].querySelector('.v2').textContent='Demostración: el radar de esta página tarda 1,1 s en leer; el de la app lo ajustas tú de 0,8 a 8 segundos.';
+  cuerpo.children[1].querySelector('.v2').textContent='Demo: the radar on this page takes 1.1 s to read; in the app you set it yourself, from 0.8 to 8 seconds.';
   cuerpo.children[2].children[0].querySelector('.mono').textContent=e.dataset.tipo||'HTMLElement';
   cuerpo.children[2].children[1].querySelector('.mono').textContent=e.dataset.padre||'index.html';
-  cuerpo.children[2].children[1].querySelector('.v2').textContent=e.dataset.atajo||'sin atajo asignado';
+  cuerpo.children[2].children[1].querySelector('.v2').textContent=e.dataset.atajo||'no shortcut assigned';
   cuerpo.children[3].querySelector('.code span').textContent=selectorDe(e);
 }
 const cola={x:0,y:0};let ancla=null,espera=null,prog=null,visible=false;
@@ -1002,7 +1523,7 @@ function aparece(el){
     const p=Math.min(1,(now-inicio)/total);
     el.style.setProperty('--p',p);
     flot.root.querySelector('.radarline b').style.width=(p*100)+'%';
-    flot.root.querySelector('.live span').textContent=p<1?'escuchando…':'respuesta lista';
+    flot.root.querySelector('.live span').textContent=p<1?'listening…':'answer ready';
     if(p<1){prog=requestAnimationFrame(frame)}
     else{rellena(el);coloca(el);flot.root.classList.add('dentro');visible=true}
   }
@@ -1034,22 +1555,22 @@ const d_title=document.getElementById('d-title'),d_live=document.getElementById(
   d_cli=document.getElementById('d-cli'),d_proc=document.getElementById('d-proc'),
   d_ver=document.getElementById('d-ver'),d_atajo=document.getElementById('d-atajo');
 const STEPS=[
- {z:'Ajustar el tamaño del texto',a:'Ajusta el tamaño del texto de la interfaz si se ve pequeña en tu pantalla. Al activarlo recalcula el escalado y reorganiza el panel.',
-  why:'Es una preferencia de visualización: no toca archivos ni permisos. Si el texto se ve raro después, aquí se deshace.',
-  imp:'Al activarlo recalcula el escalado de toda la ventana. Guarda lo que tengas abierto por si acaso.',
-  t:'CheckBox',p:'config.exe',c:'explorer.exe',v:'seguro',s:'UIA · CheckBox · config.exe',n:'identidad del control',k:'Ctrl+Shift+C ajustes'},
- {z:'svchost.exe',a:'El elemento pertenece al proceso que tienes delante ahora mismo. Es él quien consume la CPU, no el sistema.',
-  why:'Saber de quién es el elemento decide qué puedes tocar sin romper nada.',
-  imp:'Agrupación de servicios de Windows. Matarlo cierra todo lo que cuelgue de ahí dentro.',
-  t:'Group',p:'services.exe',c:'svchost.exe',v:'revisar',s:'Shell · proceso dueño · lectura local',n:'proceso',k:'Ctrl+Shift+A recortar'},
- {z:'Vaciar el historial',a:'Ojo: borra el historial de sesiones al cerrar y no se puede deshacer. Guarda antes la sesión abierta.',
-  why:'Es de las pocas casillas de esta ventana que borra algo de verdad.',
-  imp:'Acción no reversible: no pasa por la papelera y no hay forma de recuperarlo.',
-  t:'Button',p:'App.exe',c:'explorer.exe',v:'peligroso',s:'UIA · Button · acción no reversible',n:'riesgo',k:'Ctrl+Shift+D radar'},
- {z:'Clave del registro del usuario',a:'Es un control nativo Win32 enlazado a una clave del registro del usuario. Cambiarlo afecta a la sesión actual.',
-  why:'Si algo se comporta raro solo en tu cuenta, casi siempre está aquí.',
-  imp:'Escribe en HKCU: cambia para este usuario, no para el equipo.',
-  t:'Win32 · HWND',p:'ntdll.dll',c:'HKCU\\Software\\…',v:'revisar',s:'HKCU · ventana contenedora',n:'código',k:'Ctrl+Shift+C ajustes'}
+ {z:'Adjust text size',a:'Scales the interface text when it looks small on your screen. Turning it on recomputes the scaling and rearranges the panel.',
+  why:'It is a display preference: it touches no files and no permissions. If the text looks odd afterwards, this is where you undo it.',
+  imp:'Turning it on recomputes the scaling of the whole window. Save what you have open, just in case.',
+  t:'CheckBox',p:'config.exe',c:'explorer.exe',v:'ok',s:'UIA · CheckBox · config.exe',n:'control identity',k:'Ctrl+Shift+C settings'},
+ {z:'svchost.exe',a:'The element belongs to the process you have in front of you right now. It is what uses the CPU, not the system.',
+  why:'Knowing which process an element belongs to decides what you can touch without breaking anything.',
+  imp:'A Windows service group. Killing it closes everything hanging off it.',
+  t:'Group',p:'services.exe',c:'svchost.exe',v:'warn',s:'Shell · owning process · local read',n:'process',k:'Ctrl+Shift+A snip'},
+ {z:'Clear history',a:'Careful: it clears the session history when you close and there is no undo. Save the open session first.',
+  why:'It is one of the few boxes in this window that really deletes something.',
+  imp:'Irreversible: it does not go through the Recycle Bin and nothing brings it back.',
+  t:'Button',p:'App.exe',c:'explorer.exe',v:'danger',s:'UIA · Button · irreversible action',n:'risk',k:'Ctrl+Shift+D radar'},
+ {z:'User registry key',a:'A native Win32 control bound to a user registry key. Changing it affects the current session.',
+  why:'If something behaves oddly only in your account, it is almost always here.',
+  imp:'It writes into HKCU: the change is for this user, not for the machine.',
+  t:'Win32 · HWND',p:'ntdll.dll',c:'HKCU\\Software\\…',v:'warn',s:'HKCU · container window',n:'code',k:'Ctrl+Shift+C settings'}
 ];
 let dragging=false,timer=null;
 function pintaPanel(i,p){
@@ -1069,13 +1590,13 @@ function setP(p){
   if(track.dataset.i==i){d_radar.style.width=(p*100)+'%';return}
   track.dataset.i=i;
   clearTimeout(timer);
-  st.className='st busy';st.textContent='escuchando';d_live.textContent='escuchando…';
+  st.className='st busy';st.textContent='listening';d_live.textContent='listening…';
   aq.style.opacity=0;ap.style.opacity=0;
   timer=setTimeout(()=>{
     const d=STEPS[i];
     st.className=i===2?'st busy':'st done';
-    st.textContent=i===2?'señal de riesgo':'respuesta lista';
-    d_live.textContent='respuesta lista · '+[1.2,2.4,3.1,1.8][i]+' s';
+    st.textContent=i===2?'risk signal':'answer ready';
+    d_live.textContent='answer ready · '+[1.2,2.4,3.1,1.8][i]+' s';
     aq.textContent=d.n.charAt(0).toUpperCase()+d.n.slice(1);ap.textContent=d.a;
     asp.textContent=d.s+' · '+d.n;
     aq.style.opacity=1;ap.style.opacity=1;
@@ -1093,7 +1614,7 @@ track.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')setP((cur-1)/STEPS.length);
 });
 track.tabIndex=0;track.setAttribute('role','slider');
-track.setAttribute('aria-label','Demostración: arrastra el puntero para leer un elemento');
+track.setAttribute('aria-label','Demo: drag the pointer to read an element');
 demo.addEventListener('pointermove',e=>{const r=demo.getBoundingClientRect();demo.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%')});
 setP(0.14);
 
@@ -1105,31 +1626,31 @@ setP(0.14);
     state=document.getElementById('lab-state'),radar=document.getElementById('lab-radar'),
     db=document.getElementById('lab-db'),f1=document.getElementById('lab-fk1'),
     t1=document.getElementById('lab-t1'),adv=document.getElementById('lab-advice');
-  const LECTURA='Relee lo copiado y lo compara: si algo se corrompió en el trayecto, aparece aquí y no dentro de un año.';
+  const LECTURA='It re-reads what was copied and compares: if something got corrupted on the way, it shows up here and not a year from now.';
   function pinta(){
     const enc=T.checked||R.checked||V.checked;
     off.classList.toggle('on',!enc);
-    if(!enc){offT.textContent='Con las tres capas apagadas, la app sigue leyendo.';
-      offS.textContent='El panel se queda con la identidad del control: nombre, tipo, valor y estado. Sin traducción, sin radar, sin voz.';
+    if(!enc){offT.textContent='With all three layers off, the app still reads.';
+      offS.textContent='The panel keeps the control identity: name, type, value and state. No translation, no radar, no voice.';
       /* el panel de detras tambien se pone en reposo: bajo el velo no puede quedar
-         un "hablando" de hace dos casillas */
-      state.textContent='en reposo';radar.style.opacity='.25';db.textContent='0.00 dB';db.style.opacity='.45';
+         un "speaking" de hace dos casillas */
+      state.textContent='idle';radar.style.opacity='.25';db.textContent='0.00 dB';db.style.opacity='.45';
       return}
     let s=[];
-    if(T.checked)s.push('láser');
+    if(T.checked)s.push('laser');
     if(R.checked)s.push('radar');
-    if(V.checked)s.push('voz');
+    if(V.checked)s.push('voice');
     const partes=[];
-    if(T.checked)partes.push('«Comprobare la integritat en acabar» — català, detectado por OCR de Windows.');
-    else partes.push('El OCR sigue leyendo el texto, pero la capa de traducción está apagada: verías el original tal cual.');
-    if(R.checked){partes.push('El radar está puesto: te responde solo cuando te detienes.');radar.style.opacity='1'}
-    else{partes.push('Sin radar: nada aparece solo, lo llamas con Ctrl+Shift+A sobre un área.');radar.style.opacity='.25'}
+    if(T.checked)partes.push('«Comprobare la integritat en acabar» — Catalan, detected by Windows OCR.');
+    else partes.push('The OCR still reads the text, but the translation layer is off: you would see the original exactly as it is.');
+    if(R.checked){partes.push('The radar is on: it answers only when you stop.');radar.style.opacity='1'}
+    else{partes.push('No radar: nothing shows up on its own, you call it with Ctrl+Shift+A over an area.');radar.style.opacity='.25'}
     db.textContent=V.checked?'2.40 dB':'0.00 dB';
     db.style.opacity=V.checked?'1':'.45';
-    f1.textContent=T.checked?'TRADUCCIÓN BAJO EL PUNTERO':'TEXTO LEÍDO, SIN TRADUCIR';
+    f1.textContent=T.checked?'TRANSLATION UNDER THE POINTER':'TEXT READ, NOT TRANSLATED';
     t1.textContent=partes[0];
-    adv.textContent=T.checked?LECTURA:'Sin la capa de traducción la asesoría sigue ahí: lo que se pierde es la lectura del texto en otro idioma.';
-    state.textContent=(V.checked?'hablando · ':'')+(R.checked?'radar activo · 3.0 seg':'radar apagado')+(s.length?' · '+'haz: '+s.join(' + '):'');
+    adv.textContent=T.checked?LECTURA:'Without the translation layer the advice is still there: what you lose is reading text in another language.';
+    state.textContent=(V.checked?'speaking · ':'')+(R.checked?'radar active · 3.0 s':'radar off')+(s.length?' · '+'beam: '+s.join(' + '):'');
     /* El aviso de MODO LOCAL no depende de ninguna casilla: habla de si hay clave
        de IA configurada, y aqui no la hay. Va siempre visible, como en la app. */
     // la clase de cada interruptor, para que se lea apagado de verdad
@@ -1157,7 +1678,7 @@ addEventListener('scroll',()=>document.getElementById('top').classList.toggle('s
 /* ---------- medicion: GA4 + Microsoft Clarity, solo con permiso ----------
    Los dos IDs son los de las propiedades reales del proyecto (GA `G-WSGPY3DK4Z`,
    Clarity `yx9lgph0yh`), verificados contra el endpoint de cada proveedor antes
-   de dejarlos aqui. Nada de esto toca la red hasta que se pulse "Permitir":
+   de dejarlos aqui. Nada de esto toca la red hasta que se pulse "Allow":
    por defecto no hay cookie de medicion ni observacion de comportamiento.
    La decision se guarda en el navegador (aqui no hay cuentas de usuario). */
 const GA_ID='G-WSGPY3DK4Z', CLARITY_ID='yx9lgph0yh', CLAVE='tooltipai.medicion.v1';

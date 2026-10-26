@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="cqqlBtntciRV89PVp7S2z9CqgupkGMD9XTkaD1op2Ow">
+<!-- CSP medida sobre lo que esta pagina carga de verdad: ni un origen de mas.
+     Fonts no: la tipografia es Segoe UI Variable del propio Windows.
+     Los unicos terceros admitidos son los dos declarados en /privacy/ y solo
+     se piden si el visitante da permiso (ver el bloque de medicion al final).
+     Sin frame-ancestors: dentro de una <meta> el navegador la IGNORA y ademas
+     deja un error en consola en cada carga. GitHub Pages no permite mandar
+     cabeceras de respuesta en dominio propio, asi que aqui no puede vivir;
+     el hueco esta declarado en MicrosoftStore_Submission/SECURITY_HEADERS.md.
+     Todo lo que se ve del producto esta dibujado con CSS y SVG en este mismo
+     fichero: no hay <img>, asi que ninguna ruta de imagen puede romperse. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>ToolTip AI — Apuntas. Responde.</title>
+<meta name="description" content="Una sola aplicación de Windows que lee lo que hay bajo tu cursor y lo explica: traduce, identifica el control, advierte del riesgo y lo lee en voz alta. Licencia de por vida, sin cuenta y sin servidor propio.">
+<link rel="canonical" href="https://tooltip-ai.com/es/">
+<!-- Cada portada se declara a si misma y a la otra. x-default apunta al ingles de
+     la raiz: es la portada a la que llega todo el mundo que entra desde fuera. -->
+<link rel="alternate" hreflang="es" href="https://tooltip-ai.com/es/">
+<link rel="alternate" hreflang="es-419" href="https://tooltip-ai.com/es/">
+<link rel="alternate" hreflang="en" href="https://tooltip-ai.com/">
+<link rel="alternate" hreflang="x-default" href="https://tooltip-ai.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ToolTip AI">
+<meta property="og:title" content="ToolTip AI — Apuntas. Responde.">
+<meta property="og:description" content="Dejas el puntero sobre cualquier control de Windows y la app te dice qué es, para qué sirve y qué pasa si lo pulsas.">
+<meta property="og:url" content="https://tooltip-ai.com/es/">
+<meta property="og:locale" content="es_MX">
+<meta property="og:locale:alternate" content="en_US">
+<!-- icon.png es de 1024x1024 y 1,7 MB: sirve como toque de pantalla de inicio,
+     no como vista previa. Las redes recortan el cuadrado y tardan en bajar ese
+     peso, justo cuando el enlace viaja por X, Reddit o Discord. La tarjeta es
+     1200x630 y pesa una fraccion. No es una captura: no puede serlo. -->
+<meta property="og:image" content="https://tooltip-ai.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ToolTip AI — el panel del HUD leyendo un control de Windows bajo el puntero.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ToolTip AI — Apuntas. Responde.">
+<meta name="twitter:description" content="Una app de Windows que explica lo que hay bajo tu cursor. Licencia de por vida de $26.99 y fichas sueltas que se prueban gratis antes de pagar.">
+<meta name="twitter:image" content="https://tooltip-ai.com/social-card.png">
+<meta name="theme-color" content="#04060A">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/icon.png">
+<style>
+/* ---------------------------------------------------------------------------
+   Paleta medida sobre el diseno de referencia (vidrio neon, no navy saturado):
+   aqua  #7BE4E4 -> #A5F2F4 -> #EAF6F8 · menta #B1F4D8 · oro palido #FEDA9A
+   violeta #837DD0 · negros con tinte cian. Sin filetes: la separacion es aire
+   y halo, nunca un borde de 1 px.
+
+   Dentro del panel replicado mandan los colores literales de HudWindow.xaml
+   (#38BDF8 sky, #00F5A0 verde, #A855F7 violeta, #F59E0B ambar, #0B1424 el
+   cristal del aviso) porque esa ventanaja NO es ilustracion: es la interfaz
+   real dibujada con las cadenas del XAML. Cualquier cambio en el panel real
+   tiene que replicarse aqui, y por eso estan nombrados los origenes.
+--------------------------------------------------------------------------- */
+:root{
+  --void:#04060A; --deep:#070C11; --soft:#0B1218; --glass:#101A20B8; --glass2:#14232BD0;
+  --ink:#EAF6F8; --aqua-hi:#A5F2F4; --dim:#9FB6BD; --faint:#7E959D;
+  --aqua:#7BE4E4; --mint:#B1F4D8; --gold:#FEDA9A; --gold-pale:#FDF9C5; --violet:#837DD0;
+  --sky:#38BDF8; --neon:#00F5A0; --am:#A855F7; --amber:#F59E0B;
+  --disp:'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;
+  --text:'Segoe UI Variable Text','Segoe UI',system-ui,sans-serif;
+  --mono:'Cascadia Mono','Cascadia Code',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ink);font-family:var(--text);line-height:1.62;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(123,228,228,.28);color:var(--void)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--aqua);outline-offset:3px;border-radius:3px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--glass2);color:var(--ink);padding:12px 18px;z-index:60;border-radius:0 0 12px 0}
+.skip:focus{left:0}
+canvas#fondo{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.85}
+main{position:relative;z-index:1}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* nav --------------------------------------------------------------------- */
+.top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:26px;padding:22px 32px;transition:background .3s,backdrop-filter .3s}
+.top.stuck{background:linear-gradient(180deg,rgba(4,6,10,.9),rgba(4,6,10,0));backdrop-filter:blur(14px) saturate(1.2)}
+.mark{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em;text-decoration:none}
+.mark .ring{width:15px;height:15px;border-radius:50%;background:conic-gradient(from 220deg,var(--aqua),var(--mint),var(--gold),var(--aqua));position:relative;box-shadow:0 0 16px rgba(123,228,228,.45)}
+.mark .ring::after{content:'';position:absolute;inset:4.5px;border-radius:50%;background:var(--void)}
+.top nav{margin-left:auto;display:flex;gap:24px;align-items:center}
+.top nav a{color:var(--dim);text-decoration:none;font-size:14px;transition:color .18s}
+.top nav a:hover{color:var(--ink)}
+.pill{background:linear-gradient(120deg,var(--aqua),var(--mint));color:#04121A;font-weight:600;font-size:14px;padding:10px 19px;border-radius:999px;text-decoration:none;display:inline-block;transition:transform .18s,box-shadow .18s;box-shadow:0 0 0 rgba(123,228,228,0)}
+.pill:hover{transform:translateY(-1px);box-shadow:0 10px 28px -12px rgba(123,228,228,.85)}
+.top nav a.pill{color:#04121A}
+.top nav a.pill:hover{color:#04121A}
+.top nav a.lang{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);
+  border:1px solid rgba(234,246,248,.14);border-radius:999px;padding:5px 10px;transition:color .18s,border-color .18s}
+.top nav a.lang:hover{color:var(--aqua);border-color:rgba(123,228,228,.5)}
+@media(max-width:1020px){.top nav a:not(.pill):not(.lang){display:none}.top{padding:18px 22px}}
+
+/* secciones --------------------------------------------------------------- */
+section{padding:112px 0}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(30px,4.2vw,54px);letter-spacing:-.03em;line-height:1.06;max-width:17ch}
+.lead{margin-top:20px;color:var(--dim);font-size:18px;max-width:54ch}
+[id]{scroll-margin-top:96px}
+
+/* panel de vidrio: el limite lo marca el halo, no un trazo ---------------- */
+.glass{position:relative;background:linear-gradient(180deg,var(--glass2),var(--glass));backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border-radius:26px;box-shadow:0 30px 70px -40px rgba(0,0,0,.9),inset 0 1px 0 rgba(234,246,248,.06)}
+
+/* ---------------------------- la pieza: el panel real ------------------- */
+/* Reusa la estructura de HudWindow.xaml: cabecera con badge de dominio, chip
+   de proceso y veredicto; linea de senal viva; aviso MODO LOCAL; tarjeta
+   "POR QUÉ IMPORTA"; pestanas Qué es / Specs / Preguntar; pie con los kbd. */
+.hud{position:relative;width:100%;max-width:392px;border-radius:14px;overflow:hidden;
+  background:linear-gradient(168deg,rgba(16,26,38,.94),rgba(6,11,17,.96));
+  -webkit-backdrop-filter:blur(30px) saturate(160%);backdrop-filter:blur(30px) saturate(160%);
+  box-shadow:0 44px 90px -34px rgba(0,0,0,.94),0 12px 30px -16px rgba(0,0,0,.7),inset 0 1px 0 rgba(234,246,248,.07)}
+.hud .hh{display:flex;align-items:flex-start;gap:10px;padding:11px 12px 7px}
+.hud .hh .who{flex:1;min-width:0}
+.hud .badge{display:inline-block;background:rgba(167,139,250,.2);color:#D8B4FE;border-radius:5px;padding:2px 6px;font-size:9px;font-weight:700;letter-spacing:.09em;margin-bottom:5px}
+.hud .title{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud .chips{display:flex;align-items:center;gap:4px;margin-top:5px;flex-wrap:wrap}
+.hud .chip{background:rgba(234,246,248,.09);border-radius:4px;padding:2.5px 5px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--dim)}
+.hud .chip.sky{background:rgba(56,189,248,.14);color:#7DD3FC}
+.hud .chip.ver{background:rgba(0,0,0,.28);display:inline-flex;align-items:center;gap:4px;color:var(--dim)}
+.hud .chip.ver.warn{color:#FCD34D}
+.hud .chip.ver.warn .dot{background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,.7)}
+.hud .chip.ver.danger{color:#FDA4AF}
+.hud .chip.ver.danger .dot{background:#FB7185;box-shadow:0 0 8px rgba(251,113,133,.7)}
+.hud .dot{width:5px;height:5px;border-radius:50%;background:var(--neon);flex:none}
+.hud .tools{display:flex;gap:4px;flex:none}
+.hud .tool{width:19px;height:19px;border-radius:6px;background:rgba(234,246,248,.07);display:grid;place-items:center}
+.hud .tool svg{width:10px;height:10px;fill:none;stroke:var(--dim);stroke-width:1.7;stroke-linecap:round}
+.hud .live{display:flex;align-items:center;gap:6px;padding:0 12px 8px;font-size:9.5px;font-weight:600;color:var(--dim);font-variant-numeric:tabular-nums}
+.hud .live i{width:5px;height:5px;border-radius:50%;background:var(--sky);opacity:.4}
+.hud .live svg{width:11px;height:11px;fill:none;stroke:var(--sky);stroke-width:1.6}
+.hud .radarline{height:2px;margin:-4px 12px 8px;border-radius:999px;background:rgba(234,246,248,.07);overflow:hidden}
+.hud .radarline b{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--aqua),var(--gold));box-shadow:0 0 10px rgba(123,228,228,.6)}
+.hud .notice{margin:0 12px 8px;display:flex;align-items:center;gap:8px;background:rgba(40,26,8,.62);border-radius:8px;padding:6px 8px}
+.hud .notice .nt{color:var(--amber);font-size:9px;font-weight:700;letter-spacing:.09em}
+.hud .notice .ns{color:var(--dim);font-size:9.5px;line-height:1.35}
+.hud .notice .cfg{margin-left:auto;flex:none;background:var(--amber);color:#081C33;border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700}
+.hud .advice{margin:0 12px 9px;background:rgba(11,20,36,.72);border-radius:9px;padding:9px 10px}
+.hud .advice .ah{display:flex;align-items:center;gap:5px;color:var(--am);font-size:9px;font-weight:700;letter-spacing:.09em;margin-bottom:4px}
+.hud .advice .ah svg{width:9px;height:9px;fill:none;stroke:var(--am);stroke-width:1.6;stroke-linejoin:round}
+.hud .advice p{margin:0;font-size:11.5px;line-height:1.45;color:var(--ink)}
+.hud .tabs{display:flex;gap:3px;padding:0 12px}
+.hud .tabs span{font-size:10px;font-weight:600;padding:4px 9px;border-radius:6px 6px 0 0;color:var(--faint);background:rgba(234,246,248,.04)}
+.hud .tabs span.on{color:var(--ink);background:rgba(56,189,248,.13)}
+.hud .body{padding:9px 12px 11px;display:grid;gap:8px}
+.hud .fk{font-family:var(--mono);font-size:9px;letter-spacing:.13em;color:var(--faint);margin-bottom:2px}
+.hud .v1{font-size:11.5px;line-height:1.5;color:var(--ink)}
+.hud .v2{font-size:11px;line-height:1.5;color:var(--dim)}
+.hud .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.hud .mono{font-family:var(--mono);font-size:10.5px;font-weight:700}
+.hud .mono.g{color:var(--neon)}.hud .mono.a{color:var(--amber)}.hud .mono.s{color:#7DD3FC}
+.hud .code{background:rgba(4,8,15,.55);border-radius:6px;padding:5px 7px;font-family:var(--mono);font-size:10px;color:#7DD3FC;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.hud .code em{font-style:normal;color:var(--neon);font-size:9px;font-weight:700}
+.hud .hf{display:flex;align-items:center;gap:4px;padding:8px 12px 10px}
+.hud .hf .kb{background:rgba(234,246,248,.09);border-radius:3px;padding:1px 4px;font-family:var(--mono);font-size:8.5px;color:var(--dim)}
+.hud .hf .lbl{font-size:9px;color:var(--faint);margin-right:auto}
+.hud .hf .snip{font-size:9.5px;font-weight:600;color:#7DD3FC}
+.hud .glow{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--aqua),transparent);opacity:.5}
+.hud .tag{position:absolute;right:12px;top:11px;z-index:2}
+
+/* El radar de la pagina: mientras el puntero se detiene sobre un elemento, ese
+   elemento recoge halo. El halo se alimenta de --p (0 -> 1) que escribe el bucle
+   de progreso, asi que el visitante ve cuanto falta para la lectura. No es un
+   filete: es luz, y se va cuando el puntero se mueve. */
+[data-lectura]{position:relative}
+[data-lectura].lectura::after{content:'';position:absolute;inset:-4px -7px;border-radius:14px;pointer-events:none;
+  box-shadow:0 0 34px 4px rgba(123,228,228,.3);opacity:var(--p,0)}
+
+/* -------------------------- escena del producto ------------------------- */
+.hero{min-height:min(100svh,940px);display:flex;align-items:center;padding:120px 0 72px}
+.hero>.wrap{width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);gap:56px;align-items:center}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(40px,5.9vw,84px);line-height:.98;letter-spacing:-.04em;max-width:14ch}
+h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-pale));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{margin-top:26px;font-size:clamp(17px,1.7vw,20px);color:var(--dim);max-width:44ch;line-height:1.55}
+.hero .go{margin-top:38px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.hero .go .pill{font-size:15px;padding:13px 24px}
+.hero .go .otro{font-size:14.5px;color:var(--dim);text-decoration:none;border-bottom:1px solid rgba(123,228,228,.28);padding-bottom:2px;transition:color .2s,border-color .2s}
+.hero .go .otro:hover{color:var(--aqua);border-color:var(--aqua)}
+.hero .go .importe{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--faint);white-space:nowrap}
+.hero .go .importe b{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--aqua-hi);margin-right:3px}
+.hero .hint{margin-top:26px;color:var(--faint);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:11px}
+.hero .hint .ln{width:44px;height:1px;background:linear-gradient(90deg,var(--faint),transparent)}
+@media(max-width:1020px){.hero>.wrap{grid-template-columns:1fr;gap:44px}.hero{padding:104px 0 56px;min-height:0}}
+
+/* El escenario se acota a si mismo: cuando la portada pasa a una sola columna el
+   cuadro no se estira a lo ancho de la pagina, mantiene sus 560 px y se centra.
+   Se acota con width + justify-self, no con max-width, porque max-width desactiva
+   el estirado de la rejilla y el cuadro se quedaba en 315 px. */
+.stage{position:relative;width:min(560px,100%);justify-self:center;min-height:470px;display:grid;place-items:center;isolation:isolate}
+/* Todo el cuadro se ancla al dialogo: puntero, haz y lente se colocan en coordenadas
+   de la ventana, asi que el cursor cae siempre sobre la fila que se esta leyendo sea
+   cual sea el ancho. El panel del HUD entra en porcentaje del escenario y por eso no
+   se sale nunca de la columna de contenido, que era lo que lo hacia parecer un error. */
+.escena{position:relative;width:min(392px,78%);z-index:1}
+/* la ventana de Windows bajo el puntero: dibujada, no fotografiada */
+.win{position:relative;width:100%;border-radius:11px;overflow:hidden;background:#0E1620;
+  box-shadow:0 50px 90px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(234,246,248,.08)}
+.win .cap{display:flex;align-items:center;gap:9px;padding:9px 11px;background:#131C28}
+.win .cap .ic{width:14px;height:14px;border-radius:3px;background:linear-gradient(140deg,#2A3A48,#18242F)}
+.win .cap .nm{font-size:11.5px;color:#C3D2DC;letter-spacing:-.01em;flex:1;white-space:nowrap;overflow:hidden}
+.win .cap .wbtns{display:flex;gap:2px;flex:none}
+.win .cap .wbtns i{width:11px;height:11px;border-radius:2px;background:rgba(234,246,248,.12)}
+.win .bd{padding:16px 16px 18px;background:#0E1620}
+.win .bd .fila{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:7px;background:rgba(234,246,248,.05)}
+.win .bd .fila.activo{background:rgba(56,189,248,.13)}
+.win .bd .cbx{width:15px;height:15px;border-radius:4px;background:rgba(234,246,248,.14);flex:none}
+.win .bd .fila.activo .cbx{background:linear-gradient(140deg,#7BE4E4,#B1F4D8)}
+.win .bd .tx{font-size:12.5px;color:#DCE9EE;line-height:1.3}
+.win .bd .tx small{display:block;font-size:10.5px;color:#8FA3AC;margin-top:2px}
+.win .bd .btn{margin-top:14px;display:flex;justify-content:flex-end;gap:8px}
+.win .bd .btn span{font-size:11.5px;padding:6px 14px;border-radius:5px;background:rgba(234,246,248,.08);color:#C3D2DC}
+.win .bd .btn span.p{background:#2A5F8F;color:#EAF6F8}
+/* el cursor, clavado en la casilla de la fila que se esta leyendo. Se ancla al pie
+   del dialogo, no a su techo: si el texto de una fila ocupa dos lineas la casilla
+   sigue a la misma distancia de los botones y la punta no se despega. */
+.needle{position:absolute;left:25px;bottom:72px;width:22px;height:22px;z-index:6;filter:drop-shadow(0 0 12px rgba(123,228,228,.85))}
+.needle svg{width:22px;height:22px}
+/* la laguna de luz del haz alrededor del cursor: por encima de la ventana, como el
+   overlay real, y sumando luz (screen) en lugar de taparla */
+.pond{position:absolute;left:34px;bottom:88px;width:190px;height:190px;border-radius:50%;z-index:2;
+  transform:translate(-50%,50%);mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(123,228,228,.26),rgba(123,228,228,.08) 42%,transparent 68%);
+  animation:latido 2.4s ease-in-out infinite}
+@keyframes latido{0%,100%{transform:translate(-50%,50%) scale(.92);opacity:.75}50%{transform:translate(-50%,50%) scale(1.06);opacity:1}}
+.stage .hud{position:absolute;left:54%;top:0;z-index:4;width:min(252px,45%);max-width:none;animation:despega 1.1s cubic-bezier(.2,.7,.3,1) both}
+@keyframes despega{from{opacity:0;transform:translateY(10px) scale(.97);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+/* la lente de traduccion: sin panel, texto puro sobre velo (TranslateOverlayWindow.xaml).
+   Colgada de la misma medida que la fila activa: seis px por debajo de su pie. */
+.lens{position:absolute;z-index:5;left:16px;top:calc(100% - 67px);max-width:48%;border-radius:8px;padding:6px 11px;
+  background:linear-gradient(90deg,rgba(3,6,14,0),rgba(3,6,14,.52) 8%,rgba(3,6,14,.56) 50%,rgba(3,6,14,.52) 92%,rgba(3,6,14,0));
+  box-shadow:0 12px 26px -12px rgba(0,0,0,.75);overflow:hidden}
+.lens b{display:block;font-size:13.5px;font-weight:700;color:#fff;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.95)}
+.lens small{display:block;font-size:10px;font-weight:500;color:#93C5FD;margin-top:2px;text-shadow:0 1px 2px rgba(0,0,0,.95)}
+.lens .barra{position:absolute;top:0;bottom:0;width:20px;left:-24px;background:linear-gradient(90deg,rgba(56,189,248,0),rgba(125,211,252,.55),rgba(56,189,248,0));animation:barrido 3.4s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes barrido{0%{left:-24px;opacity:0}8%{opacity:1}72%{left:104%;opacity:1}80%,100%{left:104%;opacity:0}}
+.stage .rot{position:absolute;left:0;right:47%;bottom:2px;font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+@media(max-width:560px){.stage{min-height:0;width:100%;place-items:stretch}.escena{width:100%}.stage .hud{position:static;width:100%;max-width:none;margin-top:18px}.lens,.pond,.needle,.stage .rot{display:none}
+  /* En el movil la banda cae justo detras del parrafo del heroe: baja un poco la
+     intensidad para que la luz no le dispute las letras al texto. */
+  canvas#fondo{opacity:.62}}
+
+/* --------------------------- que se compra ------------------------------ */
+.oferta{display:grid;grid-template-columns:1.06fr .94fr;gap:52px;align-items:start;margin-top:56px}
+.oferta .claim{font-family:var(--disp);font-size:clamp(20px,2.2vw,27px);font-weight:600;letter-spacing:-.02em;line-height:1.3;color:var(--ink)}
+.oferta .claim b{color:var(--aqua-hi);font-weight:600}
+.libro{display:grid;gap:0}
+.libro .p{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:15px 0;align-items:baseline}
+.libro .p+.p{box-shadow:0 -1px 0 rgba(234,246,248,.05)}
+.libro dt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.libro dd{font-size:15px;color:var(--ink);line-height:1.5}
+.libro dd small{display:block;color:var(--dim);font-size:13px;margin-top:3px}
+.libro dd small a{color:var(--aqua);text-decoration:none;border-bottom:1px solid rgba(123,228,228,.3)}
+.libro dd small a:hover{color:var(--aqua-hi);border-color:var(--aqua-hi)}
+@media(max-width:900px){.oferta{grid-template-columns:1fr;gap:34px}.libro .p{grid-template-columns:120px 1fr;gap:14px}}
+@media(max-width:520px){.libro .p{grid-template-columns:1fr;gap:4px}.libro .p+.p{box-shadow:0 -1px 0 rgba(234,246,248,.05);padding-top:18px}}
+
+/* ---------------------------- las capas --------------------------------- */
+.capas{margin-top:52px;display:grid;grid-template-columns:.96fr 1.04fr;gap:44px;align-items:start}
+.switches{display:grid;gap:10px}
+.sw{display:flex;gap:14px;padding:18px 20px;cursor:pointer;transition:transform .22s,box-shadow .22s;background:linear-gradient(180deg,var(--glass2),var(--glass));border-radius:18px;-webkit-backdrop-filter:blur(22px) saturate(1.35);backdrop-filter:blur(22px) saturate(1.35);box-shadow:0 26px 54px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(234,246,248,.06)}
+.sw:hover{transform:translateY(-2px)}
+.sw input{position:absolute;opacity:0;width:1px;height:1px}
+.sw .box{flex:none;width:38px;height:22px;border-radius:999px;background:rgba(234,246,248,.1);position:relative;transition:background .25s;margin-top:2px}
+.sw .box::after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:var(--dim);transition:transform .25s,background .25s}
+.sw input:checked+.box{background:linear-gradient(120deg,rgba(123,228,228,.4),rgba(177,244,216,.32))}
+.sw input:checked+.box::after{transform:translateX(16px);background:var(--aqua)}
+.sw input:focus-visible+.box{outline:2px solid var(--aqua);outline-offset:3px}
+.sw .t{flex:1;min-width:0}
+.sw .t b{display:block;font-family:var(--disp);font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+.sw .t span{display:block;color:var(--dim);font-size:14px;margin-top:5px;line-height:1.5}
+.sw .t em{display:block;font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.02em;color:var(--faint);margin-top:8px}
+.sw.apagada .t b{color:var(--dim)}
+/* el panel que responde a lo que conmutas */
+.laboratorio{position:relative;padding:26px 24px;min-height:398px;display:grid;place-items:center;overflow:hidden}
+.laboratorio .hud{width:100%;max-width:330px}
+.laboratorio .capa-off{position:absolute;inset:0;display:grid;place-content:center;gap:8px;text-align:center;padding:26px;background:rgba(4,6,10,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+.laboratorio .capa-off.on{opacity:1;pointer-events:auto}
+.laboratorio .capa-off b{font-family:var(--disp);font-size:18px;font-weight:600}
+.laboratorio .capa-off span{color:var(--dim);font-size:13.5px;max-width:30ch}
+.cita-haz{margin-top:34px;font-family:var(--disp);font-size:clamp(17px,1.9vw,22px);font-weight:600;letter-spacing:-.02em;line-height:1.4;color:var(--aqua-hi);max-width:44ch}
+.cita-haz small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:10px}
+.subnote{margin-top:14px;font-size:14.5px;line-height:1.55;color:var(--faint);max-width:62ch}
+@media(max-width:900px){.capas{grid-template-columns:1fr;gap:26px}}
+
+/* --------------------------- la demo del gesto -------------------------- */
+.demo{margin-top:52px;padding:32px 32px 36px;overflow:hidden}
+.demo:before{content:'';position:absolute;inset:0;background:radial-gradient(620px 230px at var(--mx,50%) 34%,rgba(123,228,228,.14),transparent 70%);pointer-events:none;transition:background .2s}
+.demo .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;gap:16px}
+.track{margin-top:24px;position:relative;height:74px;cursor:ew-resize;touch-action:none}
+.track .rail{position:absolute;top:35px;left:0;right:0;height:3px;border-radius:999px;background:linear-gradient(90deg,rgba(234,246,248,.22),rgba(234,246,248,.1))}
+.track .fill{position:absolute;top:35px;left:0;height:3px;width:0;border-radius:999px;background:linear-gradient(90deg,var(--aqua),var(--mint));box-shadow:0 0 22px rgba(123,228,228,.7),0 0 2px rgba(165,242,244,.9)}
+.track .head{position:absolute;top:24px;left:0;width:26px;height:26px;margin-left:-13px;display:grid;place-items:center}
+.track .head svg{width:26px;height:26px;filter:drop-shadow(0 0 13px rgba(123,228,228,.8))}
+.track .stops{position:absolute;top:58px;left:0;right:0;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.demo .interior{margin-top:28px;display:grid;grid-template-columns:1fr auto;gap:34px;align-items:start}
+.demo .explic{min-width:0}
+.demo .st{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--aqua-hi);transition:color .3s}
+.demo .st.busy{color:var(--gold)}.demo .st.done{color:var(--mint)}
+.demo h3{margin-top:14px;font-family:var(--disp);font-size:clamp(22px,2.6vw,33px);font-weight:600;letter-spacing:-.02em;line-height:1.16;transition:opacity .35s}
+.demo .explic p{margin-top:10px;color:var(--dim);font-size:16.5px;max-width:46ch;transition:opacity .35s}
+.demo .src{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em}
+@media(max-width:980px){.demo .interior{grid-template-columns:1fr;gap:26px}.demo .hud{width:100%;max-width:none}}
+@media(max-width:620px){.track .stops{font-size:10.5px}.demo{padding:24px 20px 30px}}
+
+/* --------------------------- la senal viva ------------------------------ */
+.strip{margin-top:52px;display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding:0;overflow:hidden}
+.strip .c{padding:26px 20px 28px;position:relative}
+.strip .c+.c{box-shadow:inset 1px 0 0 rgba(234,246,248,.05)}
+.wave{height:26px;position:relative;overflow:hidden;margin-bottom:16px}
+.wave i{position:absolute;top:50%;left:-30%;width:160%;height:var(--al,3px);margin-top:calc(var(--al,3px) / -2);border-radius:999px;
+  background:linear-gradient(90deg,transparent,var(--c1) 28%,var(--c2,#fff) 50%,var(--c1) 72%,transparent);
+  box-shadow:0 0 16px var(--c1);animation:recorre var(--dur,2s) linear infinite;animation-play-state:paused;filter:blur(.4px)}
+/* El bucle solo corre mientras la franja esta en pantalla: fuera de ella no hay
+   nada que ritmo que mostrar, y el navegador no gasta un pintado por cuadro. */
+.strip.en .wave i{animation-play-state:running}
+@keyframes recorre{from{transform:translateX(-18%)}to{transform:translateX(18%)}}
+.strip h3{font-family:var(--disp);font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+.strip p{margin-top:7px;color:var(--dim);font-size:14px;line-height:1.5}
+.strip code{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
+@media(max-width:900px){.strip{grid-template-columns:repeat(2,1fr)}.strip .c:nth-child(odd){box-shadow:none}.strip .c:nth-child(n+3){box-shadow:inset 0 1px 0 rgba(234,246,248,.05)}}
+@media(max-width:560px){.strip{grid-template-columns:1fr}.strip .c+.c{box-shadow:inset 0 1px 0 rgba(234,246,248,.05)}}
+.tune{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px 30px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--faint)}
+.tune b{color:var(--aqua-hi);font-weight:600}
+.comport{margin-top:44px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+.comport .big{font-family:var(--disp);font-size:clamp(20px,2.3vw,28px);font-weight:600;letter-spacing:-.02em;line-height:1.34}
+.comport .big b{color:var(--aqua-hi);font-weight:600}
+.comport ul{list-style:none;display:grid;gap:12px}
+.comport li{padding:15px 20px 15px 36px;font-size:15.5px;color:var(--dim);position:relative;line-height:1.58;background:linear-gradient(180deg,rgba(20,35,43,.5),rgba(16,26,32,.34));border-radius:16px}
+.comport li b{color:var(--ink);font-weight:600}
+.comport li::before{content:'';position:absolute;left:16px;top:24px;width:6px;height:6px;border-radius:50%;background:var(--mint);opacity:.85;box-shadow:0 0 10px rgba(177,244,216,.6)}
+@media(max-width:860px){.comport{grid-template-columns:1fr;gap:26px}}
+
+/* --------------------------- las cuatro fichas ---------------------------
+   Cuatro fichas vivas en la Tienda, cada una con su propio color de senal
+   heredado del HUD. La linea de la izquierda no es decoracion: es el haz del
+   estado, y es lo unico que separa una ficha de otra. Sin bordes de 1 px. */
+.fichas{margin-top:52px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.ficha{position:relative;padding:24px 24px 22px 28px;display:flex;flex-direction:column;overflow:hidden;
+  transition:transform .22s,box-shadow .22s}
+.ficha:hover{transform:translateY(-2px);box-shadow:0 34px 66px -36px rgba(0,0,0,.95),inset 0 1px 0 rgba(234,246,248,.09)}
+.ficha::before{content:'';position:absolute;left:11px;top:24px;bottom:24px;width:2px;border-radius:999px;
+  background:linear-gradient(180deg,var(--fc,var(--aqua)),rgba(4,6,10,0));box-shadow:0 0 14px var(--fc,var(--aqua))}
+.ficha .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.ficha h3{margin-top:10px;font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.ficha h3 i{font-style:normal;color:var(--fc,var(--aqua-hi))}
+.ficha p{margin-top:10px;color:var(--dim);font-size:14.5px;line-height:1.56;flex:1;max-width:44ch}
+.ficha .meta{margin-top:18px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.05em;border-radius:999px;padding:5px 11px;
+  color:var(--mint);background:rgba(177,244,216,.1)}
+.tag.muda{color:var(--faint);background:rgba(234,246,248,.05)}
+.ficha .ir{margin-top:16px;font-size:14px;font-weight:600;color:var(--aqua);text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px;width:max-content;transition:gap .2s}
+.ficha .ir:hover{gap:12px}
+.ficha .pie{margin-top:16px;display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.ficha .pie .ir{margin-top:0}
+.precio{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.01em;color:var(--fc,var(--aqua-hi));
+  display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap}
+.precio small{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;color:var(--faint)}
+.ficha .ir svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:700px){.fichas{grid-template-columns:1fr}}
+
+/* ------------------------------- las dudas -------------------------------
+   Los <details> nativos: sin JavaScript ya funcionan, y el estado abierto se
+   imprime. La marca es un signo del haz, no un chevron heredado del navegador. */
+.faq{margin-top:48px;display:grid;gap:8px;max-width:920px}
+.faq details{background:linear-gradient(180deg,var(--glass2),var(--glass));border-radius:18px;overflow:hidden;
+  -webkit-backdrop-filter:blur(22px) saturate(1.35);backdrop-filter:blur(22px) saturate(1.35);
+  box-shadow:0 26px 54px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(234,246,248,.06)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:14px;padding:19px 22px;
+  font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:'+';flex:none;font-family:var(--mono);font-weight:400;font-size:17px;line-height:1;
+  color:var(--aqua);transform:translateY(1px)}
+.faq details[open] summary::before{content:'\2013';color:var(--gold)}
+.faq summary:focus-visible{outline:2px solid var(--aqua);outline-offset:-3px;border-radius:18px}
+.faq .a{padding:0 24px 22px 50px;color:var(--dim);font-size:15.5px;line-height:1.62;max-width:74ch}
+.faq .a b{color:var(--ink);font-weight:600}
+.faq .a code{font-family:var(--mono);font-size:13px;color:var(--aqua-hi)}
+
+/* --------------------------- los gestos --------------------------------- */
+.hot{margin-top:44px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.hot .h{padding:16px 20px;display:flex;align-items:center;gap:13px;transition:transform .22s,box-shadow .22s}
+.hot .h:hover{transform:translateY(-2px)}
+.hot kbd{font-family:var(--mono);font-size:12px;background:rgba(234,246,248,.08);color:var(--ink);padding:5px 9px;border-radius:7px}
+.hot .h>span{color:var(--dim);font-size:14.5px}
+.hot .h>span b{color:var(--ink);font-weight:600}
+@media(max-width:700px){.hot{grid-template-columns:1fr}}
+
+/* --------------------------- cierre ------------------------------------- */
+.final{text-align:center;padding:140px 0 120px}
+.final h2{margin:0 auto;max-width:15ch}
+.final p{margin:22px auto 0;color:var(--dim);max-width:46ch;font-size:17px}
+.final .pill{margin-top:36px;font-size:16px;padding:15px 32px;display:inline-block}
+.final small{display:block;margin-top:16px;color:var(--faint);font-size:13.5px}
+.requisitos{margin:38px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:660px}
+.requisitos span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--dim);background:rgba(234,246,248,.05);border-radius:999px;padding:7px 13px}
+.marca{margin:32px auto 0;display:flex;align-items:baseline;justify-content:center;gap:13px;flex-wrap:wrap}
+.marca b{font-family:var(--disp);font-size:clamp(40px,6.4vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(100deg,var(--aqua-hi),var(--mint));-webkit-background-clip:text;background-clip:text;color:transparent}
+.marca span{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.prox{margin:66px auto 0;max-width:900px;text-align:left;border:1px solid rgba(234,246,248,.09);border-radius:18px;padding:25px 27px;
+  background:linear-gradient(180deg,rgba(234,246,248,.035),rgba(4,6,10,0))}
+.prox .k{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.prox .k::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--gold);box-shadow:0 0 11px var(--gold)}
+.prox-g{margin-top:17px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.prox .pi{position:relative;padding-left:14px}
+.prox .pi::before{content:'';position:absolute;left:0;top:.55em;width:2px;height:calc(100% - .9em);border-radius:999px;
+  background:linear-gradient(180deg,rgba(234,246,248,.3),rgba(234,246,248,0))}
+.prox .pi b{display:block;font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:-.015em;color:var(--ink)}
+.prox .pi small{display:block;margin-top:5px;font-size:13px;line-height:1.5;color:var(--dim)}
+.prox .nota{margin:19px 0 0;max-width:none;font-size:12.5px;line-height:1.55;color:var(--faint)}
+@media(max-width:700px){.prox{padding:20px 18px}}
+
+footer{padding:36px 0 60px;position:relative;z-index:1}
+footer .in{max-width:1180px;margin:0 auto;padding:0 32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;color:var(--faint);font-size:13.5px}
+footer a{color:var(--faint);text-decoration:none}
+footer a:hover{color:var(--dim)}
+footer .rewake{border:0;-webkit-appearance:none;appearance:none;background:none;padding:0;margin:0;font-family:var(--text);font-size:13.5px;color:var(--faint);cursor:pointer;text-align:left}
+footer .rewake:hover{color:var(--aqua)}
+footer .rewake:focus-visible{outline:2px solid var(--aqua);outline-offset:3px;border-radius:6px}
+footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;line-height:1.5}
+@media(max-width:620px){footer .cap{margin-left:0;text-align:left}}
+
+/* revelados: uno solo authored, el resto del page no se entera ------------ */
+.rise{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.rise.in{opacity:1;transform:none}
+
+/* ------------------- el panel flotante del radar de la pagina ----------- */
+.hud.flotante{position:fixed;z-index:20;width:296px;max-width:calc(100vw - 32px);opacity:0;pointer-events:none;
+  transform:translateY(8px) scale(.98);filter:blur(7px);transition:opacity .28s,transform .28s,filter .28s}
+.hud.flotante.dentro{opacity:1;transform:none;filter:blur(0)}
+@media(hover:none),(max-width:900px){.hud.flotante{display:none}}
+
+/* medicion -----------------------------------------------------------------
+   El aviso no es una barra que cruza la pantalla ni un bloque que se planta
+   encima del boton de compra: una sola linea baja, a la izquierda, con la misma
+   luz que el vidrio de la portada. Sin filetes: la separacion con el fondo la
+   hacen la sombra exterior y el desenfoque. */
+.consent{position:fixed;left:24px;bottom:18px;z-index:40;max-width:min(700px,calc(100vw - 48px));
+  display:flex;align-items:center;gap:10px 22px;flex-wrap:wrap;padding:12px 16px;border-radius:16px;
+  background:linear-gradient(155deg,rgba(20,35,43,.9),rgba(7,12,17,.94));
+  -webkit-backdrop-filter:blur(26px) saturate(160%);backdrop-filter:blur(26px) saturate(160%);
+  box-shadow:0 30px 70px -26px rgba(0,0,0,.9),0 14px 34px -18px rgba(0,0,0,.7);
+  opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.2,.7,.3,1),transform .5s cubic-bezier(.2,.7,.3,1)}
+.consent.in{opacity:1;transform:none}
+.consent p{margin:0;flex:1 1 300px;min-width:0;color:var(--dim);font-size:12.5px;line-height:1.45}
+.consent b{color:var(--aqua-hi);font-weight:600}
+.consent .acts{display:flex;gap:8px;align-items:center;flex:none;flex-wrap:wrap}
+.consent button{border:0;-webkit-appearance:none;appearance:none;margin:0;padding:9px 15px;border-radius:999px;font-family:var(--text);font-size:12.5px;color:var(--ink);background:rgba(234,246,248,.07);cursor:pointer;transition:background .25s,transform .25s}
+.consent button:hover{background:rgba(234,246,248,.14)}
+.consent button.yes{background:linear-gradient(120deg,rgba(123,228,228,.26),rgba(177,244,216,.18))}
+.consent button:focus-visible{outline:2px solid var(--aqua);outline-offset:3px}
+.consent .mas{color:var(--faint);font-size:12px;text-decoration:none;letter-spacing:.02em;white-space:nowrap}
+.consent .mas:hover{color:var(--aqua)}
+.consent[hidden]{display:none}
+@media(max-width:620px){.consent{left:12px;right:12px;bottom:12px;max-width:none}}
+@media(prefers-reduced-motion:reduce){.consent{transform:none;transition:none}.consent button{transition:none}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rise{opacity:1;transform:none;transition:none}
+  .pill:hover,.sw:hover,.hot .h:hover{transform:none}
+  .pond,.lens .barra,.wave i,.stage .hud{animation:none}
+  .hud.flotante{transition:none}
+}
+</style>
+<noscript><style>
+/* Sin JavaScript, el IntersectionObserver nunca anade .in y todo lo que entra con
+   animacion se quedaria con opacity:0: una pagina aparentemente vacia para quien no
+   ejecuta JS, y un problema de indexacion para el buscador. Ahi no hay animacion que
+   defender, asi que el contenido se muestra directamente. El panel flotante tampoco
+   existe sin JS: quien no lo ejecuta ve el panel dentro de la demo, que es real. */
+.rise{opacity:1;transform:none}
+</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://tooltip-ai.com/es/#site",
+      "url": "https://tooltip-ai.com/es/",
+      "name": "ToolTip AI",
+      "publisher": { "@id": "https://tooltip-ai.com/es/#dixi3" },
+      "inLanguage": ["es", "es-419"]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://tooltip-ai.com/es/#dixi3",
+      "name": "Dixi3 Labs",
+      "alternateName": "Dixi3 Lqbs",
+      "url": "https://tooltip-ai.com/es/"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/es/#app",
+      "name": "ToolTip AI",
+      "url": "https://tooltip-ai.com/es/",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Assistant",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "softwareVersion": "1.2",
+      "publisher": { "@id": "https://tooltip-ai.com/es/#dixi3" },
+      "image": "https://tooltip-ai.com/icon.png",
+      "screenshot": "https://tooltip-ai.com/social-card.png",
+      "description": "Aplicación de Windows que explica el control bajo el puntero: qué es, para qué sirve y qué pasa si lo pulsas. Traducción por OCR local, radar de reposo y lectura en voz alta.",
+      "featureList": [
+        "Explicación del control bajo el puntero con UI Automation",
+        "Traducción del texto bajo el cursor con OCR de Windows",
+        "Radar de reposo: abre el panel al detenerte, de 0,8 a 8 segundos",
+        "Lectura en voz alta con las voces del sistema",
+        "Clave de IA opcional cifrada con DPAPI: Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude"
+      ],
+      "isAccessibleForFree": false,
+      "offers": {
+        "@type": "Offer",
+        "url": "https://apps.microsoft.com/detail/9N3D02KXKD3D",
+        "category": "paid",
+        "price": "26.99",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@id": "https://tooltip-ai.com/es/#dixi3" }
+      },
+      "subjectOf": { "@id": "https://tooltip-ai.com/es/#faq" },
+      "sameAs": ["https://apps.microsoft.com/detail/9N3D02KXKD3D"]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://tooltip-ai.com/es/#fichas",
+      "name": "Fichas de ToolTip AI en Microsoft Store",
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "numberOfItems": 4,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "url": "https://tooltip-ai.com/es/#translate" },
+        { "@type": "ListItem", "position": 2, "url": "https://tooltip-ai.com/es/#aura" },
+        { "@type": "ListItem", "position": 3, "url": "https://tooltip-ai.com/es/#voice" },
+        { "@type": "ListItem", "position": 4, "url": "https://tooltip-ai.com/es/#bridge" }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/es/#translate",
+      "name": "ToolTip AI Translate",
+      "url": "https://tooltip-ai.com/es/#translate",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Traduce el texto que ya estás viendo: UI Automation cuando el control expone su texto y Windows.Media.Ocr cuando no.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9NQN3RZ2Z655",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          { "@type": "Offer", "name": "Prueba gratuita", "category": "free trial", "price": "0", "priceCurrency": "USD", "eligibleDuration": "P7D" },
+          { "@type": "Offer", "name": "Licencia de por vida", "category": "paid", "price": "11.99", "priceCurrency": "USD" }
+        ]
+      },
+      "sameAs": ["https://apps.microsoft.com/detail/9NQN3RZ2Z655"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/es/#aura",
+      "name": "ToolTip AI Aura",
+      "url": "https://tooltip-ai.com/es/#aura",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Guía de voz: analiza el elemento bajo el cursor o la ventana activa y te lo lee en voz alta con TTS local.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9P33P1P5Z8DC",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          { "@type": "Offer", "name": "Prueba gratuita", "category": "free trial", "price": "0", "priceCurrency": "USD", "eligibleDuration": "P7D" },
+          { "@type": "Offer", "name": "Licencia de por vida", "category": "paid", "price": "11.99", "priceCurrency": "USD" }
+        ]
+      },
+      "sameAs": ["https://apps.microsoft.com/detail/9P33P1P5Z8DC"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/es/#voice",
+      "name": "ToolTip AI Voice",
+      "url": "https://tooltip-ai.com/es/#voice",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Convierte el texto del portapapeles en voz con las voces del sistema, sin cuenta ni clave de IA.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9P417GZB0FVB",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          { "@type": "Offer", "name": "Prueba gratuita", "category": "free trial", "price": "0", "priceCurrency": "USD", "eligibleDuration": "P7D" },
+          { "@type": "Offer", "name": "Licencia de por vida", "category": "paid", "price": "11.99", "priceCurrency": "USD" }
+        ]
+      },
+      "sameAs": ["https://apps.microsoft.com/detail/9P417GZB0FVB"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tooltip-ai.com/es/#bridge",
+      "name": "ToolTip AI Bridge",
+      "url": "https://tooltip-ai.com/es/#bridge",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
+      "processorRequirements": "x64",
+      "isAccessibleForFree": true,
+      "description": "Pasa texto y enlaces del teléfono al PC por la red Wi-Fi local, sin servidores en la nube.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://apps.microsoft.com/detail/9PN1B2M4N7DK",
+        "lowPrice": "0",
+        "highPrice": "11.99",
+        "priceCurrency": "USD",
+        "offerCount": 2,
+        "offers": [
+          { "@type": "Offer", "name": "Prueba gratuita", "category": "free trial", "price": "0", "priceCurrency": "USD", "eligibleDuration": "P7D" },
+          { "@type": "Offer", "name": "Licencia de por vida", "category": "paid", "price": "11.99", "priceCurrency": "USD" }
+        ]
+      },
+      "sameAs": ["https://apps.microsoft.com/detail/9PN1B2M4N7DK"]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://tooltip-ai.com/es/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Funciona sin conexión y sin clave de IA?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sí. Identificar el control y leer sus metadatos ocurre dentro de Windows con UI Automation, y el texto se reconoce con Windows.Media.Ocr en tu propio equipo. Sin clave pierdes el consejo experto redactado por IA, no la lectura." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Tengo que crear una cuenta?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. La app no tiene servidor propio ni registro. La licencia se liga a la cuenta de Microsoft con la que instalas desde la Tienda, y no es una suscripción: es un pago único de por vida." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué sube mi pantalla a internet?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nada por sí solo. Si pides una explicación con IA, la imagen de la zona que recortaste viaja al proveedor que tú configuraste, con tu clave cifrada en el equipo con DPAPI. Los campos de contraseña que detecta UI Automation no se leen ni se envían." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Sirve en Windows 10?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sí, a partir de la compilación 19041, y también en Windows 11. Solo hay versión x64: no existe compilación ARM64." }
+        },
+        {
+          "@type": "Question",
+          "name": "Cuatro fichas que se parecen, ¿cuál instalo?",
+          "acceptedAnswer": { "@type": "Answer", "text": "ToolTip AI es la aplicación completa: las tres capas conviven sobre el mismo elemento, con un solo panel y una sola configuración. Translate y Aura son dos de esas capas viviendo en su propia ficha. Voice y Bridge son otras dos utilidades del mismo autor que no forman parte del conjunto. Si quieres el conjunto, la ficha es ToolTip AI." }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué pasa cuando termina la prueba gratuita?",
+          "acceptedAnswer": { "@type": "Answer", "text": "La duración la fija cada ficha en Microsoft Store. Al terminarse, la app deja de responder hasta que compras la licencia. No hay cargo automático: no existe suscripción que renovar, así que nadie te cobra por sorpresa." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#producto">Saltar al contenido</a>
+<canvas id="fondo" aria-hidden="true"></canvas>
+<main>
+
+<div class="top" id="top">
+  <a class="mark" href="/es/"><span class="ring"></span>ToolTip AI</a>
+  <nav aria-label="Secciones">
+    <a href="#producto">El producto</a><a href="#capas">Capas</a><a href="#fichas">Fichas</a><a href="#demo">Pruébalo</a><a href="#senal">La señal</a><a href="#privacidad">Privacidad</a><a href="#faq">Dudas</a>
+    <a class="lang" href="/" hreflang="en" lang="en" title="Read this page in English">EN</a>
+    <a class="pill" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Conseguir</a>
+  </nav>
+</div>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <h1 data-lectura data-z="El titular de esta portada"
+        data-qs="Es la promesa entera de la app en dos palabras: apuntas con el puntero y la pantalla te responde."
+        data-imp="Si entendiste eso, ya sabes qué hace ToolTip AI. No hay que aprender ningún módulo."
+        data-tipo="H1 · portada" data-padre="index.html" data-atajo="Ctrl+Shift+D radar">Apuntas.<br><span class="g">Responde.</span></h1>
+    <p class="sub">Una sola aplicación de Windows. La dejas detrás de tus ventanas y, cuando te detienes sobre algo, te dice qué es, para qué sirve y qué pasa si lo pulsas.</p>
+    <div class="go">
+      <a class="pill" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Conseguir en Microsoft Store</a>
+      <span class="importe"><b>$26.99</b>usd · pago único</span>
+      <a class="otro" href="#fichas">o prueba una ficha gratis durante 7 días</a>
+    </div>
+    <div class="hint"><span class="ln"></span>detente sobre cualquier texto de esta página</div>
+  </div>
+
+  <!-- ESCENA: la ventana real de Windows bajo el puntero, el haz latiendo y el
+       panel del HUD contestando. Dibujada con CSS a partir de HudWindow.xaml y
+       TranslateOverlayWindow.xaml. No es una captura: no puede serlo, las
+       ventanas de la app estan excluidas de capturas a proposito. -->
+  <div class="stage" aria-hidden="true">
+    <div class="escena">
+    <div class="win">
+      <div class="cap"><span class="ic"></span><span class="nm">Opciones de copia de seguridad</span><span class="wbtns"><i></i><i></i><i></i></span></div>
+      <div class="bd">
+        <div class="fila">
+          <span class="cbx"></span>
+          <span class="tx">Mantener versiones anteriores<small>Guarda una copia por sesión en la unidad de red.</small></span>
+        </div>
+        <div class="fila activo">
+          <span class="cbx"></span>
+          <span class="tx">Comprobar integridad al terminar<small>Vuelve a leer lo copiado y compara los hashes.</small></span>
+        </div>
+        <div class="btn"><span>Cancelar</span><span class="p">Iniciar copia</span></div>
+      </div>
+    </div>
+    <span class="pond"></span>
+    <span class="needle"><svg viewBox="0 0 24 24" fill="none"><path d="M5 3l14 8-6 1.6-3.2 6.4z" fill="#EAF6F8" stroke="#04060A" stroke-width="1"/></svg></span>
+    <div class="lens">
+      <b>Comprobar integridad al terminar</b>
+      <small>original: «Comprobare la integritat en acabar» · català → es</small>
+      <span class="barra"></span>
+    </div>
+    </div>
+    <div class="hud">
+      <div class="glow"></div>
+      <div class="hh">
+        <div class="who">
+          <span class="badge">ASISTENTE COGNITIVO · ESCRITORIO</span>
+          <div class="title">Comprobar integridad al terminar</div>
+          <div class="chips"><span class="chip">explorer.exe</span><span class="chip ver"><i class="dot"></i>seguro</span></div>
+        </div>
+        <div class="tools"><span class="tool"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8"/></svg></span><span class="tool"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
+      </div>
+      <div class="live"><i></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>respuesta lista · 1,2 s</div>
+      <div class="advice">
+        <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>POR QUÉ IMPORTA</div>
+        <p>Relee lo copiado y lo compara. Si algo se corrompió en el trayecto, te enteras ahora y no dentro de un año.</p>
+      </div>
+      <div class="tabs"><span class="on">Qué es</span><span>Specs</span><span>Preguntar</span></div>
+      <div class="body">
+        <div><div class="fk">RESUMEN DIDÁCTICO</div><div class="v1">Casilla de <b>CheckBox</b> de un diálogo de Windows. Cambia una preferencia de la copia; no ejecuta nada por sí sola.</div></div>
+        <div><div class="fk">CONSECUENCIAS E IMPACTO</div><div class="v2">Al marcarla, la copia tarda más porque añade una segunda pasada de lectura. Vale la pena si el destino es una unidad de red.</div></div>
+      </div>
+      <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">ajustes</span><span class="snip">Recortar</span></div>
+    </div>
+    <span class="rot">recreación del panel real · no es una captura</span>
+  </div>
+</div></header>
+
+<section id="producto"><div class="wrap">
+  <h2 class="rise" data-lectura data-z="Este titular" data-qs="Nombra el objeto de compra: no una suscripción ni un conjunto de módulos, una aplicación."
+      data-imp="Si alguien confunde esto con las cuatro apps antiguas, está leyendo otra cosa: aquí se compra una." data-tipo="H2" data-padre="#producto">Esto es lo que compras.</h2>
+  <div class="oferta">
+    <div>
+      <p class="claim rise" data-lectura data-z="La afirmación central"
+         data-qs="Resume el modelo: dentro de la aplicación son comportamientos que enciendes, no cuatro instalaciones que sumar."
+         data-imp="Es la frase que la ficha de la Tienda tiene que poder sostener. Se midió dentro del paquete: un solo Application, un solo DisplayName." data-tipo="P · claim" data-padre="#producto">
+        Una aplicación de Windows. <b>Tres comportamientos que enciendes</b> cuando los necesitas, un haz que te dice en qué estado está, y una licencia que no caduca.
+      </p>
+      <p class="lead rise" style="margin-top:26px">Se instala desde Microsoft Store y se actualiza sola. No tiene servidor propio, no te pide una cuenta y no guarda nada en nuestros sistemas: lo que configuras vive en tu Windows.</p>
+      <p class="lead rise" style="margin-top:22px;font-size:15.5px" data-lectura data-z="Un aviso honesto"
+         data-qs="Aquí la página admite una limitación en vez de esconderla."
+         data-imp="La app no puede capturar su propia interfaz, así que la web muestra una recreación dibujada campo a campo. Las capturas reales se piden aparte." data-tipo="P · nota" data-padre="#producto">
+        Y una cosa que vas a notar: <b>aquí no hay fotos de la app</b>. Sus ventanas están marcadas como no capturables, a propósito, para que nadie te grabe la pantalla con el HUD encima. Lo que ves arriba es una recreación dibujada campo a campo desde el XAML real.
+      </p>
+    </div>
+    <dl class="libro rise">
+      <div class="p"><dt>Producto</dt><dd>ToolTip AI<small>Dixi3 Lqbs · la ficha completa, con las tres capas dentro</small></dd></div>
+      <div class="p"><dt>Licencia</dt><dd>Pago único, de por vida<small>Se liga a tu cuenta de Microsoft; no es suscripción</small></dd></div>
+      <div class="p"><dt>Capas</dt><dd>Traducir · Radar de reposo · Voz<small>Más la explicación del elemento, siempre activa</small></dd></div>
+      <div class="p"><dt>Fichas sueltas</dt><dd>Translate · Aura · Voice · Bridge<small>Dos son capas de esta app, dos utilidades del mismo autor, cada una con su propia prueba: <a href="#fichas">cuáles hacen qué</a></small></dd></div>
+      <div class="p"><dt>Sistema</dt><dd>Windows 10 (19041+) y Windows 11<small>Solo x64 · sin versión ARM64</small></dd></div>
+      <div class="p"><dt>Idiomas</dt><dd>Español, inglés y alemán<small>Los rótulos siguen el idioma que tenga Windows; la traducción apunta a diez lenguas de destino</small></dd></div>
+      <div class="p"><dt>IA</dt><dd>Opcional y con tu propia clave<small>Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude · cifrada con DPAPI</small></dd></div>
+      <div class="p"><dt>Precio</dt><dd>$26.99 usd<small>Pago único. La Tienda lo convierte a tu moneda al pagar; esa cifra manda sobre la que ves aquí</small></dd></div>
+      <div class="p"><dt>Próximamente</dt><dd>Mac App Store · skins · plugs<small>En desarrollo, sin fecha anunciada: no las compres contando con ellas</small></dd></div>
+    </dl>
+  </div>
+</div></section>
+
+<section id="capas"><div class="wrap">
+  <h2 class="rise">Enciendes lo que necesitas.</h2>
+  <p class="lead rise" data-lectura data-z="El párrafo de las capas"
+     data-qs="Explica que las capas no son pantallas distintas: conviven sobre el mismo elemento."
+     data-imp="Es la diferencia con la antigua estructura de cuatro apps, y es la razón del precio único." data-tipo="P · lead" data-padre="#capas">
+    Son casillas dentro del mismo panel, no ventanas distintas. Pulsa una y mira qué le pasa al panel de la derecha: es exactamente lo que cambia en tu escritorio.
+  </p>
+  <div class="capas">
+    <div class="switches" role="group" aria-label="Capas de la aplicación">
+      <label class="sw" data-lectura data-z="La casilla Traducir"
+        data-qs="Casilla real: en la app se llama «Traducir donde pasa el puntero» y viene encendida por defecto."
+        data-imp="La traducción necesita red: el texto se envía al traductor y, de respaldo, a un segundo servicio."
+        data-tipo="CheckBox" data-padre="HudWindow.xaml · Ajustes › CAPAS" data-atajo="Ctrl+Shift+T traducir">
+        <input type="checkbox" id="L-Traducir" checked><span class="box"></span>
+        <span class="t"><b>Traducir lo que no entiendes</b><span>El OCR de Windows lee la zona bajo el puntero y el texto aparece traducido, con el original intacto debajo para comparar.</span><em>en la app: «Traducir donde pasa el puntero» · encendida por defecto</em></span>
+      </label>
+      <label class="sw" data-lectura data-z="La casilla Radar de reposo"
+        data-qs="El disparador es el tiempo que pasas quieto, no el tipo de contenido."
+        data-imp="Viene apagada por defecto: nadie quiere que una app le hable por sí sola desde el primer día."
+        data-tipo="CheckBox" data-padre="HudWindow.xaml › Ajustes › CAPAS" data-atajo="Ctrl+Shift+D radar">
+        <input type="checkbox" id="L-Radar" checked><span class="box"></span>
+        <span class="t"><b>Que se active solo al detenerte</b><span>Identifica el control con UI Automation, abre el panel y lo explica. Tú solo te quedas mirando.</span><em>en la app: «Radar de reposo: abrir al detenerte» · de 0,8 a 8 s</em></span>
+      </label>
+      <label class="sw" data-lectura data-z="La casilla Voz"
+        data-qs="Lee el resultado que ya está en pantalla, no lo que mira el cursor."
+        data-imp="Es accesibilidad de primera clase: funciona con la síntesis de voz del propio Windows."
+        data-tipo="CheckBox" data-padre="HudWindow.xaml › Ajustes › CAPAS" data-atajo="en Ajustes › CAPAS">
+        <input type="checkbox" id="L-Voz"><span class="box"></span>
+        <span class="t"><b>Que lo lea en voz alta</b><span>Pronuncia la traducción o el consejo con la voz del sistema mientras sigues con otra cosa.</span><em>en la app: «Leer el resultado en voz alta» · apagada por defecto</em></span>
+      </label>
+      <div class="sw" style="cursor:default" data-lectura data-z="La explicación del elemento"
+        data-qs="Este comportamiento no tiene casilla: siempre está disponible."
+        data-imp="Por eso el panel solo muestra tres interruptores, aunque la app tenga cuatro comportamientos."
+        data-tipo="Comportamiento fijo" data-padre="HudWindow.xaml" data-atajo="—">
+        <span class="box" style="background:linear-gradient(120deg,rgba(163,125,208,.45),rgba(216,180,254,.3));opacity:.7"></span>
+        <span class="t"><b>Explicar el elemento</b><span>Sin casilla: la lectura del control —nombre, tipo, valor, estado— ocurre siempre, con o sin clave de IA.</span><em>sin clave responde en local · con clave añade la asesoría</em></span>
+      </div>
+    </div>
+
+    <div class="laboratorio glass rise">
+      <div class="hud" id="lab">
+        <div class="glow"></div>
+        <div class="hh">
+          <div class="who">
+            <span class="badge">ASISTENTE COGNITIVO · ESCRITORIO</span>
+            <div class="title">Comprobare la integritat en acabar</div>
+            <div class="chips"><span class="chip">explorer.exe</span><span class="chip sky" id="lab-db">0.00 dB</span><span class="chip ver"><i class="dot"></i><span id="lab-ver">seguro</span></span></div>
+          </div>
+          <div class="tools"><span class="tool"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8"/></svg></span><span class="tool"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
+        </div>
+        <div class="live"><i id="lab-dot"></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg><span id="lab-state">radar activo · 3.0 seg</span></div>
+        <div class="radarline"><b id="lab-radar" style="width:100%"></b></div>
+        <div class="notice" id="lab-notice">
+          <div><div class="nt">MODO LOCAL · IA INACTIVA</div><div class="ns">Añade tu clave del proveedor para activar la asesoría.</div></div>
+          <span class="cfg">Configurar</span>
+        </div>
+        <div class="advice">
+          <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>POR QUÉ IMPORTA</div>
+          <p id="lab-advice">Relee lo copiado y lo compara: si algo se corrompió en el trayecto, aparece aquí y no dentro de un año.</p>
+        </div>
+        <div class="tabs"><span class="on">Qué es</span><span>Specs</span><span>Preguntar</span></div>
+        <div class="body">
+          <div><div class="fk" id="lab-fk1">TRADUCCIÓN BAJO EL PUNTERO</div><div class="v1" id="lab-t1">«Comprobare la integritat en acabar» — català, detectado por OCR de Windows.</div></div>
+          <div><div class="fk">CONSECUENCIAS E IMPACTO</div><div class="v2" id="lab-t2">Casilla que cambia una preferencia del diálogo. La segunda pasada de lectura añade tiempo a la copia.</div></div>
+          <div class="row2">
+            <div><div class="fk">TIPO DE CONTROL</div><div class="mono g">CheckBox</div></div>
+            <div><div class="fk">ATAJO SUGERIDO</div><div class="v2" style="font-size:10.5px">Ctrl+Shift+A recortar · Ctrl+Shift+D radar</div></div>
+          </div>
+        </div>
+        <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">ajustes</span><span class="snip">Recortar</span></div>
+      </div>
+      <div class="capa-off" id="capa-off">
+        <b id="capa-off-t">Con las tres capas apagadas, la app sigue leyendo.</b>
+        <span id="capa-off-s">El panel se queda con la identidad del control: nombre, tipo, valor y estado. Sin traducción, sin radar, sin voz.</span>
+      </div>
+    </div>
+  </div>
+  <p class="cita-haz rise">«El haz sigue a la capa despierta: viaja con el láser, late con el radar y se profundiza cuando habla la voz.»<small>literal del panel de ajustes de la app</small></p>
+</div></section>
+
+<!-- =========================================================================
+     LAS CUATRO FICHAS. Cada tarjeta describe lo que ESA ficha instala, no lo
+     que convendría al embudo que fuera. Translate y Aura sí son capas de la
+     suite vividas aparte; Voice y Bridge son otras dos utilidades del mismo
+     autor. Decirlo cuesta una venta y ahorra una devolución.
+     Las etiquetas de prueba se leen de Partner Center, no de aqui: si cambias
+     la duracion de una, cambia la etiqueta.
+========================================================================== -->
+<section id="fichas"><div class="wrap">
+  <h2 class="rise" data-lectura data-z="Este titular" data-qs="Anuncia las otras cuatro fichas publicadas en Microsoft Store y su prueba gratuita."
+      data-imp="Ninguna de las cuatro necesita tu clave de IA para arrancar, y ninguna te pide tarjeta para empezar." data-tipo="H2" data-padre="#fichas">Cuatro fichas, cada una con su prueba.</h2>
+  <p class="lead rise" data-lectura data-z="El párrafo de las fichas"
+     data-qs="Aclara la relación entre la aplicación completa y las fichas sueltas antes de que alguien instale dos cosas que hacen lo mismo."
+     data-imp="Es la frase que evita la devolución: quien quiere el conjunto compra ToolTip AI, no cuatro ventanas distintas." data-tipo="P · lead" data-padre="#fichas">
+    Además de la aplicación completa hay cuatro fichas en Microsoft Store, cada una con su propia prueba gratuita y sin tarjeta por delante. Dos de ellas son capas de esta misma app vividas aparte. Las otras dos son utilidades distintas del mismo autor: te lo decimos aquí, no cuando ya las hayas instalado.
+  </p>
+  <div class="fichas">
+    <article class="ficha glass rise" id="translate" style="--fc:var(--aqua)"
+      data-lectura data-z="ToolTip AI Translate" data-qs="Ficha suelta con la capa de Traducir de la suite: UI Automation cuando el control entrega su texto, OCR de Windows cuando no."
+      data-imp="Es la misma lectura que hace la aplicación completa; lo que no trae es el radar, la voz ni el panel de asesoría." data-tipo="MSIX · 9NQN3RZ2Z655" data-padre="#fichas" data-atajo="Ctrl+Shift+T en la suite">
+      <span class="k">capa de la suite · traducción</span>
+      <h3>ToolTip AI <i>Translate</i></h3>
+      <p>Traduce el texto que ya estás viendo, sin copiarlo y sin cambiar de ventana. Cuando el control entrega su texto lo lee directo; cuando no, reconoce la zona alrededor del puntero con el OCR del propio Windows, en tu equipo.</p>
+      <div class="meta"><span class="tag">prueba de 7 días</span><span class="tag muda">es · en</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9NQN3RZ2Z655" target="_blank" rel="noopener">Ver en la Tienda<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+
+    <article class="ficha glass rise" id="aura" style="--fc:var(--violet)"
+      data-lectura data-z="ToolTip AI Aura" data-qs="Ficha suelta con la guía de voz: cápsula flotante arrastrable, orbe de estado y lectura en voz alta con TTS local."
+      data-imp="El disparador es el tiempo que pasas quieto sobre el elemento, unos 1,8 segundos, o Ctrl+Shift+A." data-tipo="MSIX · 9P33P1P5Z8DC" data-padre="#fichas" data-atajo="Ctrl+Shift+A · Ctrl+Shift+V repite">
+      <span class="k">capa de la suite · voz y radar</span>
+      <h3>ToolTip AI <i>Aura</i></h3>
+      <p>Te lo cuenta en voz alta. Analiza el elemento bajo el cursor o la ventana activa y lo lee con las voces del sistema, desde una cápsula flotante que arrastras a la esquina que quieras. Proveedor de IA a elección, con tu clave cifrada en el equipo.</p>
+      <div class="meta"><span class="tag">prueba de 7 días</span><span class="tag muda">TTS local</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P33P1P5Z8DC" target="_blank" rel="noopener">Ver en la Tienda<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+
+    <article class="ficha glass rise" id="voice" style="--fc:var(--mint)"
+      data-lectura data-z="ToolTip AI Voice" data-qs="Utilidad aparte: convierte en voz el texto que ya copiaste al portapapeles, no lo que hay bajo el puntero."
+      data-imp="Sus atajos son Ctrl+Shift+V y Ctrl+Shift+S, que no son los de la aplicación completa. Son dos cosas distintas." data-tipo="MSIX · 9P417GZB0FVB" data-padre="#fichas" data-atajo="Ctrl+Shift+V lee · Ctrl+Shift+S para">
+      <span class="k">otra utilidad · portapapeles</span>
+      <h3>ToolTip AI <i>Voice</i></h3>
+      <p>Lee lo que copias. Copias cualquier texto de Windows, pulsas el atajo y lo escucha mientras sigues con otra cosa; baja el volumen del sistema mientras habla y lo devuelve al terminar. Sin cuenta, sin clave de IA y sin autoarranque salvo que lo actives.</p>
+      <div class="meta"><span class="tag">prueba de 7 días</span><span class="tag muda">no es una capa de la suite</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P417GZB0FVB" target="_blank" rel="noopener">Ver en la Tienda<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+
+    <article class="ficha glass rise" id="bridge" style="--fc:var(--gold)"
+      data-lectura data-z="ToolTip AI Bridge" data-qs="Utilidad aparte: pasa texto y enlaces del teléfono al PC por la red Wi-Fi local, sin servidores en la nube."
+      data-imp="No tiene nada que ver con explicar controles. Si buscas la suite, esta no es la ficha." data-tipo="MSIX · 9PN1B2M4N7DK" data-padre="#fichas" data-atajo="en el teléfono: Compartir → Enviar a PC">
+      <span class="k">otra utilidad · teléfono a PC</span>
+      <h3>ToolTip AI <i>Bridge</i></h3>
+      <p>Del teléfono a la computadora sin mandarte mensajes a ti mismo por WhatsApp ni pelear con Bluetooth. Compartes texto o un enlace desde el móvil y aparece en el PC por tu red local. Nada sale de tu casa: no hay servidores intermedios.</p>
+      <div class="meta"><span class="tag">prueba de 7 días</span><span class="tag muda">no es una capa de la suite</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9PN1B2M4N7DK" target="_blank" rel="noopener">Ver en la Tienda<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
+    </article>
+  </div>
+  <p class="cita-haz rise">«Si quieres el conjunto, la ficha es una sola: ToolTip AI. Las otras cuatro se instalan cada una por su cuenta y no comparten panel.»<small>lo que esta sección intenta evitar</small></p>
+</div></section>
+
+<section id="demo"><div class="wrap">
+  <h2 class="rise">Pruébalo aquí mismo, con el ratón.</h2>
+  <p class="lead rise">Mueve el puntero por la pista. Es exactamente el gesto de la app: detenerte y esperar la lectura.</p>
+  <p class="subnote rise">Este panel imita el de la app, que reproduce el idioma de Windows: en un equipo con el sistema en inglés o en alemán sale en ese idioma.</p>
+  <div class="demo glass rise">
+    <div class="lbl"><span>demostración · datos de ejemplo</span><span id="pct">0 %</span></div>
+    <div class="track" id="track">
+      <div class="rail"></div><div class="fill" id="fill"></div>
+      <div class="head" id="head"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3l14 8-6 1.6-3.2 6.4z" fill="#EAF6F8"/></svg></div>
+      <div class="stops"><span>control</span><span>proceso</span><span>riesgo</span><span>código</span></div>
+    </div>
+    <div class="interior">
+      <div class="explic">
+        <div class="st" id="st">escuchando</div>
+        <h3 id="aq"></h3>
+        <p id="ap"></p>
+        <div class="src" id="as"></div>
+      </div>
+      <!-- EL PANEL DE LA DEMO: es el mismo componente que flota por la pagina.
+           Sus campos se rellenan al arrastrar, y el panel flotante es una copia
+           de este nodo, asi que hay una sola definicion en todo el fichero. -->
+      <div class="hud" id="plantilla">
+        <div class="glow"></div>
+        <div class="hh">
+          <div class="who">
+            <span class="badge">ASISTENTE COGNITIVO · ESCRITORIO</span>
+            <div class="title" id="d-title">Elemento inspeccionado de Windows.</div>
+            <div class="chips"><span class="chip" id="d-proc">explorer.exe</span><span class="chip ver"><i class="dot"></i><span id="d-ver">—</span></span></div>
+          </div>
+          <div class="tools"><span class="tool"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8"/></svg></span><span class="tool"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
+        </div>
+        <div class="live"><i></i><svg viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg><span id="d-live">en reposo</span></div>
+        <div class="radarline"><b id="d-radar"></b></div>
+        <div class="notice">
+          <div><div class="nt">MODO LOCAL · IA INACTIVA</div><div class="ns">Añade tu clave del proveedor para activar la asesoría.</div></div>
+          <span class="cfg">Configurar</span>
+        </div>
+        <div class="advice">
+          <div class="ah"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>POR QUÉ IMPORTA</div>
+          <p id="d-why">Pasa el puntero sobre cualquier elemento para recibir asesoría en tiempo real.</p>
+        </div>
+        <div class="tabs"><span class="on">Qué es</span><span>Specs</span><span>Preguntar</span></div>
+        <div class="body">
+          <div><div class="fk">RESUMEN DIDÁCTICO</div><div class="v1" id="d-qs">—</div></div>
+          <div><div class="fk">CONSECUENCIAS E IMPACTO</div><div class="v2" id="d-imp">—</div></div>
+          <div class="row2">
+            <div><div class="fk">TIPO DE CONTROL</div><div class="mono g" id="d-tipo">UIElement</div></div>
+            <div><div class="fk">MÓDULO PADRE</div><div class="mono a" id="d-padre">MainRack</div><div class="v2" id="d-atajo" style="font-size:10.5px;margin-top:4px">Ctrl+Shift+A recortar</div></div>
+          </div>
+          <div><div class="fk">COMANDO CLI</div><div class="code"><span id="d-cli">Get-Process</span><em>Copiar</em></div></div>
+        </div>
+        <div class="hf"><span class="kb">Ctrl</span><span class="kb">Shift</span><span class="kb">C</span><span class="lbl">ajustes</span><span class="snip">Recortar</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="senal"><div class="wrap">
+  <h2 class="rise">El haz no decora: informa.</h2>
+  <p class="lead rise" data-lectura data-z="El parrafo de la senal"
+     data-qs="Cada estado del haz cambia de color y de ritmo; la linea de arriba se mueve a esa velocidad."
+     data-imp="Es la unica capa informativa que no te obliga a leer texto: el ritmo se aprende en un dia." data-tipo="P · lead" data-padre="#senal">
+    Cinco estados, cinco lecturas del latido. Aquí cada línea late de verdad a la velocidad de su estado: aprendes el ritmo y sabes qué está pasando sin leer etiquetas.
+  </p>
+  <div class="strip glass rise">
+    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#A5F2F4;--al:2px;--dur:2.6s"><i></i></div><h3>Viajando</h3><p>Mueves el puntero libremente. Latido lento y fino.</p><code>aqua · 0,6×</code></div>
+    <div class="c"><div class="wave" style="--c1:#837DD0;--c2:#EAF6F8;--al:4px;--dur:.75s"><i></i></div><h3>Leyendo</h3><p>Está descifrando el elemento. El haz se agita y se vuelve violeta.</p><code>violeta · 1,8×</code></div>
+    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#FEDA9A;--al:3px;--dur:1.5s"><i></i></div><h3>Escuchando</h3><p>Contando tu reposo antes de responder. Pasa de aqua a oro según avanza.</p><code>aqua → oro</code></div>
+    <div class="c"><div class="wave" style="--c1:#B1F4D8;--c2:#EAF6F8;--al:3px;--dur:3.2s"><i></i></div><h3>Respondido</h3><p>La lectura ya está en pantalla. Vuelve a un pulso calmado.</p><code>menta · 0,8×</code></div>
+    <div class="c"><div class="wave" style="--c1:#7BE4E4;--c2:#B1F4D8;--al:6px;--dur:.5s"><i></i></div><h3>Hablando</h3><p>La capa de voz está leyendo en voz alta. Amplitud alta, ritmo de sílaba.</p><code>aqua · menta</code></div>
+  </div>
+  <div class="tune rise">
+    <span>temperamento <b>Sereno · Equilibrado · Radiante</b></span>
+    <span>ritmo <b>0,6× – 1,8×</b></span>
+    <span>luminosidad <b>0,6 – 1,6</b></span>
+    <span>espera del radar <b>0,8 – 8 s</b></span>
+  </div>
+  <div class="comport">
+    <div class="big rise">Y nunca estorba: <b>se retira solo</b> al borde cuando dejas de usarlo, vuelve bajo el cursor cuando lo buscas, y se coloca según dónde está el elemento y el espacio libre que queda.</div>
+    <ul class="rise">
+      <li><b>Nunca tapa.</b> Elige lado y altura en función del hueco real de la pantalla.</li>
+      <li><b>Se recuerda.</b> Láser, voz, temperamento y espera sobreviven entre sesiones.</li>
+      <li><b>Se apaga.</b> Desactivas el láser en ajustes y el haz deja de existir; la app sigue leyendo sin él.</li>
+      <li><b>Se puede tocar.</b> Fijar, cambiar a vista panorámica y cerrar desde la cabecera del panel.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="privacidad"><div class="wrap">
+  <h2 class="rise">La lectura es local.<br>La IA es tu decisión.</h2>
+  <div class="comport">
+    <p class="lead rise" style="margin-top:0" data-lectura data-z="La promesa de privacidad"
+       data-qs="Separa dos cosas que casi nadie separa: leer (local) y explicar (tu elección)."
+       data-imp="Es la afirmación que la app puede sostener en el código: no hay servidor de Dixi3 Lqbs." data-tipo="P · lead" data-padre="#privacidad">
+      ToolTip AI no tiene servidor propio, no te pide cuenta y no sube nada por sí solo. Identifica el elemento y lee sus metadatos dentro de Windows, con las capacidades que el sistema ya trae. Sólo si tú pones una clave de proveedor viaja algo —y viaja a donde tú elijas.
+    </p>
+    <ul class="rise">
+      <li><b>Sin clave</b> sigue funcionando en local: pierde el consejo experto, no la lectura.</li>
+      <li><b>La clave</b> se guarda cifrada con DPAPI, ligada a tu usuario de Windows.</li>
+      <li><b>El HUD no sale en capturas</b> ni en grabaciones, a propósito.</li>
+      <li><b>Compatible con</b> Gemini, OpenAI, Azure OpenAI, OpenRouter y Claude.</li>
+    </ul>
+  </div>
+  <div class="hot rise" style="margin-top:40px">
+    <div class="h glass" style="cursor:default" data-lectura data-z="El aviso de fallos del panel de ajustes"
+      data-qs="Casilla de avisos voluntarios, con su letra pequeña literal."
+      data-imp="Es la única telemetría que existe, y viene apagada: si alguien la activa, no salen rutas ni texto." data-tipo="CheckBox" data-padre="HudWindow.xaml › AVISO DE FALLOS">
+      <span style="color:var(--dim);font-size:14.5px"><b style="color:var(--ink)">Y sobre los avisos de error</b>, la letra pequeña del propio panel: «Sólo tipo de error y versión de la app. Nunca texto, títulos de ventana, rutas ni claves. Apagado por defecto.»</span>
+    </div>
+  </div>
+</div></section>
+
+<section id="atajos"><div class="wrap">
+  <h2 class="rise">Cuatro gestos globales.</h2>
+  <p class="lead rise">No hay que traer la app a primer plano: se invoca desde donde estés.</p>
+  <div class="hot">
+    <div class="h glass rise" data-lectura data-z="El atajo de recortar" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Suelta el área que quieras analizar sin mover la ventana que tienes delante." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+A"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>A</kbd><span><b>recortar</b> un área y analizarla</span></div>
+    <div class="h glass rise" data-lectura data-z="El atajo de traducir" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Traduce sin activar la capa del puntero: se dispara sobre lo que haya bajo el cursor." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+T"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>T</kbd><span><b>traducir</b> lo que hay bajo el cursor</span></div>
+    <div class="h glass rise" data-lectura data-z="El atajo del radar" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Es el interruptor rápido del radar cuando no quieres entrar en ajustes." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+D"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>D</kbd><span><b>radar de reposo</b>, encender y apagar</span></div>
+    <div class="h glass rise" data-lectura data-z="El atajo de ajustes" data-qs="Combinación de teclas registrada de forma global por la app." data-imp="Abre el cajón de ajustes donde están las capas, el proveedor y la espera del radar." data-tipo="kbd · hotkey" data-padre="RegisterHotKey" data-atajo="Ctrl+Shift+C"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>C</kbd><span><b>ajustes</b></span></div>
+  </div>
+</div></section>
+
+<!-- El texto visible y el FAQPage del <head> tienen que decir literalmente lo
+     mismo: si difieren, Google deja de considerar válida la marca de preguntas. -->
+<section id="faq"><div class="wrap">
+  <h2 class="rise" data-lectura data-z="Este titular" data-qs="Aquí se contesta lo que la gente busca antes de pagar, no lo que al autor le gustaría contar."
+      data-imp="Estas seis dudas son las que detienen una compra de software de escritorio en 2026: qué se va a internet, si hay suscripción oculta y qué ficha instalar." data-tipo="H2" data-padre="#faq">Las seis dudas antes de pagar.</h2>
+  <div class="faq">
+    <details class="rise" data-lectura data-z="Pregunta: sin conexión" data-qs="Separa lo que se lee en local de lo que requiere IA, que es la distinción que casi nadie hace."
+      data-imp="Un comprador que cree que la app necesita una suscripción de IA para funcionar no llega a instalarla." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>¿Funciona sin conexión y sin clave de IA?</summary>
+      <div class="a">Sí. Identificar el control y leer sus metadatos ocurre dentro de Windows con UI Automation, y el texto se reconoce con <code>Windows.Media.Ocr</code> en tu propio equipo. Sin clave pierdes el consejo experto redactado por IA, no la lectura.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Pregunta: la cuenta" data-qs="Niega las dos cosas que más fricción producen: el registro y la renovación automática."
+      data-imp="Es la diferencia con casi todo lo demás de esta categoría: no hay a quién venderle tu correo." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>¿Tengo que crear una cuenta?</summary>
+      <div class="a">No. La app no tiene servidor propio ni registro. La licencia se liga a la cuenta de Microsoft con la que instalas desde la Tienda, y no es una suscripción: es un <b>pago único de por vida</b>.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Pregunta: qué se sube" data-qs="Nombra el único momento en que algo sale del equipo, y a dónde."
+      data-imp="Si vas a recortar un diálogo con datos sensibles, quieres saber esto antes, no después." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>¿Qué sube mi pantalla a internet?</summary>
+      <div class="a">Nada por sí solo. Si pides una explicación con IA, la imagen de la zona que recortaste viaja al proveedor que tú configuraste, con tu clave cifrada en el equipo con DPAPI. Los campos de contraseña que detecta UI Automation <b>no se leen ni se envían</b>.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Pregunta: Windows 10" data-qs="Fija la compilación mínima y descarta ARM64 sin rodeos."
+      data-imp="ARM64 es la pregunta que más se repite en Surface y en portátiles Snapdragon. Aquí no hay ambigüedad." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>¿Sirve en Windows 10?</summary>
+      <div class="a">Sí, a partir de la compilación <code>19041</code>, y también en Windows 11. Solo hay versión x64: <b>no existe compilación ARM64</b>.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Pregunta: cuál ficha" data-qs="Desarma el error más caro: instalar dos fichas que hacen lo mismo y devolver la segunda."
+      data-imp="Cuatro productos con nombres parecidos se confunden solos. Esta respuesta es la que ahorra la devolución." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Cuatro fichas que se parecen, ¿cuál instalo?</summary>
+      <div class="a"><b>ToolTip AI</b> es la aplicación completa: las tres capas conviven sobre el mismo elemento, con un solo panel y una sola configuración. <b>Translate</b> y <b>Aura</b> son dos de esas capas viviendo en su propia ficha. <b>Voice</b> y <b>Bridge</b> son otras dos utilidades del mismo autor que no forman parte del conjunto. Si quieres el conjunto, la ficha es ToolTip AI.</div>
+    </details>
+    <details class="rise" data-lectura data-z="Pregunta: el final de la prueba" data-qs="Dice qué pasa al día 8, que es justo lo que nadie aclara."
+      data-imp="El miedo real no es pagar: es que te cobren sin preguntar. Aquí se descarta explícitamente." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>¿Qué pasa cuando termina la prueba gratuita?</summary>
+      <div class="a">La duración la fija cada ficha en Microsoft Store. Al terminarse, la app deja de responder hasta que compras la licencia. <b>No hay cargo automático</b>: no existe suscripción que renovar, así que nadie te cobra por sorpresa.</div>
+    </details>
+  </div>
+</div></section>
+
+<section class="final" id="conseguir"><div class="wrap">
+  <h2 class="rise">Una app. Licencia de por vida.</h2>
+  <p class="rise">Se instala desde Microsoft Store y se actualiza sola. La cifra de abajo está en dólares y es la de hoy; la Tienda la convierte a tu moneda en el momento de pagar y esa es la que manda.</p>
+  <div class="marca rise" data-lectura data-z="El precio de la aplicación completa" data-qs="Es el pago único de ToolTip AI, la suite con las tres capas dentro."
+       data-imp="No es una suscripción: se paga una vez y se liga a tu cuenta de Microsoft. Las cuatro fichas sueltas se cobran aparte y más barato." data-tipo="precio · USD" data-padre="#conseguir">
+    <b>$26.99</b><span>usd · pago único</span>
+  </div>
+  <!-- Ficha unica del producto. Al consolidar la ficha en Partner Center,
+       esta URL es la unica que cambia en todo el sitio. -->
+  <a class="pill rise" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Abrir en Microsoft Store</a>
+  <p class="rise" style="margin-top:20px;font-size:15px">¿Prefieres probar antes? <a href="#fichas" style="color:var(--aqua)">Cuatro fichas con prueba gratuita</a>, desde $11.99 y sin tarjeta por delante.</p>
+  <div class="requisitos rise">
+    <span>Windows 10 19041 o más nuevo</span><span>Windows 11 · x64</span><span>Pago único</span><span>Sin cuenta de la app</span><span>Ficha en es · es-419 · en</span>
+  </div>
+  <div class="prox rise" data-lectura data-z="Próximamente" data-qs="Cuatro cosas que aún no existen: la versión para Mac, las skins, los plugs y las habilidades extra."
+       data-imp="Se anuncian para que el proyecto tenga dirección visible, no como parte de lo que compras hoy. No tienen fecha." data-tipo="hoja de ruta" data-padre="#conseguir">
+    <span class="k">Próximamente · en desarrollo</span>
+    <div class="prox-g">
+      <div class="pi"><b>Mac App Store</b><small>La misma idea fuera de Windows, preparándose para su propia Tienda.</small></div>
+      <div class="pi"><b>Skins</b><small>Aspectos del panel y del haz: paleta, forma y densidad del texto.</small></div>
+      <div class="pi"><b>Plugs</b><small>Complementos que se enchufan a la lectura y la amplían sin tocar el resto.</small></div>
+      <div class="pi"><b>Habilidades extra</b><small>Comportamientos nuevos que se activan por separado dentro de la app.</small></div>
+    </div>
+    <p class="nota">Ninguna de estas cuatro existe todavía y no tienen fecha. Se dicen aquí para que veas hacia dónde va el proyecto, no como algo que estés comprando con el <b>$26.99</b> de arriba.</p>
+  </div>
+</div></section>
+
+<footer><div class="in">
+  <a href="/privacy/">Política de privacidad</a>
+  <a href="/privacy/#medicion">Qué se mide</a>
+  <button class="rewake" id="medicion-abrir" type="button" hidden>Volver a elegir medición</button>
+  <span class="cap">La interfaz que ves aquí está dibujada a partir de la real: las ventanas de la app están marcadas como no capturables, así que ninguna foto de pantalla sería posible.</span>
+</div></footer>
+
+<div class="consent" id="consent" role="region" aria-label="Medición de uso de esta página" hidden>
+  <p>Puede cargar <b>Google Analytics</b> y <b>Microsoft Clarity</b> para medir el tráfico. Sin tu permiso no se carga ninguno.</p>
+  <div class="acts">
+    <button type="button" class="yes" id="medicion-si">Permitir medición</button>
+    <button type="button" id="medicion-no">Solo la página</button>
+    <a class="mas" href="/privacy/#medicion">Qué guardan</a>
+  </div>
+</div>
+
+</main>
+<script>
+const cv=document.getElementById('fondo');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* El fondo es WebGL2. Si el navegador no lo da, se pinta el haz de respaldo con
+   Canvas2D: la portada pierde el macro, pero nunca se queda a cero. */
+const gl=cv.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});
+if(gl)macro(gl);else haz(cv.getContext('2d'));
+
+/* ---------- respaldo: haz de luz en 2d ---------- */
+function haz(cx){
+let W=0,H=0,dpr=Math.min(devicePixelRatio||1,2),mx=.5,my=.5,t=0,dens=1;
+/* En un movil de 390 px las once ondulaciones caben cada 71 px: la banda dejaba de
+   parecer luz y parecia un garabato encima del parrafo. La densidad y la altura se
+   contraen con el ancho. A 1100 px o mas valen 1, asi que la portada de escritorio
+   no cambia ni un pixel respecto de la que esta empujada. */
+function size(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
+  dens=Math.min(1,innerWidth/1100);draw()}
+addEventListener('resize',size);
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth;my=e.clientY/innerHeight});
+/* Camara lenta. Antes el fondo solo vivia debajo del puntero: la envolvente dejaba
+   el resto de la pantalla al 30 % de amplitud, asi que sin mover el raton la portada
+   parecia quieta. Ahora la banda sube y baja entera muy despacio (19 s por vuelta),
+   respira en altura (25 s) y una ola ancha violeta cruza la pantalla en 48 s con su
+   propia velocidad, mas lenta que las demas, que es lo que da profundidad. El puntero
+   sigue mandando, pero como acento: el suelo de amplitud sube del 30 % al 50 %.
+   El reloj va en SEGUNDOS, no en fotogramas: a 120 Hz la camara lenta se habria
+   convertido en camara rapida, y aqui la lentitud es el efecto. */
+function line(yBase,amp,col,glow,wd,spd,ph,onda){
+  amp*=.6+.4*dens;
+  const s=(onda||11)*dens;
+  cx.beginPath();
+  for(let x=0;x<=W;x+=6*dpr){
+    const u=x/W;
+    const near=Math.exp(-Math.pow((u-mx)*3.6,2));
+    const y=yBase+Math.sin(t*.55+ph*1.3)*amp*1.1
+              +Math.sin(u*s*Math.PI+t*spd-ph*.3)*amp*(.5+near*1.3)*(.85+Math.sin(t*.42+ph)*.18)
+              +Math.sin(u*3.1*Math.PI+t*spd*.4)*amp*.45;
+    x===0?cx.moveTo(x,y):cx.lineTo(x,y);
+  }
+  cx.strokeStyle=col;cx.shadowColor=glow;cx.shadowBlur=18*dpr;
+  cx.lineWidth=wd*dpr;cx.stroke();cx.shadowBlur=0;
+}
+/* draw() va enganchado al tamano: cambiar cv.width limpia el lienzo,
+   y si el unico que repintaba era el bucle de animacion, quien tenga el
+   movimiento reducido se quedaba sin haz en cuanto se movia la ventana. */
+function draw(){
+  cx.clearRect(0,0,W,H);
+  line(H*.30,26*dpr,'rgba(131,125,208,.20)','rgba(131,125,208,.30)',1.2,.22,3.1,2.4);
+  line(H*.34,17*dpr,'rgba(123,228,228,.85)','rgba(123,228,228,.6)',2.2,.9,0);
+  line(H*.36,11*dpr,'rgba(177,244,216,.60)','rgba(177,244,216,.45)',1.7,1.25,1.4);
+  line(H*.378,7*dpr,'rgba(131,125,208,.34)','rgba(131,125,208,.35)',1.3,.7,2.2);
+}
+/* 0,60 unidades de t por segundo = los periodos de arriba. El recorte a 64 ms
+   evita que la banda de un salto al volver de una pestana dormida. */
+let ultimo=performance.now();
+function tick(a){t+=Math.min(a-ultimo,64)*.0006;ultimo=a;draw();requestAnimationFrame(tick)}
+size();
+if(!reduce)requestAnimationFrame(a=>{ultimo=a;requestAnimationFrame(tick)});
+}
+
+/* ---------- fondo: macro de la pantalla ----------
+   No es un degradado decorativo. Es un primerisimo plano de un panel de Windows: a
+   ese aumento una pantalla no tiene letras, tiene barras rojas, verdes y azules. La
+   lente del puntero baja el aumento y las barras se funden en texto legible, que es
+   exactamente lo que hace la app cuando te detienes sobre algo. Las cadenas del
+   lienzo son las mismas que se leen mas abajo en esta pagina: el fondo es el producto. */
+function macro(gl){
+const ETIQUETAS=['Comprobar integridad al terminar','Mantener versiones anteriores','Opciones de copia de seguridad','Iniciar copia','Cancelar','explorer.exe','respuesta lista · 1,2 s','RESUMEN DIDÁCTICO','CONSECUENCIAS E IMPACTO','Qué es','Specs','Preguntar','Ctrl Shift C','ajustes','Recortar','CheckBox','POR QUÉ IMPORTA','seguro','unidad de red','ASISTENTE COGNITIVO'];
+function campoTexto(w,h){
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+  x.fillStyle='#04070B';x.fillRect(0,0,w,h);x.textBaseline='top';
+  const cols=4,filas=7;
+  for(let k=0;k<cols*filas;k++){
+    const f=(k/cols)|0,ci=k%cols,mono=k%3===0;
+    /* elegidas con un salto fijo, no al azar: el lienzo tiene que ser el mismo en
+       cada carga, si no, cualquier diferencia que veas podria ser ruido */
+    const txt=ETIQUETAS[(k*7)%ETIQUETAS.length];
+    x.font=(mono?'500 ':'400 ')+(15+(k%4)*4)+'px '+(mono?"'Cascadia Mono',Consolas,monospace":"'Segoe UI',system-ui,sans-serif");
+    const x0=(ci+.10)*w/cols+(k%3)*11,y0=(f+.55)*h/filas;
+    x.fillStyle='rgba(198,228,236,'+(mono?.30:.44)+')';x.fillText(txt,x0,y0);
+    if(k%5===0){x.fillStyle='rgba(123,228,228,.22)';x.fillRect(x0,y0+24,60+(k%4)*26,2)}
+  }
+  for(let i=0;i<5;i++){const gx=((i*37)%100)/100*w,gy=((i*61)%100)/100*h;
+    const g=x.createRadialGradient(gx,gy,0,gx,gy,220);
+    g.addColorStop(0,'rgba(123,228,228,.05)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,w,h)}
+  return c;
+}
+const VERT=`#version 300 es
+out vec2 v_uv;
+void main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));v_uv=p;gl_Position=vec4(p*2.0-1.0,0.0,1.0);}`;
+const FRAG=`#version 300 es
+precision highp float;
+in vec2 v_uv;out vec4 O;
+uniform vec2 u_r;uniform float u_t;uniform vec2 u_m;uniform float u_px;uniform sampler2D u_tex;
+/* u_p es la profundidad de lectura, 0 en el heroe y 1 al pie. Todo lo demas se deriva
+   aqui dentro: asi el comportamiento del fondo se lee de una vez en lugar de repartido
+   entre cuatro uniformes que el js tenia que mantener sincronizados. */
+uniform float u_p;
+float h21(vec2 p){p=fract(p*vec2(127.17,311.71));p+=dot(p,p+34.53);return fract(p.x*p.y*95.43);}
+vec3 tx(vec2 uv){return texture(u_tex,vec2(clamp(uv.x,0.002,0.998),uv.y)).rgb;}
+void main(){
+  vec2 uv=v_uv,ar=vec2(u_r.x/u_r.y,1.0);
+  float d=length((uv-u_m/u_r)*ar);
+  /* Al fondo de la pagina la lente se encoge, aumenta menos, se desenfoca mas y baja de
+     brillo. No es un fondo distinto: es el mismo gesto guardando la distancia para que el
+     cuerpo del texto mande. En el heroe (u_p=0) sale exactamente lo mismo que antes. */
+  float radio=mix(0.42,0.19,u_p);
+  float foco=1.0-smoothstep(0.06,radio,d);
+  float mag=mix(4.0,mix(1.55,1.12,u_p),foco);
+  float gan=mix(1.0,0.56,u_p),dif=mix(1.0,1.9,u_p),calma=mix(1.0,0.40,u_p);
+  vec2 off=vec2(0.0,-0.16*u_p);
+  /* cover: la textura llena el lienzo sin estirarse, tambien en un movil vertical */
+  float ca=u_r.x/u_r.y;
+  vec2 sc=ca>2.0?vec2(1.0,2.0/ca):vec2(ca/2.0,1.0);
+  vec2 P=(uv-0.5)*sc+0.5,M=(u_m/u_r-0.5)*sc+0.5;
+  vec2 muv=(P-M)/mag+M+off+vec2(u_t*0.0016,sin(u_t*0.19)*0.004);
+  vec3 img=tx(muv);
+  if(foco<0.999){float R=(1.0-foco)*8.0*dif;vec3 acc=vec3(0.0);
+    for(int i=0;i<4;i++){float a=float(i)*1.5708+0.4;
+      acc+=tx(muv+vec2(cos(a)*R/u_r.x,sin(a)*R/u_r.y)*sc/mag);}
+    img=mix(acc/4.0,img,foco);}
+  float lum=dot(max(img,vec3(0.0)),vec3(0.299,0.587,0.114));
+  vec2 g=uv*u_r+vec2(u_t*2.0,sin(u_t*0.3)*3.0);
+  vec2 fp=fract(vec2(g.x/u_px,g.y/(u_px*2.4)));
+  float ch=mod(floor(g.x/u_px),3.0);
+  vec3 mask=ch<1.0?vec3(1.0,0.10,0.06):(ch<2.0?vec3(0.06,1.0,0.16):vec3(0.10,0.16,1.0));
+  float rejilla=mix(1.0,smoothstep(0.0,0.10,fp.x)*smoothstep(1.0,0.90,fp.x)*smoothstep(0.0,0.24,fp.y)*smoothstep(1.0,0.76,fp.y),1.0-foco);
+  vec3 col=mix(vec3(1.0),mask,1.0-foco)*pow(max(img,vec3(0.0)),vec3(mix(1.30,0.72,foco)))*rejilla*1.55;
+  col+=img*(0.10+0.50*foco);
+  col*=0.64+0.62*foco;
+  /* La calma solo afecta a lo enfocado: la lente baja de brillo al fondo de la pagina
+     para no disputarle las letras al cuerpo del texto, pero las barras del borde siguen
+     igual. Sin esto, una palabra grande y nitida aparece detras de un parrafo. */
+  col*=mix(1.0,calma,foco);
+  col+=vec3(0.42,0.86,0.86)*pow(lum,3.0)*0.55*foco*calma;
+  col*=gan;
+  col+=(h21(uv*u_r+u_t)-0.5)*0.010;
+  O=vec4(max(col,vec3(0.0)),1.0);
+}`;
+function sh(tipo,src){const s=gl.createShader(tipo);gl.shaderSource(s,src);gl.compileShader(s);
+  return gl.getShaderParameter(s,gl.COMPILE_STATUS)?s:null}
+const vs=sh(gl.VERTEX_SHADER,VERT),fs=sh(gl.FRAGMENT_SHADER,FRAG);
+if(!vs||!fs){cv.hidden=true;return}
+const pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);
+if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){cv.hidden=true;return}
+gl.useProgram(pr);
+const u={r:gl.getUniformLocation(pr,'u_r'),t:gl.getUniformLocation(pr,'u_t'),m:gl.getUniformLocation(pr,'u_m'),px:gl.getUniformLocation(pr,'u_px'),tex:gl.getUniformLocation(pr,'u_tex'),p:gl.getUniformLocation(pr,'u_p')};
+gl.uniform1i(u.tex,0);
+const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,campoTexto(1400,700));
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+/* El eje vertical repite: al bajar por la pagina el campo se desliza sobre si mismo, y
+   con CLAMP el borde se habria estirado en una banda lisa. Las filas de texto caen dentro
+   del lienzo, asi que el reencuentro no corta ninguna letra. */
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.REPEAT);
+let W=0,H=0,dpr=1,pitch=14,mx=0,my=0,px=0,py=0,puntero=false,t=0,ultimo=0,corriendo=false,hondo=0;
+function tamano(){
+  /* El tope no es de resolucion, es de pixeles por cuadro: en un 4k a escala 100 % el
+     lienzo pediria 8 millones de fragmentos y una grafica integrada no los sostiene. Se
+     limita el area a ~2,6 M y css lo estira de vuelta; el paso del subpixel se calcula
+     aparte, asi que el macro mide lo mismo con tope o sin el. */
+  dpr=Math.min(devicePixelRatio||1,1.75,Math.sqrt(2600000/Math.max(1,innerWidth*innerHeight)));
+  W=cv.width=Math.round(innerWidth*dpr);H=cv.height=Math.round(innerHeight*dpr);
+  cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
+  /* El paso del subpixel se mide en css, no en dispositivos: en una pantalla 4k las
+     barras serian cuatro veces mas finas y dejaria de leerse como un macro. */
+  pitch=Math.max(11,Math.min(18,innerWidth/95))*dpr;
+  gl.viewport(0,0,W,H)}
+function pinta(){
+  gl.uniform2f(u.r,W,H);gl.uniform1f(u.t,t);gl.uniform1f(u.px,pitch);
+  gl.uniform2f(u.m,mx*dpr,(innerHeight-my)*dpr);
+  gl.uniform1f(u.p,hondo);
+  gl.drawArrays(gl.TRIANGLES,0,3)}
+function cuadro(a){
+  corriendo=false;
+  if(document.hidden)return;
+  if(!reduce)t+=Math.min(a-ultimo,64)*.001;
+  ultimo=a;
+  /* Sin puntero no hay esquina: en una pantalla tactil, o con el raton fuera de la
+     ventana, la lente se busca un centro y lo recorre muy despacio. */
+  if(!puntero){mx=innerWidth*(.5+.21*Math.sin(t*.115));my=innerHeight*(.44+.15*Math.cos(t*.083))}
+  else{mx=px;my=py}
+  pinta();
+  if(!reduce){corriendo=true;requestAnimationFrame(cuadro)}
+}
+function arranca(){if(corriendo||document.hidden)return;corriendo=true;ultimo=performance.now();requestAnimationFrame(cuadro)}
+/* Toda la pagina es la misma pantalla: el macro no se apaga al bajar del heroe, se calma.
+   Segun la profundidad de lectura sube el desenfoque, baja la ganancia y el campo se desliza
+   sobre si mismo a un tercio de la velocidad del scroll. Asi el cuerpo del texto sigue
+   mandando y el fondo sigue siendo el producto hasta el pie. El bucle solo se detiene
+   cuando la pestana esta dormida. */
+function profundidad(){const h=innerHeight,rec=document.documentElement.scrollHeight-h;
+  hondo=Math.max(0,Math.min(1,(scrollY-h*.30)/Math.max(1,rec-h*.30)))}
+addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY;puntero=true;if(reduce)arranca()},{passive:true});
+addEventListener('scroll',()=>{profundidad();if(reduce)arranca()},{passive:true});
+addEventListener('resize',()=>{tamano();profundidad();if(reduce)arranca()});
+document.addEventListener('visibilitychange',arranca);
+tamano();profundidad();arranca();
+}
+
+/* ---------- el panel flotante: el radar de esta pagina ----------
+   La portada usa el propio mecanismo para explicarse. Se copia el nodo
+   #plantilla (una sola definicion del panel en todo el fichero), se le quitan
+   los ids para que no choquen con el original y se ancla al elemento sobre el
+   que el visitante se detiene. Es de solo lectura: pointer-events none, asi que
+   nunca atrapa el puntero ni tapa un enlace. */
+const plantilla=document.getElementById('plantilla');
+const flot=(function(){
+  const n=plantilla.cloneNode(true);
+  n.classList.add('flotante');n.removeAttribute('id');
+  /* los ids se quitan: dos elementos con el mismo id en un documento son invalidos
+     y getElementById empezaria a devolver el clon. Todo se busca por clase. */
+  n.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  n.setAttribute('aria-hidden','true');
+  n.setAttribute('role','presentation');
+  document.body.appendChild(n);
+  return {root:n};
+})();
+/* El veredicto sigue la regla de la app: lo que solo informa va en verde y lo
+   que cambia algo al pulsarse (una casilla, un boton, un enlace) va en ambar.
+   La clase se elige con el codigo y la etiqueta aparte, porque la portada
+   inglesa traduce la etiqueta y la hoja de estilos no. */
+const VEREDICTO={ok:'seguro',warn:'revisar',danger:'peligroso'};
+function veredicto(el){
+  const interactivo=el.matches('label,button,a,input')||el.querySelector('label,button,a,input')!==null;
+  return interactivo?'warn':'ok';
+}
+function ponVeredicto(chip,k){
+  chip.className='chip ver'+(k==='ok'?'':' '+k);
+  chip.querySelector('span').textContent=VEREDICTO[k];
+}
+function selectorDe(el){
+  const clase=(el.className||'').split(/\s+/).filter(c=>c&&c!=='rise'&&c!=='lectura')[0];
+  return el.tagName.toLowerCase()+(clase?'.'+clase:'');
+}
+function rellena(e){
+  const d=flot.root,cuerpo=d.querySelector('.body');
+  d.querySelector('.title').textContent=e.dataset.z||'Elemento de la página';
+  d.querySelector('.chips .chip').textContent='chrome.exe';
+  ponVeredicto(d.querySelector('.chip.ver'),veredicto(e));
+  d.querySelector('.live span').textContent='respuesta lista';
+  d.querySelector('.radarline b').style.width='100%';
+  d.querySelector('.advice p').textContent=e.dataset.imp||'';
+  cuerpo.children[0].querySelector('.fk').textContent='QUÉ ES';
+  cuerpo.children[0].querySelector('.v1').textContent=e.dataset.qs||'';
+  cuerpo.children[1].querySelector('.v2').textContent='Demostración: el radar de esta página tarda 1,1 s en leer; el de la app lo ajustas tú de 0,8 a 8 segundos.';
+  cuerpo.children[2].children[0].querySelector('.mono').textContent=e.dataset.tipo||'HTMLElement';
+  cuerpo.children[2].children[1].querySelector('.mono').textContent=e.dataset.padre||'index.html';
+  cuerpo.children[2].children[1].querySelector('.v2').textContent=e.dataset.atajo||'sin atajo asignado';
+  cuerpo.children[3].querySelector('.code span').textContent=selectorDe(e);
+}
+const cola={x:0,y:0};let ancla=null,espera=null,prog=null,visible=false;
+function coloca(el){
+  const r=el.getBoundingClientRect(),d=flot.root;
+  const ancho=296,alto=d.offsetHeight||360;
+  let x=r.right+14,y=r.top-6;
+  if(x+ancho>innerWidth-12)x=Math.max(12,r.left-ancho-14);
+  if(x+ancho>innerWidth-12)x=Math.max(12,innerWidth-ancho-12);
+  if(y+alto>innerHeight-12)y=Math.max(12,innerHeight-alto-12);
+  if(y<90)y=90;
+  d.style.left=x+'px';d.style.top=y+'px';d.style.width=ancho+'px';
+}
+function oculta(){
+  clearTimeout(espera);cancelAnimationFrame(prog);
+  flot.root.classList.remove('dentro');visible=false;ancla=null;
+}
+function marca(a){if(!a)return;a.classList.remove('lectura');a.style.removeProperty('--p')}
+function aparece(el){
+  if(visible&&ancla===el)return;
+  oculta();ancla=el;
+  const inicio=performance.now(),total=reduce?160:1100;
+  el.classList.add('lectura');
+  function frame(now){
+    const p=Math.min(1,(now-inicio)/total);
+    el.style.setProperty('--p',p);
+    flot.root.querySelector('.radarline b').style.width=(p*100)+'%';
+    flot.root.querySelector('.live span').textContent=p<1?'escuchando…':'respuesta lista';
+    if(p<1){prog=requestAnimationFrame(frame)}
+    else{rellena(el);coloca(el);flot.root.classList.add('dentro');visible=true}
+  }
+  prog=requestAnimationFrame(frame);
+}
+addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;
+  cola.x=e.clientX;cola.y=e.clientY;
+  const el=e.target.closest?e.target.closest('[data-lectura]'):null;
+  if(el===ancla)return;
+  marca(ancla);oculta();
+  if(!el)return;
+  espera=setTimeout(()=>{
+    const r=el.getBoundingClientRect();
+    if(cola.x>=r.left-8&&cola.x<=r.right+8&&cola.y>=r.top-8&&cola.y<=r.bottom+8)aparece(el);
+  },620);
+},{passive:true});
+addEventListener('scroll',()=>{oculta()},{passive:true});
+addEventListener('blur',()=>oculta());
+
+/* ---------- demo del puntero: rellena el panel de verdad ---------- */
+const track=document.getElementById('track'),fill=document.getElementById('fill'),head=document.getElementById('head'),
+  st=document.getElementById('st'),aq=document.getElementById('aq'),ap=document.getElementById('ap'),
+  asp=document.getElementById('as'),pct=document.getElementById('pct'),demo=document.querySelector('.demo');
+const d_title=document.getElementById('d-title'),d_live=document.getElementById('d-live'),
+  d_radar=document.getElementById('d-radar'),d_why=document.getElementById('d-why'),
+  d_qs=document.getElementById('d-qs'),d_imp=document.getElementById('d-imp'),
+  d_tipo=document.getElementById('d-tipo'),d_padre=document.getElementById('d-padre'),
+  d_cli=document.getElementById('d-cli'),d_proc=document.getElementById('d-proc'),
+  d_ver=document.getElementById('d-ver'),d_atajo=document.getElementById('d-atajo');
+const STEPS=[
+ {z:'Ajustar el tamaño del texto',a:'Ajusta el tamaño del texto de la interfaz si se ve pequeña en tu pantalla. Al activarlo recalcula el escalado y reorganiza el panel.',
+  why:'Es una preferencia de visualización: no toca archivos ni permisos. Si el texto se ve raro después, aquí se deshace.',
+  imp:'Al activarlo recalcula el escalado de toda la ventana. Guarda lo que tengas abierto por si acaso.',
+  t:'CheckBox',p:'config.exe',c:'explorer.exe',v:'ok',s:'UIA · CheckBox · config.exe',n:'identidad del control',k:'Ctrl+Shift+C ajustes'},
+ {z:'svchost.exe',a:'El elemento pertenece al proceso que tienes delante ahora mismo. Es él quien consume la CPU, no el sistema.',
+  why:'Saber de quién es el elemento decide qué puedes tocar sin romper nada.',
+  imp:'Agrupación de servicios de Windows. Matarlo cierra todo lo que cuelgue de ahí dentro.',
+  t:'Group',p:'services.exe',c:'svchost.exe',v:'warn',s:'Shell · proceso dueño · lectura local',n:'proceso',k:'Ctrl+Shift+A recortar'},
+ {z:'Vaciar el historial',a:'Ojo: borra el historial de sesiones al cerrar y no se puede deshacer. Guarda antes la sesión abierta.',
+  why:'Es de las pocas casillas de esta ventana que borra algo de verdad.',
+  imp:'Acción no reversible: no pasa por la papelera y no hay forma de recuperarlo.',
+  t:'Button',p:'App.exe',c:'explorer.exe',v:'danger',s:'UIA · Button · acción no reversible',n:'riesgo',k:'Ctrl+Shift+D radar'},
+ {z:'Clave del registro del usuario',a:'Es un control nativo Win32 enlazado a una clave del registro del usuario. Cambiarlo afecta a la sesión actual.',
+  why:'Si algo se comporta raro solo en tu cuenta, casi siempre está aquí.',
+  imp:'Escribe en HKCU: cambia para este usuario, no para el equipo.',
+  t:'Win32 · HWND',p:'ntdll.dll',c:'HKCU\\Software\\…',v:'warn',s:'HKCU · ventana contenedora',n:'código',k:'Ctrl+Shift+C ajustes'}
+];
+let dragging=false,timer=null;
+function pintaPanel(i,p){
+  const d=STEPS[i];
+  d_title.textContent=d.z;d_proc.textContent=d.c;
+  ponVeredicto(d_ver.parentElement,d.v);
+  d_qs.textContent=d.a;d_imp.textContent=d.imp;d_why.textContent=d.why;
+  d_tipo.textContent=d.t;d_padre.textContent=d.p;d_cli.textContent=d.c;
+  d_atajo.textContent=d.k;
+  d_radar.style.width=(p*100)+'%';
+}
+function setP(p){
+  p=Math.max(0,Math.min(1,p));
+  fill.style.width=(p*100)+'%';head.style.left=(p*100)+'%';
+  pct.textContent=Math.round(p*100)+' %';
+  const i=Math.min(STEPS.length-1,Math.floor(p*STEPS.length));
+  if(track.dataset.i==i){d_radar.style.width=(p*100)+'%';return}
+  track.dataset.i=i;
+  clearTimeout(timer);
+  st.className='st busy';st.textContent='escuchando';d_live.textContent='escuchando…';
+  aq.style.opacity=0;ap.style.opacity=0;
+  timer=setTimeout(()=>{
+    const d=STEPS[i];
+    st.className=i===2?'st busy':'st done';
+    st.textContent=i===2?'señal de riesgo':'respuesta lista';
+    d_live.textContent='respuesta lista · '+[1.2,2.4,3.1,1.8][i]+' s';
+    aq.textContent=d.n.charAt(0).toUpperCase()+d.n.slice(1);ap.textContent=d.a;
+    asp.textContent=d.s+' · '+d.n;
+    aq.style.opacity=1;ap.style.opacity=1;
+    pintaPanel(i,p);
+  },420);
+}
+function fromEvt(e){const r=track.getBoundingClientRect();setP((e.clientX-r.left)/r.width)}
+track.addEventListener('pointerdown',e=>{dragging=true;track.setPointerCapture(e.pointerId);fromEvt(e)});
+track.addEventListener('pointermove',e=>{if(dragging||e.pointerType==='mouse')fromEvt(e)});
+track.addEventListener('pointerup',()=>dragging=false);
+track.addEventListener('pointercancel',()=>dragging=false);
+track.addEventListener('keydown',e=>{
+  const cur=Number(track.dataset.i||0);
+  if(e.key==='ArrowRight')setP((cur+1)/STEPS.length);
+  if(e.key==='ArrowLeft')setP((cur-1)/STEPS.length);
+});
+track.tabIndex=0;track.setAttribute('role','slider');
+track.setAttribute('aria-label','Demostración: arrastra el puntero para leer un elemento');
+demo.addEventListener('pointermove',e=>{const r=demo.getBoundingClientRect();demo.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%')});
+setP(0.14);
+
+/* ---------- las casillas de las capas mueven el panel laboratorio ---------- */
+(function(){
+  const T=document.getElementById('L-Traducir'),R=document.getElementById('L-Radar'),V=document.getElementById('L-Voz'),
+    lab=document.getElementById('lab'),off=document.getElementById('capa-off'),
+    offT=document.getElementById('capa-off-t'),offS=document.getElementById('capa-off-s'),
+    state=document.getElementById('lab-state'),radar=document.getElementById('lab-radar'),
+    db=document.getElementById('lab-db'),f1=document.getElementById('lab-fk1'),
+    t1=document.getElementById('lab-t1'),adv=document.getElementById('lab-advice');
+  const LECTURA='Relee lo copiado y lo compara: si algo se corrompió en el trayecto, aparece aquí y no dentro de un año.';
+  function pinta(){
+    const enc=T.checked||R.checked||V.checked;
+    off.classList.toggle('on',!enc);
+    if(!enc){offT.textContent='Con las tres capas apagadas, la app sigue leyendo.';
+      offS.textContent='El panel se queda con la identidad del control: nombre, tipo, valor y estado. Sin traducción, sin radar, sin voz.';
+      /* el panel de detras tambien se pone en reposo: bajo el velo no puede quedar
+         un "hablando" de hace dos casillas */
+      state.textContent='en reposo';radar.style.opacity='.25';db.textContent='0.00 dB';db.style.opacity='.45';
+      return}
+    let s=[];
+    if(T.checked)s.push('láser');
+    if(R.checked)s.push('radar');
+    if(V.checked)s.push('voz');
+    const partes=[];
+    if(T.checked)partes.push('«Comprobare la integritat en acabar» — català, detectado por OCR de Windows.');
+    else partes.push('El OCR sigue leyendo el texto, pero la capa de traducción está apagada: verías el original tal cual.');
+    if(R.checked){partes.push('El radar está puesto: te responde solo cuando te detienes.');radar.style.opacity='1'}
+    else{partes.push('Sin radar: nada aparece solo, lo llamas con Ctrl+Shift+A sobre un área.');radar.style.opacity='.25'}
+    db.textContent=V.checked?'2.40 dB':'0.00 dB';
+    db.style.opacity=V.checked?'1':'.45';
+    f1.textContent=T.checked?'TRADUCCIÓN BAJO EL PUNTERO':'TEXTO LEÍDO, SIN TRADUCIR';
+    t1.textContent=partes[0];
+    adv.textContent=T.checked?LECTURA:'Sin la capa de traducción la asesoría sigue ahí: lo que se pierde es la lectura del texto en otro idioma.';
+    state.textContent=(V.checked?'hablando · ':'')+(R.checked?'radar activo · 3.0 seg':'radar apagado')+(s.length?' · '+'haz: '+s.join(' + '):'');
+    /* El aviso de MODO LOCAL no depende de ninguna casilla: habla de si hay clave
+       de IA configurada, y aqui no la hay. Va siempre visible, como en la app. */
+    // la clase de cada interruptor, para que se lea apagado de verdad
+    T.closest('.sw').classList.toggle('apagada',!T.checked);
+    R.closest('.sw').classList.toggle('apagada',!R.checked);
+    V.closest('.sw').classList.toggle('apagada',!V.checked);
+  }
+  [T,R,V].forEach(x=>x.addEventListener('change',pinta));
+  pinta();
+})();
+
+/* ---------- revelados ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rise').forEach(el=>io.observe(el));
+
+/* La franja de estados late solo mientras se ve: fuera de pantalla el bucle no
+   informa de nada y cuesta un pintado por cuadro. Con movimiento reducido nunca
+   corre (la regla de CSS manda sobre esta clase). */
+const franja=document.querySelector('.strip');
+if(franja){
+  new IntersectionObserver(es=>es.forEach(e=>franja.classList.toggle('en',e.isIntersecting)),{threshold:0}).observe(franja);
+}
+addEventListener('scroll',()=>document.getElementById('top').classList.toggle('stuck',scrollY>40),{passive:true});
+
+/* ---------- medicion: GA4 + Microsoft Clarity, solo con permiso ----------
+   Los dos IDs son los de las propiedades reales del proyecto (GA `G-WSGPY3DK4Z`,
+   Clarity `yx9lgph0yh`), verificados contra el endpoint de cada proveedor antes
+   de dejarlos aqui. Nada de esto toca la red hasta que se pulse "Permitir":
+   por defecto no hay cookie de medicion ni observacion de comportamiento.
+   La decision se guarda en el navegador (aqui no hay cuentas de usuario). */
+const GA_ID='G-WSGPY3DK4Z', CLARITY_ID='yx9lgph0yh', CLAVE='tooltipai.medicion.v1';
+const aviso=document.getElementById('consent'), reabrir=document.getElementById('medicion-abrir');
+let cargado=false;
+let eleccion=null;
+try{eleccion=localStorage.getItem(CLAVE)}catch(e){/* ventana privada: se decide en cada visita */}
+
+function mostrarAviso(){
+  aviso.hidden=false;
+  void aviso.offsetHeight;   // reflow forzado: sin esto el salto de opacidad 0 -> .in puede colapsarse en el mismo pintado
+  aviso.classList.add('in');
+  aviso.querySelector('button').focus({preventScroll:true});
+}
+function cargarMedicion(){
+  if(cargado)return;
+  cargado=true;
+
+  window.dataLayer=window.dataLayer||[];
+  if(typeof window.gtag!=='function'){window.gtag=function(){dataLayer.push(arguments)}}
+  gtag('consent','default',{ad_storage:'denied',analytics_storage:'denied',function_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait:120});
+  const s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+  document.head.appendChild(s);
+  gtag('js',new Date());
+  gtag('config',GA_ID);
+  gtag('consent','update',{analytics_storage:'granted',function_storage:'granted'});
+
+  if(!window.clarity){
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,'clarity','script',CLARITY_ID);
+  }
+}
+function decidir(si){
+  try{localStorage.setItem(CLAVE,si?'si':'no')}catch(e){}
+  aviso.hidden=true;
+  aviso.classList.remove('in');
+  reabrir.hidden=false;
+  if(si){cargarMedicion()}
+  else if(window.gtag){gtag('consent','update',{analytics_storage:'denied',function_storage:'denied'})}
+}
+document.getElementById('medicion-si').addEventListener('click',()=>decidir(true));
+document.getElementById('medicion-no').addEventListener('click',()=>decidir(false));
+reabrir.addEventListener('click',mostrarAviso);
+
+if(eleccion==='si'){cargarMedicion();reabrir.hidden=false}
+else if(eleccion==='no'){reabrir.hidden=false}
+else{mostrarAviso()}
+</script>
+</body>
+</html>
