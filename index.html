@@ -48,21 +48,23 @@
 <meta property="og:url" content="https://tooltip-ai.com/">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="es_MX">
-<!-- icon.png es de 1024x1024 y 1,7 MB: sirve como toque de pantalla de inicio,
-     no como vista previa. Las redes recortan el cuadrado y tardan en bajar ese
-     peso, justo cuando el enlace viaja por X, Reddit o Discord. La tarjeta es
-     1200x630 y pesa una fraccion. No es una captura: no puede serlo. -->
+<!-- icon-obsidiana.png es el avatar de marca (512x512, 384 KB): toque de pantalla
+     de inicio y "image" del JSON-LD. No es la vista previa. Las redes recortan el
+     cuadrado y tardan en bajar ese peso, justo cuando el enlace viaja por X, Reddit
+     o Discord. La tarjeta es 1200x630 y pesa una fraccion. No es una captura: no
+     puede serlo. El icono vectorial plano sigue mandando en la app y en el favicon,
+     que es donde el logo tiene que sostenerse en 16 px. -->
 <meta property="og:image" content="https://tooltip-ai.com/social-card-en.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="ToolTip AI — the HUD panel reading a Windows control under the pointer.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ToolTip AI — You point. It answers.">
-<meta name="twitter:description" content="A Windows app that explains what is under your cursor. One lifetime license, no subscription, and listings you can try free before paying.">
+<meta name="twitter:description" content="A Windows app that explains what is under your cursor. One lifetime license, no subscription, and a separate listing you can try free before paying.">
 <meta name="twitter:image" content="https://tooltip-ai.com/social-card-en.png">
 <meta name="theme-color" content="#04060A">
 <link rel="icon" href="/favicon.ico">
-<link rel="apple-touch-icon" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon-obsidiana.png">
 <style>
 /* ---------------------------------------------------------------------------
    Paleta medida sobre el diseno de referencia (vidrio neon, no navy saturado):
@@ -352,8 +354,9 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .comport li::before{content:'';position:absolute;left:16px;top:24px;width:6px;height:6px;border-radius:50%;background:var(--mint);opacity:.85;box-shadow:0 0 10px rgba(177,244,216,.6)}
 @media(max-width:860px){.comport{grid-template-columns:1fr;gap:26px}}
 
-/* --------------------------- las cuatro fichas ---------------------------
-   Cuatro fichas vivas en la Tienda, cada una con su propio color de senal
+/* ------------------------ la ficha suelta y el retiro ----------------------
+   Una ficha sigue a la venta aparte (Bridge) y las otras tres se retiraron:
+   su capa vuelve dentro de la app. Cada tarjeta conserva su color de senal
    heredado del HUD. La linea de la izquierda no es decoracion: es el haz del
    estado, y es lo unico que separa una ficha de otra. Sin bordes de 1 px. */
 .fichas{margin-top:52px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -529,7 +532,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       "publisher": {
         "@id": "https://tooltip-ai.com/#dixi3"
       },
-      "image": "https://tooltip-ai.com/icon.png",
+      "image": "https://tooltip-ai.com/icon-obsidiana.png",
       "screenshot": "https://tooltip-ai.com/social-card-en.png",
       "description": "Windows app that explains the control under your pointer: what it is, what it is for and what happens if you click it. Local OCR translation, rest radar and read-aloud.",
       "featureList": [
@@ -544,7 +547,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
         "@type": "Offer",
         "url": "https://apps.microsoft.com/detail/9N3D02KXKD3D",
         "category": "paid",
-        "price": "26.99",
+        "price": "22.99",
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock",
         "seller": {
@@ -563,145 +566,13 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       "@id": "https://tooltip-ai.com/#fichas",
       "name": "ToolTip AI listings on Microsoft Store",
       "itemListOrder": "https://schema.org/ItemListUnordered",
-      "numberOfItems": 4,
+      "numberOfItems": 1,
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
-          "url": "https://tooltip-ai.com/#translate"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "url": "https://tooltip-ai.com/#aura"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "url": "https://tooltip-ai.com/#voice"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
           "url": "https://tooltip-ai.com/#bridge"
         }
-      ]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://tooltip-ai.com/#translate",
-      "name": "ToolTip AI Translate",
-      "url": "https://tooltip-ai.com/#translate",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
-      "processorRequirements": "x64",
-      "isAccessibleForFree": true,
-      "description": "Translates the text you are already looking at: UI Automation when the control exposes its text, Windows.Media.Ocr when it does not.",
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": "https://apps.microsoft.com/detail/9NQN3RZ2Z655",
-        "lowPrice": "0",
-        "highPrice": "11.99",
-        "priceCurrency": "USD",
-        "offerCount": 2,
-        "offers": [
-          {
-            "@type": "Offer",
-            "name": "Free trial",
-            "category": "free trial",
-            "price": "0",
-            "priceCurrency": "USD",
-            "eligibleDuration": "P7D"
-          },
-          {
-            "@type": "Offer",
-            "name": "Lifetime license",
-            "category": "paid",
-            "price": "11.99",
-            "priceCurrency": "USD"
-          }
-        ]
-      },
-      "sameAs": [
-        "https://apps.microsoft.com/detail/9NQN3RZ2Z655"
-      ]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://tooltip-ai.com/#aura",
-      "name": "ToolTip AI Aura",
-      "url": "https://tooltip-ai.com/#aura",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
-      "processorRequirements": "x64",
-      "isAccessibleForFree": true,
-      "description": "Voice guide: analyses the element under the cursor or the active window and reads it aloud with local TTS.",
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": "https://apps.microsoft.com/detail/9P33P1P5Z8DC",
-        "lowPrice": "0",
-        "highPrice": "11.99",
-        "priceCurrency": "USD",
-        "offerCount": 2,
-        "offers": [
-          {
-            "@type": "Offer",
-            "name": "Free trial",
-            "category": "free trial",
-            "price": "0",
-            "priceCurrency": "USD",
-            "eligibleDuration": "P7D"
-          },
-          {
-            "@type": "Offer",
-            "name": "Lifetime license",
-            "category": "paid",
-            "price": "11.99",
-            "priceCurrency": "USD"
-          }
-        ]
-      },
-      "sameAs": [
-        "https://apps.microsoft.com/detail/9P33P1P5Z8DC"
-      ]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://tooltip-ai.com/#voice",
-      "name": "ToolTip AI Voice",
-      "url": "https://tooltip-ai.com/#voice",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
-      "processorRequirements": "x64",
-      "isAccessibleForFree": true,
-      "description": "Turns clipboard text into speech using the system voices, with no account and no AI key.",
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": "https://apps.microsoft.com/detail/9P417GZB0FVB",
-        "lowPrice": "0",
-        "highPrice": "11.99",
-        "priceCurrency": "USD",
-        "offerCount": 2,
-        "offers": [
-          {
-            "@type": "Offer",
-            "name": "Free trial",
-            "category": "free trial",
-            "price": "0",
-            "priceCurrency": "USD",
-            "eligibleDuration": "P7D"
-          },
-          {
-            "@type": "Offer",
-            "name": "Lifetime license",
-            "category": "paid",
-            "price": "11.99",
-            "priceCurrency": "USD"
-          }
-        ]
-      },
-      "sameAs": [
-        "https://apps.microsoft.com/detail/9P417GZB0FVB"
       ]
     },
     {
@@ -781,10 +652,10 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
         },
         {
           "@type": "Question",
-          "name": "Four listings that look alike, which one do I install?",
+          "name": "Which listing do I install?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ToolTip AI is the complete application: the three layers live on the same element, with a single panel and a single configuration. Translate and Aura are two of those layers living in their own listing. Voice and Bridge are two other utilities by the same author that are not part of the set. If you want the set, the listing is ToolTip AI."
+            "text": "ToolTip AI is the complete application: the three layers live on the same element, with a single panel and a single configuration. Translate, Aura and Voice were layers of it sold in their own listings; those three are being retired and everything they do is inside ToolTip AI now. Bridge is a different utility by the same author — it sends text from the phone to the PC — and it keeps its own listing. If you want the set, the listing is ToolTip AI."
           }
         },
         {
@@ -792,7 +663,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
           "name": "What happens when the free trial ends?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The four separate listings carry a 7-day free trial, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and there is no automatic charge — there is no subscription to renew, so nobody charges you by surprise."
+            "text": "The one listing still sold apart — Bridge — carries a 7-day free trial, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and there is no automatic charge — there is no subscription to renew, so nobody charges you by surprise."
           }
         }
       ]
@@ -904,7 +775,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="p"><dt>Product</dt><dd>ToolTip AI<small>Dixi3 Lqbs · the full listing, with the three layers inside</small></dd></div>
       <div class="p"><dt>License</dt><dd>One-time payment, for life<small>It ties to your Microsoft account; it is not a subscription</small></dd></div>
       <div class="p"><dt>Layers</dt><dd>Translate · Rest radar · Voice<small>Plus the element explanation, always active</small></dd></div>
-      <div class="p"><dt>Separate listings</dt><dd>Translate · Aura · Voice · Bridge<small>Two of them are layers of this app living apart, two are utilities by the same author, and each one carries its own trial: <a href="#fichas">which ones do what</a></small></dd></div>
+      <div class="p"><dt>Separate listing</dt><dd>Bridge<small>A utility by the same author, not a layer of this app, with its own trial. Translate, Aura and Voice were layers living apart and are no longer sold on their own: <a href="#fichas">what happened to them</a></small></dd></div>
       <div class="p"><dt>System</dt><dd>Windows 10 (19041+) and Windows 11<small>x64 only · no ARM64 build</small></dd></div>
       <div class="p"><dt>Languages</dt><dd>Spanish, English and German<small>The labels follow whichever display language Windows is set to; translation points at ten target languages</small></dd></div>
       <div class="p"><dt>AI</dt><dd>Optional, and with your own API key<small>Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude · encrypted with DPAPI</small></dd></div>
@@ -995,52 +866,24 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
 </div></section>
 
 <!-- =========================================================================
-     LAS CUATRO FICHAS. Cada tarjeta describe lo que ESA ficha instala, no lo
-     que convendría al embudo que fuera. Translate y Aura sí son capas de la
-     suite vividas aparte; Voice y Bridge son otras dos utilidades del mismo
-     autor. Decirlo cuesta una venta y ahorra una devolución.
+     LA FICHA SUELTA Y EL RETIRO. Cada tarjeta describe lo que ESA ficha
+     instala, no lo que convendría al embudo que fuera. Bridge es una utilidad
+     del mismo autor que no forma parte del conjunto. Translate, Aura y Voice
+     sí lo eran: capas de la suite vividas aparte que la fusión devolvió a un
+     solo binario, y que se retiran sin borrarse. Decirlo cuesta una venta y
+     ahorra una devolución.
      Las etiquetas de prueba se leen de Partner Center, no de aqui: si cambias
      la duracion de una, cambia la etiqueta.
 ========================================================================== -->
 <section id="fichas"><div class="wrap">
-  <h2 class="rise" data-lectura data-z="This headline" data-qs="It announces the other four listings published in Microsoft Store and their free trial."
-      data-imp="None of the four needs your API key to start, and none of them asks for a card to begin." data-tipo="H2" data-padre="#fichas">Four listings, each with its own trial.</h2>
+  <h2 class="rise" data-lectura data-z="This headline" data-qs="It names the only listing still sold on its own and says what happened to the three that were retired."
+      data-imp="Nobody installs the same translation layer twice: the three that came apart now live inside the app you already buy." data-tipo="H2" data-padre="#fichas">One listing sold apart, and three that went back inside.</h2>
   <p class="lead rise" data-lectura data-z="The listings paragraph"
-     data-qs="It clarifies the relation between the complete application and the separate listings before someone installs two things that do the same."
-     data-imp="It is the line that avoids the refund: whoever wants the set buys ToolTip AI, not four separate windows." data-tipo="P · lead" data-padre="#fichas">
-    Besides the complete application there are four listings in Microsoft Store, each with its own free trial and no card up front. Two of them are layers of this same app lived apart. The other two are different utilities by the same author: we tell you here, not after you have installed them.
+     data-qs="It clarifies the relation between the complete application and the listing sold apart before someone installs two things that do the same."
+     data-imp="It is the line that avoids the refund: whoever wants the set buys ToolTip AI, not a window per layer." data-tipo="P · lead" data-padre="#fichas">
+    The complete application is one listing. Only one separate listing is still on sale: Bridge, a utility by the same author that is not a layer of this app. Three more — Translate, Aura and Voice — were layers of it living apart, and the merge put them back inside, so they no longer install on their own.
   </p>
   <div class="fichas">
-    <article class="ficha glass rise" id="translate" style="--fc:var(--aqua)"
-      data-lectura data-z="ToolTip AI Translate" data-qs="Separate listing with the suite's Translate layer: UI Automation when the control gives up its text, Windows OCR when it does not."
-      data-imp="It is the same reading the complete application does; what it does not bring is the radar, the voice or the advice panel." data-tipo="MSIX · 9NQN3RZ2Z655" data-padre="#fichas" data-atajo="Ctrl+Shift+T in the suite">
-      <span class="k">suite layer · translation</span>
-      <h3>ToolTip AI <i>Translate</i></h3>
-      <p>It translates the text you are already looking at, without copying it and without changing window. When the control gives up its text it reads it directly; when it does not, it recognizes the area around the pointer with Windows' own OCR, on your machine.</p>
-      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">es · en</span></div>
-      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9NQN3RZ2Z655" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
-    </article>
-
-    <article class="ficha glass rise" id="aura" style="--fc:var(--violet)"
-      data-lectura data-z="ToolTip AI Aura" data-qs="Separate listing with the voice guide: draggable floating capsule, status orb and reading out loud with local TTS."
-      data-imp="The trigger is the time you stay still over the element, about 1.8 seconds, or Ctrl+Shift+A." data-tipo="MSIX · 9P33P1P5Z8DC" data-padre="#fichas" data-atajo="Ctrl+Shift+A · Ctrl+Shift+V repeats">
-      <span class="k">suite layer · voice and radar</span>
-      <h3>ToolTip AI <i>Aura</i></h3>
-      <p>It tells you out loud. It analyzes the element under the cursor or the active window and reads it with the system voices, from a floating capsule that you drag to the corner you want. AI provider of your choice, with your key encrypted on the machine.</p>
-      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">local TTS</span></div>
-      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P33P1P5Z8DC" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
-    </article>
-
-    <article class="ficha glass rise" id="voice" style="--fc:var(--mint)"
-      data-lectura data-z="ToolTip AI Voice" data-qs="Separate utility: it turns the text you already copied to the clipboard into speech, not what is under the pointer."
-      data-imp="Its shortcuts are Ctrl+Shift+V and Ctrl+Shift+S, which are not the ones of the complete application. They are two different things." data-tipo="MSIX · 9P417GZB0FVB" data-padre="#fichas" data-atajo="Ctrl+Shift+V reads · Ctrl+Shift+S stops">
-      <span class="k">other utility · clipboard</span>
-      <h3>ToolTip AI <i>Voice</i></h3>
-      <p>It reads what you copy. You copy any text in Windows, press the shortcut and it speaks it while you keep working on something else; it lowers the system volume while it talks and restores it when it finishes. No account, no API key and no auto-start unless you turn it on.</p>
-      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">it is not a suite layer</span></div>
-      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P417GZB0FVB" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
-    </article>
-
     <article class="ficha glass rise" id="bridge" style="--fc:var(--gold)"
       data-lectura data-z="ToolTip AI Bridge" data-qs="Separate utility: it sends text and links from the phone to the PC over the local Wi-Fi network, with no cloud servers."
       data-imp="It has nothing to do with explaining controls. If you are looking for the suite, this is not the listing." data-tipo="MSIX · 9PN1B2M4N7DK" data-padre="#fichas" data-atajo="on the phone: Share → Send to PC">
@@ -1050,8 +893,18 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">it is not a suite layer</span></div>
       <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9PN1B2M4N7DK" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
     </article>
+
+    <article class="ficha glass rise" id="dentro" style="--fc:var(--faint)"
+      data-lectura data-z="ToolTip AI Translate, Aura and Voice" data-qs="The three listings that were retired: their layers went back inside the central app, so nobody buys them apart any more."
+      data-imp="If you installed one while it was on sale, it keeps working and keeps updating. What it did is inside ToolTip AI now." data-tipo="retirement · 9NQN3RZ2Z655 · 9P33P1P5Z8DC · 9P417GZB0FVB" data-padre="#fichas">
+      <span class="k">retired · inside the app</span>
+      <h3><i>Translate</i> · <i>Aura</i> · <i>Voice</i></h3>
+      <p>Three windows doing three things that now happen in one: translating the text you are looking at, reading it out loud from a floating capsule, and speaking whatever you copied. The same reading and the same shortcuts, with one install and one payment. The listings leave the Store without being deleted, so nobody loses what they already had.</p>
+      <div class="meta"><span class="tag muda">inside ToolTip AI</span><span class="tag muda">hidden, not deleted</span></div>
+      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Get the three inside the app<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    </article>
   </div>
-  <p class="cita-haz rise">«If you want the whole set, there is a single listing: ToolTip AI. The other four each install on their own and do not share a panel.»<small>what this section is trying to prevent</small></p>
+  <p class="cita-haz rise">«If you want the whole set, there is a single listing: ToolTip AI. Translate, Aura and Voice no longer install on their own, and Bridge does not share the panel because it was never part of it.»<small>what this section is trying to prevent</small></p>
 </div></section>
 
 <section id="demo"><div class="wrap">
@@ -1204,29 +1057,29 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="a">Yes, from build <code>19041</code>, and also on Windows 11. There is only an x64 build: <b>there is no ARM64 build</b>.</div>
     </details>
     <details class="rise" data-lectura data-z="Question: which listing" data-qs="It defuses the most expensive mistake: installing two listings that do the same and returning the second."
-      data-imp="Four products with similar names get confused on their own. This answer is the one that saves the refund." data-tipo="details · FAQ" data-padre="#faq">
-      <summary>Four listings that look alike, which one do I install?</summary>
-      <div class="a"><b>ToolTip AI</b> is the complete application: the three layers live on the same element, with a single panel and a single configuration. <b>Translate</b> and <b>Aura</b> are two of those layers living in their own listing. <b>Voice</b> and <b>Bridge</b> are two other utilities by the same author that are not part of the set. If you want the set, the listing is ToolTip AI.</div>
+      data-imp="Products with similar names get confused on their own. This answer is the one that saves the refund." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Which listing do I install?</summary>
+      <div class="a"><b>ToolTip AI</b> is the complete application: the three layers live on the same element, with a single panel and a single configuration. <b>Translate</b>, <b>Aura</b> and <b>Voice</b> were layers of it sold in their own listings; those three are being retired and everything they do is inside ToolTip AI now. <b>Bridge</b> is a different utility by the same author — phone to PC over the local network — and it keeps its own listing. If you want the set, the listing is ToolTip AI.</div>
     </details>
     <details class="rise" data-lectura data-z="Question: the end of the trial" data-qs="It says what happens on day 8, which is exactly what nobody clarifies."
       data-imp="The real fear is not paying: it is being charged without being asked. Here it is ruled out explicitly." data-tipo="details · FAQ" data-padre="#faq">
       <summary>What happens when the free trial ends?</summary>
-      <div class="a">The four separate listings carry a <b>7-day free trial</b>, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and <b>there is no automatic charge</b> — there is no subscription to renew, so nobody charges you by surprise.</div>
+      <div class="a">The one listing still sold apart — <b>Bridge</b> — carries a <b>7-day free trial</b>, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and <b>there is no automatic charge</b> — there is no subscription to renew, so nobody charges you by surprise.</div>
     </details>
   </div>
 </div></section>
 
 <section class="final" id="conseguir"><div class="wrap">
   <h2 class="rise">One app. Lifetime license.</h2>
-  <p class="rise">It installs from Microsoft Store and updates itself. The figure below is in dollars and it is today's; the Store converts it to your currency at the moment of paying and that is the one that counts.</p>
+  <p class="rise">It installs from Microsoft Store and updates itself. This page carries no hand-written amount: the Store shows the figure in dollars and converts it to your currency at the moment of paying, and that is the one that counts.</p>
   <div class="marca rise" data-lectura data-z="The price of the complete application" data-qs="It is the one-time payment for ToolTip AI, the suite with the three layers inside."
-       data-imp="It is not a subscription: you pay once and it ties to your Microsoft account. The four separate listings are billed apart and cheaper." data-tipo="price · USD" data-padre="#conseguir">
+       data-imp="It is not a subscription: you pay once and it ties to your Microsoft account. The listing still sold apart is billed separately and cheaper." data-tipo="price · USD" data-padre="#conseguir">
     <b>One-time payment</b><span>the amount is the one the Store shows</span>
   </div>
   <!-- Ficha unica del producto. Al consolidar la ficha en Partner Center,
        esta URL es la unica que cambia en todo el sitio. -->
   <a class="pill rise" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Open in Microsoft Store</a>
-  <p class="rise" style="margin-top:20px;font-size:15px">Would you rather try first? <a href="#fichas" style="color:var(--aqua)">Four listings with a free trial</a>, no card up front.</p>
+  <p class="rise" style="margin-top:20px;font-size:15px">Would you rather try first? <a href="#fichas" style="color:var(--aqua)">Bridge has a 7-day free trial</a>, no card up front.</p>
   <div class="requisitos rise">
     <span>Windows 10 19041 or newer</span><span>Windows 11 · x64</span><span>One-time payment</span><span>No app account</span><span>Listing in es · es-419 · en</span>
   </div>
