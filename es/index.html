@@ -10,12 +10,28 @@
      se piden si el visitante da permiso (ver el bloque de medicion al final).
      Sin frame-ancestors: dentro de una <meta> el navegador la IGNORA y ademas
      deja un error en consola en cada carga. GitHub Pages no permite mandar
-     cabeceras de respuesta en dominio propio, asi que aqui no puede vivir;
-     el hueco esta declarado en MicrosoftStore_Submission/SECURITY_HEADERS.md.
+     cabeceras de respuesta en dominio propio, asi que aqui no puede vivir:
+     el hueco es el techo de la plataforma, no un olvido. Lo que si puede
+     decidirse en el cliente es no prestarse a que incrusten esta pagina, y
+     eso lo cierra el script que va justo debajo.
      Todo lo que se ve del producto esta dibujado con CSS y SVG en este mismo
      fichero: no hay <img>, asi que ninguna ruta de imagen puede romperse. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- frame-ancestors es una directiva de cabecera y Pages no manda cabeceras, asi que el
+     unico control posible contra el encasquetado vive aqui. Si alguien incrusta esta
+     pagina en un iframe de otro origen, se intenta devolver la ventana al sitio y, si
+     el navegador lo impide por ser otro origen, la pagina se queda en blanco: un marco
+     vacio no se puede superponer a nada. -->
+<script>
+(function () {
+  if (window.self === window.top) return;
+  try { window.top.location.href = window.self.location.href; } catch (e) {}
+  var s = document.createElement('style');
+  s.textContent = 'html{display:none!important}';
+  document.head.appendChild(s);
+})();
+</script>
 <title>ToolTip AI — Apuntas. Responde.</title>
 <meta name="description" content="Una sola aplicación de Windows que lee lo que hay bajo tu cursor y lo explica: traduce, identifica el control, advierte del riesgo y lo lee en voz alta. Licencia de por vida, sin cuenta y sin servidor propio.">
 <link rel="canonical" href="https://tooltip-ai.com/es/">
@@ -506,7 +522,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       "applicationSubCategory": "Assistant",
       "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
       "processorRequirements": "x64",
-      "softwareVersion": "1.2",
+      "softwareVersion": "1.1.15.0",
       "publisher": { "@id": "https://tooltip-ai.com/es/#dixi3" },
       "image": "https://tooltip-ai.com/icon.png",
       "screenshot": "https://tooltip-ai.com/social-card.png",
@@ -672,7 +688,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
         {
           "@type": "Question",
           "name": "¿Qué pasa cuando termina la prueba gratuita?",
-          "acceptedAnswer": { "@type": "Answer", "text": "La duración la fija cada ficha en Microsoft Store. Al terminarse, la app deja de responder hasta que compras la licencia. No hay cargo automático: no existe suscripción que renovar, así que nadie te cobra por sorpresa." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Las cuatro fichas sueltas llevan una prueba gratuita de 7 días, sin tarjeta por delante. La aplicación completa no lleva prueba: se compra una vez y se queda. Al terminarse la prueba, esa ficha deja de responder hasta que la compras, y no hay cargo automático: no existe suscripción que renovar, así que nadie te cobra por sorpresa." }
         }
       ]
     }
@@ -1091,7 +1107,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
     <details class="rise" data-lectura data-z="Pregunta: el final de la prueba" data-qs="Dice qué pasa al día 8, que es justo lo que nadie aclara."
       data-imp="El miedo real no es pagar: es que te cobren sin preguntar. Aquí se descarta explícitamente." data-tipo="details · FAQ" data-padre="#faq">
       <summary>¿Qué pasa cuando termina la prueba gratuita?</summary>
-      <div class="a">La duración la fija cada ficha en Microsoft Store. Al terminarse, la app deja de responder hasta que compras la licencia. <b>No hay cargo automático</b>: no existe suscripción que renovar, así que nadie te cobra por sorpresa.</div>
+      <div class="a">Las cuatro fichas sueltas llevan una <b>prueba gratuita de 7 días</b>, sin tarjeta por delante. La aplicación completa no lleva prueba: se compra una vez y se queda. Al terminarse la prueba, esa ficha deja de responder hasta que la compras, y <b>no hay cargo automático</b>: no existe suscripción que renovar, así que nadie te cobra por sorpresa.</div>
     </details>
   </div>
 </div></section>

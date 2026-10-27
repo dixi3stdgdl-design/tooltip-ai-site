@@ -10,12 +10,28 @@
      se piden si el visitante da permiso (ver el bloque de medicion al final).
      Sin frame-ancestors: dentro de una <meta> el navegador la IGNORA y ademas
      deja un error en consola en cada carga. GitHub Pages no permite mandar
-     cabeceras de respuesta en dominio propio, asi que aqui no puede vivir;
-     el hueco esta declarado en MicrosoftStore_Submission/SECURITY_HEADERS.md.
+     cabeceras de respuesta en dominio propio, asi que aqui no puede vivir:
+     el hueco es el techo de la plataforma, no un olvido. Lo que si puede
+     decidirse en el cliente es no prestarse a que incrusten esta pagina, y
+     eso lo cierra el script que va justo debajo.
      Todo lo que se ve del producto esta dibujado con CSS y SVG en este mismo
      fichero: no hay <img>, asi que ninguna ruta de imagen puede romperse. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.clarity.ms https://c.bing.com https://*.doubleclick.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- frame-ancestors es una directiva de cabecera y Pages no manda cabeceras, asi que el
+     unico control posible contra el encasquetado vive aqui. Si alguien incrusta esta
+     pagina en un iframe de otro origen, se intenta devolver la ventana al sitio y, si
+     el navegador lo impide por ser otro origen, la pagina se queda en blanco: un marco
+     vacio no se puede superponer a nada. -->
+<script>
+(function () {
+  if (window.self === window.top) return;
+  try { window.top.location.href = window.self.location.href; } catch (e) {}
+  var s = document.createElement('style');
+  s.textContent = 'html{display:none!important}';
+  document.head.appendChild(s);
+})();
+</script>
 <title>ToolTip AI — You point. It answers.</title>
 <meta name="description" content="A single Windows application that reads what is under your cursor and explains it: it translates, identifies the control, warns about the risk and reads it out loud. Lifetime license, no account and no server of its own.">
 <link rel="canonical" href="https://tooltip-ai.com/">
@@ -509,7 +525,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       "applicationSubCategory": "Assistant",
       "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
       "processorRequirements": "x64",
-      "softwareVersion": "1.2",
+      "softwareVersion": "1.1.15.0",
       "publisher": {
         "@id": "https://tooltip-ai.com/#dixi3"
       },
@@ -776,7 +792,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
           "name": "What happens when the free trial ends?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Each listing sets the duration in Microsoft Store. When it ends, the app stops answering until you buy the license. There is no automatic charge: there is no subscription to renew, so nobody charges you by surprise."
+            "text": "The four separate listings carry a 7-day free trial, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and there is no automatic charge — there is no subscription to renew, so nobody charges you by surprise."
           }
         }
       ]
@@ -888,7 +904,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="p"><dt>Product</dt><dd>ToolTip AI<small>Dixi3 Lqbs · the full listing, with the three layers inside</small></dd></div>
       <div class="p"><dt>License</dt><dd>One-time payment, for life<small>It ties to your Microsoft account; it is not a subscription</small></dd></div>
       <div class="p"><dt>Layers</dt><dd>Translate · Rest radar · Voice<small>Plus the element explanation, always active</small></dd></div>
-      <div class="p"><dt>Separate listings</dt><dd>Translate · Aura · Voice · Bridge<small>One per layer, each with its own trial: <a href="#fichas">which ones do what</a></small></dd></div>
+      <div class="p"><dt>Separate listings</dt><dd>Translate · Aura · Voice · Bridge<small>Two of them are layers of this app living apart, two are utilities by the same author, and each one carries its own trial: <a href="#fichas">which ones do what</a></small></dd></div>
       <div class="p"><dt>System</dt><dd>Windows 10 (19041+) and Windows 11<small>x64 only · no ARM64 build</small></dd></div>
       <div class="p"><dt>Languages</dt><dd>Spanish, English and German<small>The labels follow whichever display language Windows is set to; translation points at ten target languages</small></dd></div>
       <div class="p"><dt>AI</dt><dd>Optional, and with your own API key<small>Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude · encrypted with DPAPI</small></dd></div>
@@ -1195,7 +1211,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
     <details class="rise" data-lectura data-z="Question: the end of the trial" data-qs="It says what happens on day 8, which is exactly what nobody clarifies."
       data-imp="The real fear is not paying: it is being charged without being asked. Here it is ruled out explicitly." data-tipo="details · FAQ" data-padre="#faq">
       <summary>What happens when the free trial ends?</summary>
-      <div class="a">Each listing sets the duration in Microsoft Store. When it ends, the app stops answering until you buy the license. <b>There is no automatic charge</b>: there is no subscription to renew, so nobody charges you by surprise.</div>
+      <div class="a">The four separate listings carry a <b>7-day free trial</b>, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and <b>there is no automatic charge</b> — there is no subscription to renew, so nobody charges you by surprise.</div>
     </details>
   </div>
 </div></section>
