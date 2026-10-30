@@ -4,7 +4,7 @@
   <!-- Portada en ingles: vive en la raiz, que es la URL que se comparte. -->
   <url>
     <loc>https://tooltip-ai.com/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,7 +13,7 @@
        por hreflang en su propio <head>; aqui solo se listan las URL reales. -->
   <url>
     <loc>https://tooltip-ai.com/es/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

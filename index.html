@@ -354,8 +354,8 @@ h1 .g{background:linear-gradient(100deg,var(--aqua),var(--mint) 55%,var(--gold-p
 .comport li::before{content:'';position:absolute;left:16px;top:24px;width:6px;height:6px;border-radius:50%;background:var(--mint);opacity:.85;box-shadow:0 0 10px rgba(177,244,216,.6)}
 @media(max-width:860px){.comport{grid-template-columns:1fr;gap:26px}}
 
-/* --------------------------- las cuatro fichas ---------------------------
-   Cuatro fichas vivas en la Tienda, cada una con su propio color de senal
+/* --------------------------- las dos fichas ------------------------------
+   Dos fichas vivas en la Tienda, cada una con su propio color de senal
    heredado del HUD. La linea de la izquierda no es decoracion: es el haz del
    estado, y es lo unico que separa una ficha de otra. Sin bordes de 1 px. */
 .fichas{margin-top:52px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -565,7 +565,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       "@id": "https://tooltip-ai.com/#fichas",
       "name": "ToolTip AI listings on Microsoft Store",
       "itemListOrder": "https://schema.org/ItemListUnordered",
-      "numberOfItems": 4,
+      "numberOfItems": 2,
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -576,16 +576,6 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
           "@type": "ListItem",
           "position": 2,
           "url": "https://tooltip-ai.com/#aura"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "url": "https://tooltip-ai.com/#voice"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "url": "https://tooltip-ai.com/#bridge"
         }
       ]
     },
@@ -668,84 +658,6 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       ]
     },
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://tooltip-ai.com/#voice",
-      "name": "ToolTip AI Voice",
-      "url": "https://tooltip-ai.com/#voice",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
-      "processorRequirements": "x64",
-      "isAccessibleForFree": true,
-      "description": "Turns clipboard text into speech using the system voices, with no account and no AI key.",
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": "https://apps.microsoft.com/detail/9P417GZB0FVB",
-        "lowPrice": "0",
-        "highPrice": "11.99",
-        "priceCurrency": "USD",
-        "offerCount": 2,
-        "offers": [
-          {
-            "@type": "Offer",
-            "name": "Free trial",
-            "category": "free trial",
-            "price": "0",
-            "priceCurrency": "USD",
-            "eligibleDuration": "P7D"
-          },
-          {
-            "@type": "Offer",
-            "name": "Lifetime license",
-            "category": "paid",
-            "price": "11.99",
-            "priceCurrency": "USD"
-          }
-        ]
-      },
-      "sameAs": [
-        "https://apps.microsoft.com/detail/9P417GZB0FVB"
-      ]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://tooltip-ai.com/#bridge",
-      "name": "ToolTip AI Bridge",
-      "url": "https://tooltip-ai.com/#bridge",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Windows 10 version 19041 or later, Windows 11",
-      "processorRequirements": "x64",
-      "isAccessibleForFree": true,
-      "description": "Sends text and links from your phone to your PC over the local Wi-Fi network, with no cloud servers.",
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": "https://apps.microsoft.com/detail/9PN1B2M4N7DK",
-        "lowPrice": "0",
-        "highPrice": "11.99",
-        "priceCurrency": "USD",
-        "offerCount": 2,
-        "offers": [
-          {
-            "@type": "Offer",
-            "name": "Free trial",
-            "category": "free trial",
-            "price": "0",
-            "priceCurrency": "USD",
-            "eligibleDuration": "P7D"
-          },
-          {
-            "@type": "Offer",
-            "name": "Lifetime license",
-            "category": "paid",
-            "price": "11.99",
-            "priceCurrency": "USD"
-          }
-        ]
-      },
-      "sameAs": [
-        "https://apps.microsoft.com/detail/9PN1B2M4N7DK"
-      ]
-    },
-    {
       "@type": "FAQPage",
       "@id": "https://tooltip-ai.com/#faq",
       "mainEntity": [
@@ -783,10 +695,10 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
         },
         {
           "@type": "Question",
-          "name": "Four listings that look alike, which one do I install?",
+          "name": "Two listings that look alike, which one do I install?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ToolTip AI is the complete application: the three layers live on the same element, with a single panel and a single configuration. Translate and Aura are two of those layers living in their own listing. Voice and Bridge are two other utilities by the same author that are not part of the set. If you want the set, the listing is ToolTip AI."
+            "text": "ToolTip AI is the complete application: the three layers live on the same element, with a single panel and a single configuration. Translate and Aura are two of those layers living in their own listing. If you want the set, the listing is ToolTip AI."
           }
         },
         {
@@ -794,7 +706,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
           "name": "What happens when the free trial ends?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The four separate listings carry a 7-day free trial, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and there is no automatic charge — there is no subscription to renew, so nobody charges you by surprise."
+            "text": "The two separate listings carry a 7-day free trial, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and there is no automatic charge — there is no subscription to renew, so nobody charges you by surprise."
           }
         }
       ]
@@ -906,7 +818,7 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="p"><dt>Product</dt><dd>ToolTip AI<small>Dixi3 Lqbs · the full listing, with the three layers inside</small></dd></div>
       <div class="p"><dt>License</dt><dd>One-time payment, for life<small>It ties to your Microsoft account; it is not a subscription</small></dd></div>
       <div class="p"><dt>Layers</dt><dd>Translate · Rest radar · Voice<small>Plus the element explanation, always active</small></dd></div>
-      <div class="p"><dt>Separate listings</dt><dd>Translate · Aura · Voice · Bridge<small>Two of them are layers of this app living apart, two are utilities by the same author, and each one carries its own trial: <a href="#fichas">which ones do what</a></small></dd></div>
+      <div class="p"><dt>Separate listings</dt><dd>Translate · Aura<small>Both are layers of this app living apart, and each one carries its own trial: <a href="#fichas">which ones do what</a></small></dd></div>
       <div class="p"><dt>System</dt><dd>Windows 10 (19041+) and Windows 11<small>x64 only · no ARM64 build</small></dd></div>
       <div class="p"><dt>Languages</dt><dd>Spanish, English and German<small>The labels follow whichever display language Windows is set to; translation points at ten target languages</small></dd></div>
       <div class="p"><dt>AI</dt><dd>Optional, and with your own API key<small>Gemini, OpenAI, Azure OpenAI, OpenRouter, Claude · encrypted with DPAPI</small></dd></div>
@@ -997,20 +909,20 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
 </div></section>
 
 <!-- =========================================================================
-     LAS CUATRO FICHAS. Cada tarjeta describe lo que ESA ficha instala, no lo
+     LAS DOS FICHAS. Cada tarjeta describe lo que ESA ficha instala, no lo
      que convendría al embudo que fuera. Translate y Aura sí son capas de la
-     suite vividas aparte; Voice y Bridge son otras dos utilidades del mismo
-     autor. Decirlo cuesta una venta y ahorra una devolución.
+     suite vividas aparte, y son las dos unicas fichas que siguen publicadas por
+     su cuenta. Decirlo cuesta una venta y ahorra una devolución.
      Las etiquetas de prueba se leen de Partner Center, no de aqui: si cambias
      la duracion de una, cambia la etiqueta.
 ========================================================================== -->
 <section id="fichas"><div class="wrap">
-  <h2 class="rise" data-lectura data-z="This headline" data-qs="It announces the other four listings published in Microsoft Store and their free trial."
-      data-imp="None of the four needs your API key to start, and none of them asks for a card to begin." data-tipo="H2" data-padre="#fichas">Four listings, each with its own trial.</h2>
+  <h2 class="rise" data-lectura data-z="This headline" data-qs="It announces the two listings published in Microsoft Store alongside the complete app, and their free trial."
+      data-imp="Neither needs your API key to start, and neither asks for a card to begin." data-tipo="H2" data-padre="#fichas">Two listings, each with its own trial.</h2>
   <p class="lead rise" data-lectura data-z="The listings paragraph"
      data-qs="It clarifies the relation between the complete application and the separate listings before someone installs two things that do the same."
-     data-imp="It is the line that avoids the refund: whoever wants the set buys ToolTip AI, not four separate windows." data-tipo="P · lead" data-padre="#fichas">
-    Besides the complete application there are four listings in Microsoft Store, each with its own free trial and no card up front. Two of them are layers of this same app lived apart. The other two are different utilities by the same author: we tell you here, not after you have installed them.
+     data-imp="It is the line that avoids the refund: whoever wants the set buys ToolTip AI, not two extra windows." data-tipo="P · lead" data-padre="#fichas">
+    Besides the complete application there are two listings in Microsoft Store, each with its own free trial and no card up front. Both are layers of this same app lived apart: the translation on one side, the voice guide with its radar on the other. We tell you here, not after you have installed them.
   </p>
   <div class="fichas">
     <article class="ficha glass rise" id="translate" style="--fc:var(--aqua)"
@@ -1032,28 +944,8 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">local TTS</span></div>
       <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P33P1P5Z8DC" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
     </article>
-
-    <article class="ficha glass rise" id="voice" style="--fc:var(--mint)"
-      data-lectura data-z="ToolTip AI Voice" data-qs="Separate utility: it turns the text you already copied to the clipboard into speech, not what is under the pointer."
-      data-imp="Its shortcuts are Ctrl+Shift+V and Ctrl+Shift+S, which are not the ones of the complete application. They are two different things." data-tipo="MSIX · 9P417GZB0FVB" data-padre="#fichas" data-atajo="Ctrl+Shift+V reads · Ctrl+Shift+S stops">
-      <span class="k">other utility · clipboard</span>
-      <h3>ToolTip AI <i>Voice</i></h3>
-      <p>It reads what you copy. You copy any text in Windows, press the shortcut and it speaks it while you keep working on something else; it lowers the system volume while it talks and restores it when it finishes. No account, no API key and no auto-start unless you turn it on.</p>
-      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">it is not a suite layer</span></div>
-      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9P417GZB0FVB" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
-    </article>
-
-    <article class="ficha glass rise" id="bridge" style="--fc:var(--gold)"
-      data-lectura data-z="ToolTip AI Bridge" data-qs="Separate utility: it sends text and links from the phone to the PC over the local Wi-Fi network, with no cloud servers."
-      data-imp="It has nothing to do with explaining controls. If you are looking for the suite, this is not the listing." data-tipo="MSIX · 9PN1B2M4N7DK" data-padre="#fichas" data-atajo="on the phone: Share → Send to PC">
-      <span class="k">other utility · phone to PC</span>
-      <h3>ToolTip AI <i>Bridge</i></h3>
-      <p>From the phone to the computer without sending messages to yourself on WhatsApp or fighting with Bluetooth. You share text or a link from the phone and it appears on the PC over your local network. Nothing leaves your house: there are no intermediate servers.</p>
-      <div class="meta"><span class="tag">7-day trial</span><span class="tag muda">it is not a suite layer</span></div>
-      <div class="pie"><a class="ir" href="https://apps.microsoft.com/detail/9PN1B2M4N7DK" target="_blank" rel="noopener">View in the Store<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><span class="precio">$11.99<small>usd</small></span></div>
-    </article>
   </div>
-  <p class="cita-haz rise">«If you want the whole set, there is a single listing: ToolTip AI. The other four each install on their own and do not share a panel.»<small>what this section is trying to prevent</small></p>
+  <p class="cita-haz rise">«If you want the whole set, there is a single listing: ToolTip AI. The other two each install on their own and do not share a panel.»<small>what this section is trying to prevent</small></p>
 </div></section>
 
 <section id="demo"><div class="wrap">
@@ -1206,14 +1098,14 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
       <div class="a">Yes, from build <code>19041</code>, and also on Windows 11. There is only an x64 build: <b>there is no ARM64 build</b>.</div>
     </details>
     <details class="rise" data-lectura data-z="Question: which listing" data-qs="It defuses the most expensive mistake: installing two listings that do the same and returning the second."
-      data-imp="Four products with similar names get confused on their own. This answer is the one that saves the refund." data-tipo="details · FAQ" data-padre="#faq">
-      <summary>Four listings that look alike, which one do I install?</summary>
-      <div class="a"><b>ToolTip AI</b> is the complete application: the three layers live on the same element, with a single panel and a single configuration. <b>Translate</b> and <b>Aura</b> are two of those layers living in their own listing. <b>Voice</b> and <b>Bridge</b> are two other utilities by the same author that are not part of the set. If you want the set, the listing is ToolTip AI.</div>
+      data-imp="Two products with similar names get confused on their own. This answer is the one that saves the refund." data-tipo="details · FAQ" data-padre="#faq">
+      <summary>Two listings that look alike, which one do I install?</summary>
+      <div class="a"><b>ToolTip AI</b> is the complete application: the three layers live on the same element, with a single panel and a single configuration. <b>Translate</b> and <b>Aura</b> are two of those layers living in their own listing. If you want the set, the listing is ToolTip AI.</div>
     </details>
     <details class="rise" data-lectura data-z="Question: the end of the trial" data-qs="It says what happens on day 8, which is exactly what nobody clarifies."
       data-imp="The real fear is not paying: it is being charged without being asked. Here it is ruled out explicitly." data-tipo="details · FAQ" data-padre="#faq">
       <summary>What happens when the free trial ends?</summary>
-      <div class="a">The four separate listings carry a <b>7-day free trial</b>, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and <b>there is no automatic charge</b> — there is no subscription to renew, so nobody charges you by surprise.</div>
+      <div class="a">The two separate listings carry a <b>7-day free trial</b>, with no card up front. The complete app has no trial: you buy it once and it stays. When a trial ends, that listing stops answering until you buy it, and <b>there is no automatic charge</b> — there is no subscription to renew, so nobody charges you by surprise.</div>
     </details>
   </div>
 </div></section>
@@ -1222,13 +1114,13 @@ footer .cap{margin-left:auto;max-width:52ch;text-align:right;font-size:12.5px;li
   <h2 class="rise">One app. Lifetime license.</h2>
 <p class="rise">It installs from Microsoft Store and updates itself. This page carries no hand-written amount: the Store shows the figure in dollars and converts it to your currency at the moment of paying, and that is the one that counts.</p>
   <div class="marca rise" data-lectura data-z="The price of the complete application" data-qs="It is the one-time payment for ToolTip AI, the suite with the three layers inside."
-       data-imp="It is not a subscription: you pay once and it ties to your Microsoft account. The four separate listings are billed apart and cheaper." data-tipo="price · USD" data-padre="#conseguir">
+       data-imp="It is not a subscription: you pay once and it ties to your Microsoft account. The two separate listings are billed apart and cheaper." data-tipo="price · USD" data-padre="#conseguir">
     <b>One-time payment</b><span>the amount is the one the Store shows</span>
   </div>
   <!-- Ficha unica del producto. Al consolidar la ficha en Partner Center,
        esta URL es la unica que cambia en todo el sitio. -->
   <a class="pill rise" href="https://apps.microsoft.com/detail/9N3D02KXKD3D" target="_blank" rel="noopener">Open in Microsoft Store</a>
-  <p class="rise" style="margin-top:20px;font-size:15px">Would you rather try first? <a href="#fichas" style="color:var(--aqua)">Four listings with a free trial</a>, no card up front.</p>
+  <p class="rise" style="margin-top:20px;font-size:15px">Would you rather try first? <a href="#fichas" style="color:var(--aqua)">Two listings with a free trial</a>, no card up front.</p>
   <div class="requisitos rise">
     <span>Windows 10 19041 or newer</span><span>Windows 11 · x64</span><span>One-time payment</span><span>No app account</span><span>Listing in es · es-419 · en</span>
   </div>
